@@ -1,7 +1,7 @@
 [{
     "modid": "${modid}",
     "name": "${modname}",
-    "description": "VisualProspecting but 1.12.2",
+    "description": "VisualProspecting but for GTCEu",
     "version": "${version}",
     "mcversion": "${mcversion}",
     "logoFile": "",

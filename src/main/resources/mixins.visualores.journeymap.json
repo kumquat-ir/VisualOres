@@ -1,0 +1,12 @@
+{
+  "package": "hellfall.visualores.mixins.journeymap",
+  "refmap": "mixins.visualores.refmap.json",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [],
+  "client": [
+    "FullscreenMixin"
+  ],
+  "server": []
+}
