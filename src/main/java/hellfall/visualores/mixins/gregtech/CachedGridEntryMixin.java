@@ -25,7 +25,7 @@ public abstract class CachedGridEntryMixin {
     @Unique private int dimid;
 
     // ideally, this would be injected into the constructor right before triggerVeinsGeneration, but this mixin version cant do that
-    // this method is called exactly once in the constructor, and nowhere else, so it works
+    // this method is called exactly once in the constructor, and nowhere else, so it works perfectly
     @Inject(method = "searchMasterOrNull", at = @At("HEAD"))
     private void injectInit(World world, CallbackInfoReturnable<GTWorldGenCapability> cir) {
         this.dimid = world.provider.getDimension();
@@ -39,6 +39,8 @@ public abstract class CachedGridEntryMixin {
     private void injectGenerateVein(OreDepositDefinition definition, CallbackInfo ci) {
         VisualOres.LOGGER.info("gen vein " + definition.getDepositName() + " at " + veinCenterX + "," + veinCenterY + "," + veinCenterZ);
         VisualOres.LOGGER.info("in grid " + gridX + ", " + gridZ + ", dimension " + dimid);
-        VisualOres.cache.addVein(dimid, veinCenterX, veinCenterZ, gridX, gridZ, definition.getDepositName());
+        if (definition.isVein()) {
+            VisualOres.cache.addVein(dimid, veinCenterX, veinCenterZ, gridX, gridZ, definition.getDepositName());
+        }
     }
 }
