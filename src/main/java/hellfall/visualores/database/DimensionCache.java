@@ -2,6 +2,7 @@ package hellfall.visualores.database;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,5 +61,13 @@ public class DimensionCache {
             }
         }
         return found;
+    }
+
+    public List<OreVeinPosition> getVeinsInChunk(ChunkPos pos) {
+        GridPos gpos = new GridPos(pos);
+        if (cache.containsKey(gpos)) {
+            return cache.get(gpos).getVeinsMatching(veinpos -> pos.equals(new ChunkPos(veinpos.x >> 4, veinpos.z >> 4)));
+        }
+        return new ArrayList<>();
     }
 }

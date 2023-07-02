@@ -63,4 +63,10 @@ public class ServerCache extends WorldCache {
         }
         GregTechAPI.networkHandler.sendTo(new ProspectToClientPacket(dim, foundVeins), player);
     }
+
+    public void prospectAllInChunk(int dim, ChunkPos pos, EntityPlayerMP player) {
+        if (cache.containsKey(dim)) {
+            GregTechAPI.networkHandler.sendTo(new ProspectToClientPacket(dim, cache.get(dim).getVeinsInChunk(pos)), player);
+        }
+    }
 }
