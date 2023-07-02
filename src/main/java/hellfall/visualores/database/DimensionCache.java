@@ -1,8 +1,7 @@
 package hellfall.visualores.database;
 
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +22,10 @@ public class DimensionCache {
         dirty = true;
     }
 
+    public NBTTagCompound toNBT() {
+        return toNBT(new NBTTagCompound());
+    }
+
     public NBTTagCompound toNBT(NBTTagCompound nbt) {
         for (GridPos key : cache.keySet()) {
             nbt.setTag(key.x + "," + key.z, cache.get(key).toNBT());
@@ -41,50 +44,21 @@ public class DimensionCache {
         }
     }
 
-    private static class GridCache {
-        private final List<OreVeinPosition> veins = new ArrayList<>();
-
-        public void addVein(int x, int z, String name) {
-            veins.add(new OreVeinPosition(x, z, name));
-        }
-
-        public NBTTagList toNBT() {
-            NBTTagList result = new NBTTagList();
-            for (OreVeinPosition pos : veins) {
-                result.appendTag(pos.toNBT());
-            }
-            return result;
-        }
-
-        public void fromNBT(NBTTagList tag) {
-            for (NBTBase veinpos : tag.tagList) {
-                NBTTagCompound veinpostag = (NBTTagCompound) veinpos;
-                veins.add(new OreVeinPosition(
-                        veinpostag.getInteger("x"),
-                        veinpostag.getInteger("z"),
-                        veinpostag.getString("name")
-                ));
+    public List<OreVeinPosition> getNearbyVeins(BlockPos pos, int blockRadius) {
+        GridPos topLeft = new GridPos(pos.add(-blockRadius, 0, -blockRadius));
+        GridPos bottomRight = new GridPos(pos.add(blockRadius, 0, blockRadius));
+        List<OreVeinPosition> found = new ArrayList<>();
+        for (int i = topLeft.x; i <= bottomRight.x; i++) {
+            for (int j = topLeft.z; j <= bottomRight.z; j++) {
+                GridPos curPos = new GridPos(i, j);
+                if (cache.containsKey(curPos)) {
+                    found.addAll(cache.get(curPos).getVeinsMatching(veinpos ->
+                            veinpos.x >= pos.getX() - blockRadius && veinpos.x <= pos.getX() + blockRadius &&
+                                    veinpos.z >= pos.getZ() - blockRadius && veinpos.z <= pos.getZ() + blockRadius
+                    ));
+                }
             }
         }
-
-        private static class OreVeinPosition {
-            public int x;
-            public int z;
-            public String depositname;
-
-            public OreVeinPosition(int x, int z, String depositname) {
-                this.x = x;
-                this.z = z;
-                this.depositname = depositname;
-            }
-
-            public NBTTagCompound toNBT() {
-                NBTTagCompound result = new NBTTagCompound();
-                result.setInteger("x", x);
-                result.setInteger("z", z);
-                result.setString("name", depositname);
-                return result;
-            }
-        }
+        return found;
     }
 }

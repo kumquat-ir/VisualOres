@@ -19,6 +19,11 @@ public class GridPos {
         this.z = chunk.z / 3;
     }
 
+    public GridPos(BlockPos block) {
+        this.x = (block.getX() >> 4) / 3;
+        this.z = (block.getZ() >> 4) / 3;
+    }
+
     public ChunkPos getChunk(int x, int z) {
         return new ChunkPos(this.x * 3 + x, this.z * 3 + z);
     }
@@ -38,5 +43,13 @@ public class GridPos {
     @Override
     public int hashCode() {
         return Objects.hash(x, z);
+    }
+
+    public static int chunkToGridCoords(int c) {
+        return c / 3;
+    }
+
+    public static int blockToGridCoords(int c) {
+        return (c >> 4) / 3;
     }
 }
