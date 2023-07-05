@@ -28,7 +28,4 @@ dependencies {
     implementation rfg.deobf('maven.modrinth:xaeros-world-map:1.30.5_Forge_1.12')
 
     implementation rfg.deobf("curse.maven:codechicken-lib-1-8-242818:2779848")
-
-    // dumb ass workaround for buildscript not autogenerating mixin refmap
-    modUtils.enableMixins(null)
 }

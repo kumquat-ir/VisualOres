@@ -50,7 +50,7 @@ public class GenericMapRenderer {
             for (OreVeinPosition vein : visibleVeins) {
                 GlStateManager.pushMatrix();
 
-                GlStateManager.translate(vein.x - 0.5 - cameraX, vein.z - 0.5 - cameraZ, -10);
+                GlStateManager.translate(vein.x - 0.5 - cameraX, vein.z - 0.5 - cameraZ, 0);
                 GlStateManager.scale(1 / scale, 1 / scale, 1);
                 float[] colors = floats(vein.veinInfo.color);
                 GlStateManager.color(1, 1, 1, 1);
@@ -58,11 +58,11 @@ public class GenericMapRenderer {
                 // these are 16x16, we want them to render at 32x32
                 GlStateManager.scale(2, 2, 1);
                 Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("textures/blocks/stone.png"));
-                Gui.drawModalRectWithCustomSizedTexture(-16, -16, 0, 0, 16, 16, 16, 16);
+                Gui.drawModalRectWithCustomSizedTexture(-8, -8, 0, 0, 16, 16, 16, 16);
 
                 Minecraft.getMinecraft().getTextureManager().bindTexture(vein.veinInfo.texture);
                 GlStateManager.color(colors[0], colors[1], colors[2], 1);
-                Gui.drawModalRectWithCustomSizedTexture(-16, -16, 0, 0, 16, 16, 16, 16);
+                Gui.drawModalRectWithCustomSizedTexture(-8, -8, 0, 0, 16, 16, 16, 16);
                 GlStateManager.scale(0.5, 0.5, 1);
 
                 GlStateManager.popMatrix();

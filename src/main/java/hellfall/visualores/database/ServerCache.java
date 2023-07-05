@@ -2,9 +2,6 @@ package hellfall.visualores.database;
 
 import gregtech.api.GregTechAPI;
 import gregtech.api.unification.material.Material;
-import gregtech.api.worldgen.config.OreDepositDefinition;
-import gregtech.api.worldgen.populator.SurfaceRockPopulator;
-import hellfall.visualores.Utils;
 import hellfall.visualores.network.ProspectToClientPacket;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
