@@ -24,6 +24,16 @@ public abstract class WorldCache {
         return new ArrayList<>();
     }
 
+    public List<OreVeinPosition> getVeinsInArea(int dim, int[] bounds) {
+        if (cache.containsKey(dim)) {
+            return cache.get(dim).getVeinsInBounds(
+                    new BlockPos(bounds[0], 0, bounds[1]),
+                    new BlockPos(bounds[0] + bounds[2], 0, bounds[1] + bounds[3])
+            );
+        }
+        return new ArrayList<>();
+    }
+
     public void clear() {
         cache.clear();
     }

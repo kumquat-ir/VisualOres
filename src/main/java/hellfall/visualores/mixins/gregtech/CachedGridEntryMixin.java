@@ -38,8 +38,8 @@ public abstract class CachedGridEntryMixin {
             )
     )
     private void injectGenerateVein(OreDepositDefinition definition, CallbackInfo ci) {
-        VisualOres.LOGGER.info("gen vein " + definition.getDepositName() + " at " + veinCenterX + "," + veinCenterY + "," + veinCenterZ);
-        VisualOres.LOGGER.info("in grid " + gridX + ", " + gridZ + ", dimension " + dimid);
+//        VisualOres.LOGGER.info("gen vein " + definition.getDepositName() + " at " + veinCenterX + "," + veinCenterY + "," + veinCenterZ);
+//        VisualOres.LOGGER.info("in grid " + gridX + ", " + gridZ + ", dimension " + dimid);
         if (definition.isVein()) {
             ServerCache.instance.addVein(dimid, veinCenterX, veinCenterZ, gridX, gridZ, definition.getDepositName());
         }

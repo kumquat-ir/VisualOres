@@ -8,11 +8,13 @@ public class OreVeinPosition {
     public int x;
     public int z;
     public String depositname;
+    public OreVeinInfo veinInfo;
 
     public OreVeinPosition(int x, int z, String depositname) {
         this.x = x;
         this.z = z;
         this.depositname = depositname;
+        this.veinInfo = VeinInfoCache.getByName(depositname);
     }
 
     public NBTTagCompound toNBT() {

@@ -46,16 +46,20 @@ public class DimensionCache {
     }
 
     public List<OreVeinPosition> getNearbyVeins(BlockPos pos, int blockRadius) {
-        GridPos topLeft = new GridPos(pos.add(-blockRadius, 0, -blockRadius));
-        GridPos bottomRight = new GridPos(pos.add(blockRadius, 0, blockRadius));
+        return getVeinsInBounds(pos.add(-blockRadius, 0, -blockRadius), pos.add(blockRadius, 0, blockRadius));
+    }
+
+    public List<OreVeinPosition> getVeinsInBounds(BlockPos topLeftBlock, BlockPos bottomRightBlock) {
+        GridPos topLeft = new GridPos(topLeftBlock);
+        GridPos bottomRight = new GridPos(bottomRightBlock);
         List<OreVeinPosition> found = new ArrayList<>();
         for (int i = topLeft.x; i <= bottomRight.x; i++) {
             for (int j = topLeft.z; j <= bottomRight.z; j++) {
                 GridPos curPos = new GridPos(i, j);
                 if (cache.containsKey(curPos)) {
                     found.addAll(cache.get(curPos).getVeinsMatching(veinpos ->
-                            veinpos.x >= pos.getX() - blockRadius && veinpos.x <= pos.getX() + blockRadius &&
-                                    veinpos.z >= pos.getZ() - blockRadius && veinpos.z <= pos.getZ() + blockRadius
+                            veinpos.x >= topLeftBlock.getX() && veinpos.x <= bottomRightBlock.getX() &&
+                                    veinpos.z >= topLeftBlock.getZ() && veinpos.z <= bottomRightBlock.getZ()
                     ));
                 }
             }

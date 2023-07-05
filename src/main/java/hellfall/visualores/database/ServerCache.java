@@ -55,9 +55,7 @@ public class ServerCache extends WorldCache {
         List<OreVeinPosition> nearbyVeins = getNearbyVeins(dim, pos, 3 * 16);
         List<OreVeinPosition> foundVeins = new ArrayList<>();
         for (OreVeinPosition nearbyVein : nearbyVeins) {
-            OreDepositDefinition veindef = Utils.getDefinitionByName(nearbyVein.depositname);
-            if (veindef != null && veindef.getVeinPopulator() != null && veindef.getVeinPopulator() instanceof SurfaceRockPopulator &&
-                    ((SurfaceRockPopulator) veindef.getVeinPopulator()).getMaterial().equals(material)) {
+            if (material.equals(VeinInfoCache.getByName(nearbyVein.depositname).surfaceRockMaterial)) {
                 foundVeins.add(nearbyVein);
             }
         }
