@@ -41,4 +41,13 @@ public class GridCache {
     public List<OreVeinPosition> getVeinsMatching(Predicate<OreVeinPosition> predicate) {
         return veins.stream().filter(predicate).collect(Collectors.toList());
     }
+
+    public void removeVeinsMatching(Predicate<OreVeinPosition> predicate) {
+        for (int i = 0; i < veins.size(); i++) {
+            if (predicate.test(veins.get(i))) {
+                veins.remove(i);
+                i--;
+            }
+        }
+    }
 }

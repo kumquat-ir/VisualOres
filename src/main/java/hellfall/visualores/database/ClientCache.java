@@ -1,6 +1,7 @@
 package hellfall.visualores.database;
 
 import hellfall.visualores.Tags;
+import hellfall.visualores.VisualOres;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.CompressedStreamTools;
@@ -23,6 +24,12 @@ public class ClientCache extends WorldCache {
                 File.separator + worldid);
         worldFolder.mkdirs();
         loadCache();
+    }
+
+    @Override
+    public void addVein(int dim, int x, int z, int gridX, int gridZ, String name) {
+        VisualOres.LOGGER.info("got more vein " + x + "," + z);
+        super.addVein(dim, x, z, gridX, gridZ, name);
     }
 
     public void saveCache() {

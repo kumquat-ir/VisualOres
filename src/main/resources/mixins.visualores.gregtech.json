@@ -9,6 +9,7 @@
     "BlockSurfaceRockMixin",
     "CachedGridEntryMixin",
     "WidgetProspectingMapMixin",
+    "WorldGeneratorImplMixin",
     "WorldGenRegistryMixin"
   ],
   "client": [],

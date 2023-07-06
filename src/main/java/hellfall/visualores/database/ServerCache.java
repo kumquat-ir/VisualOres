@@ -76,4 +76,10 @@ public class ServerCache extends WorldCache {
             GregTechAPI.networkHandler.sendTo(new ProspectToClientPacket(dim, cache.get(dim).getVeinsInChunk(pos)), player);
         }
     }
+
+    public void removeAllInChunk(int dim, ChunkPos pos) {
+        if (cache.containsKey(dim)) {
+            cache.get(dim).removeAllInChunk(pos);
+        }
+    }
 }

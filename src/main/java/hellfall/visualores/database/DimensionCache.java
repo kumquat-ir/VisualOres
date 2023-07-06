@@ -74,4 +74,11 @@ public class DimensionCache {
         }
         return new ArrayList<>();
     }
+
+    public void removeAllInChunk(ChunkPos pos) {
+        GridPos gpos = new GridPos(pos);
+        if (cache.containsKey(gpos)) {
+            cache.get(gpos).removeVeinsMatching(veinpos -> pos.equals(new ChunkPos(veinpos.x >> 4, veinpos.z >> 4)));
+        }
+    }
 }
