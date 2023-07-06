@@ -18,6 +18,7 @@ import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
@@ -93,6 +94,13 @@ public class VisualOresModule implements IGregTechModule {
                 VisualOres.LOGGER.info("got id local " + WorldIDSaveData.getWorldID());
                 ClientCache.instance.init(WorldIDSaveData.getWorldID());
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void syncConfig(ConfigChangedEvent.OnConfigChangedEvent event) {
+        if (event.getModID().equals(Tags.MODID)) {
+            ConfigManager.sync(Tags.MODID, Config.Type.INSTANCE);
         }
     }
 }

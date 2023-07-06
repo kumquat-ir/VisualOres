@@ -1,5 +1,6 @@
 package hellfall.visualores.map;
 
+import hellfall.visualores.VOConfig;
 import hellfall.visualores.database.ClientCache;
 import hellfall.visualores.database.OreVeinPosition;
 import net.minecraft.client.Minecraft;
@@ -21,8 +22,9 @@ public class GenericMapRenderer {
     protected int[] visibleBounds = new int[4];
     protected List<OreVeinPosition> visibleVeins;
 
-    public void updateMousePosition() {
-
+    public void updateMousePosition(int mouseX, int mouseY) {
+        this.mouseX = mouseX;
+        this.mouseY = mouseY;
     }
 
     public void updateVisibleArea(int dim, int x, int y, int w, int h) {
@@ -47,11 +49,13 @@ public class GenericMapRenderer {
      */
     public void render(double cameraX, double cameraZ, double scale) {
         if (ButtonState.isEnabled("ORE_VEINS")) {
+            double clampedScale = Math.max(scale, VOConfig.client.oreScaleStop);
+
             for (OreVeinPosition vein : visibleVeins) {
                 GlStateManager.pushMatrix();
 
                 GlStateManager.translate(vein.x - 0.5 - cameraX, vein.z - 0.5 - cameraZ, 0);
-                GlStateManager.scale(1 / scale, 1 / scale, 1);
+                GlStateManager.scale(1 / clampedScale, 1 / clampedScale, 1);
                 float[] colors = floats(vein.veinInfo.color);
                 GlStateManager.color(1, 1, 1, 1);
 

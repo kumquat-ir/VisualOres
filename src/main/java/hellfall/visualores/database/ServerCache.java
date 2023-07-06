@@ -2,6 +2,7 @@ package hellfall.visualores.database;
 
 import gregtech.api.GregTechAPI;
 import gregtech.api.unification.material.Material;
+import hellfall.visualores.VOConfig;
 import hellfall.visualores.network.ProspectToClientPacket;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
@@ -49,10 +50,21 @@ public class ServerCache extends WorldCache {
     }
 
     public void prospectSurfaceRockMaterial(int dim, Material material, BlockPos pos, EntityPlayerMP player) {
-        List<OreVeinPosition> nearbyVeins = getNearbyVeins(dim, pos, 3 * 16);
+        List<OreVeinPosition> nearbyVeins = getNearbyVeins(dim, pos, VOConfig.server.surfaceRockProspectRange);
         List<OreVeinPosition> foundVeins = new ArrayList<>();
         for (OreVeinPosition nearbyVein : nearbyVeins) {
-            if (material.equals(VeinInfoCache.getByName(nearbyVein.depositname).surfaceRockMaterial)) {
+            if (material.equals(nearbyVein.veinInfo.surfaceRockMaterial)) {
+                foundVeins.add(nearbyVein);
+            }
+        }
+        GregTechAPI.networkHandler.sendTo(new ProspectToClientPacket(dim, foundVeins), player);
+    }
+
+    public void prospectOreBlock(int dim, String oredictName, BlockPos pos, EntityPlayerMP player) {
+        List<OreVeinPosition> nearbyVeins = getNearbyVeins(dim, pos, VOConfig.server.oreBlockProspectRange);
+        List<OreVeinPosition> foundVeins = new ArrayList<>();
+        for (OreVeinPosition nearbyVein : nearbyVeins) {
+            if (nearbyVein.veinInfo.oreMaterialStrings.contains(oredictName)) {
                 foundVeins.add(nearbyVein);
             }
         }
