@@ -1,4 +1,4 @@
-package hellfall.visualores;
+package hellfall.visualores.map.xaero;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -33,6 +33,6 @@ public class SizedTexturedGuiButton extends GuiTexturedButton {
             GlStateManager.color(0.25F, 0.25F, 0.25F, 1.0F);
         }
 
-        Gui.drawModalRectWithCustomSizedTexture(iconX, iconY, this.textureX, this.textureY, this.textureW, this.textureH, 16, 16);
+        Gui.drawModalRectWithCustomSizedTexture(iconX, iconY, this.textureX, this.textureY, this.textureW, this.textureH, 32, 16);
     }
 }

@@ -60,14 +60,14 @@ public class GenericMapRenderer {
                 GlStateManager.color(1, 1, 1, 1);
 
                 // these are 16x16, we want them to render at 32x32
-                GlStateManager.scale(2, 2, 1);
+//                GlStateManager.scale(2, 2, 1);
                 Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("textures/blocks/stone.png"));
-                Gui.drawModalRectWithCustomSizedTexture(-8, -8, 0, 0, 16, 16, 16, 16);
+                Gui.drawModalRectWithCustomSizedTexture(-16, -16, 0, 0, 32, 32, 32, 32);
 
                 Minecraft.getMinecraft().getTextureManager().bindTexture(vein.veinInfo.texture);
                 GlStateManager.color(colors[0], colors[1], colors[2], 1);
-                Gui.drawModalRectWithCustomSizedTexture(-8, -8, 0, 0, 16, 16, 16, 16);
-                GlStateManager.scale(0.5, 0.5, 1);
+                Gui.drawModalRectWithCustomSizedTexture(-16, -16, 0, 0, 32, 32, 32, 32);
+//                GlStateManager.scale(0.5, 0.5, 1);
 
                 GlStateManager.popMatrix();
             }

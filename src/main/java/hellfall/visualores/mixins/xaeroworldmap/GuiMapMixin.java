@@ -1,6 +1,6 @@
 package hellfall.visualores.mixins.xaeroworldmap;
 
-import hellfall.visualores.SizedTexturedGuiButton;
+import hellfall.visualores.map.xaero.SizedTexturedGuiButton;
 import hellfall.visualores.map.ButtonState;
 import hellfall.visualores.map.GenericMapRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -33,14 +33,27 @@ public abstract class GuiMapMixin extends ScreenBase {
 
     @Inject(method = "initGui", at = @At("TAIL"))
     private void visualores$injectInitGui(CallbackInfo ci) {
-        GuiButton testButton;
-        this.addButton(
-        testButton = new SizedTexturedGuiButton(this.width - 40, this.height - 20, 20, 20, 0, 0, 16, 16,
+        GuiButton oreVeinsButton = new SizedTexturedGuiButton(this.width - 40, this.height - 20, 20, 20,
+                ButtonState.isEnabled("ORE_VEINS") ? 16 : 0, 0, 16, 16,
                 new ResourceLocation("visualores", "textures/xaero/oreveins.png"),
-                (button) -> ButtonState.toggleButton("ORE_VEINS"),
-                () -> new CursorBox("ljfljsjls"))
-        );
-        testButton.enabled = true;
+                (button) -> {
+                    ButtonState.toggleButton("ORE_VEINS");
+                    setWorldAndResolution(mc, width, height);
+                },
+                () -> new CursorBox("visualores.button.oreveins"));
+        GuiButton undergroundFluidsButton = new SizedTexturedGuiButton(this.width - 40, this.height - 40, 20, 20,
+                ButtonState.isEnabled("UNDERGROUND_FLUIDS") ? 16 : 0, 0, 16, 16,
+                new ResourceLocation("visualores", "textures/xaero/undergroundfluid.png"),
+                (button) -> {
+                    ButtonState.toggleButton("UNDERGROUND_FLUIDS");
+                    setWorldAndResolution(mc, width, height);
+                },
+                () -> new CursorBox("visualores.button.undergroundfluids"));
+
+        this.addButton(oreVeinsButton);
+        this.addButton(undergroundFluidsButton);
+        oreVeinsButton.enabled = true;
+        undergroundFluidsButton.enabled = true;
 
         renderer = new GenericMapRenderer();
     }
