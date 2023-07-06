@@ -15,13 +15,13 @@ public class GridPos {
     }
 
     public GridPos(ChunkPos chunk) {
-        this.x = chunk.x / 3;
-        this.z = chunk.z / 3;
+        this.x = Math.floorDiv(chunk.x, 3);
+        this.z = Math.floorDiv(chunk.z, 3);
     }
 
     public GridPos(BlockPos block) {
-        this.x = (block.getX() >> 4) / 3;
-        this.z = (block.getZ() >> 4) / 3;
+        this.x = Math.floorDiv((block.getX() >> 4), 3);
+        this.z = Math.floorDiv((block.getZ() >> 4), 3);
     }
 
     public ChunkPos getChunk(int x, int z) {
@@ -45,11 +45,16 @@ public class GridPos {
         return Objects.hash(x, z);
     }
 
+    @Override
+    public String toString() {
+        return "<" + x + ", " + z + ">";
+    }
+
     public static int chunkToGridCoords(int c) {
-        return c / 3;
+        return Math.floorDiv(c, 3);
     }
 
     public static int blockToGridCoords(int c) {
-        return (c >> 4) / 3;
+        return Math.floorDiv((c >> 4), 3);
     }
 }
