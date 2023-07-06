@@ -6,15 +6,20 @@ import gregtech.api.modules.IGregTechModule;
 import hellfall.visualores.Tags;
 import hellfall.visualores.VisualOres;
 import hellfall.visualores.database.ClientCache;
+import hellfall.visualores.database.CommandResetClientCache;
 import hellfall.visualores.database.ServerCache;
 import hellfall.visualores.database.WorldIDSaveData;
 import hellfall.visualores.network.ProspectToClientPacket;
 import hellfall.visualores.network.WorldIDPacket;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.client.ClientCommandHandler;
+import net.minecraftforge.common.config.Config;
+import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -43,6 +48,13 @@ public class VisualOresModule implements IGregTechModule {
     public void registerPackets() {
         GregTechAPI.networkHandler.registerPacket(WorldIDPacket.class);
         GregTechAPI.networkHandler.registerPacket(ProspectToClientPacket.class);
+    }
+
+    @Override
+    public void postInit(FMLPostInitializationEvent event) {
+        if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
+            ClientCommandHandler.instance.registerCommand(new CommandResetClientCache());
+        }
     }
 
     @Override
