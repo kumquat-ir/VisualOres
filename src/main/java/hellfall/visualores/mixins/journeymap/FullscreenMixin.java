@@ -1,7 +1,7 @@
 package hellfall.visualores.mixins.journeymap;
 
-import hellfall.visualores.map.ButtonState;
-import hellfall.visualores.map.GenericMapRenderer;
+import hellfall.visualores.map.generic.ButtonState;
+import hellfall.visualores.map.journeymap.JourneymapRenderer;
 import journeymap.client.io.ThemeLoader;
 import journeymap.client.model.MapState;
 import journeymap.client.properties.FullMapProperties;
@@ -23,6 +23,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,7 +31,7 @@ import java.util.List;
 @Mixin(value = Fullscreen.class, remap = false)
 public abstract class FullscreenMixin extends JmUI implements ITabCompleter {
 
-	@Unique private GenericMapRenderer renderer;
+	@Unique private JourneymapRenderer renderer;
 
 	@Shadow ThemeToolbar mapTypeToolbar;
 
@@ -57,19 +58,19 @@ public abstract class FullscreenMixin extends JmUI implements ITabCompleter {
 	private void visualores$injectInitButtons(CallbackInfo ci) {
 		final Theme theme = ThemeLoader.getCurrentTheme();
 		oreVeinButton = new ThemeToggle(theme, "visualores.button.oreveins", "oreveins");
-		oreVeinButton.setToggled(ButtonState.isEnabled("ORE_VEINS"), false);
+		oreVeinButton.setToggled(ButtonState.isEnabled(ButtonState.ORE_VEINS_BUTTON), false);
 		oreVeinButton.setEnabled(true);
 		oreVeinButton.addToggleListener((button, toggled) -> {
-			ButtonState.toggleButton("ORE_VEINS");
+			ButtonState.toggleButton(ButtonState.ORE_VEINS_BUTTON);
 
 			return true;
 		});
 
 		undergroundFluidButton = new ThemeToggle(theme, "visualores.button.undergroundfluids", "undergroundfluid");
-		undergroundFluidButton.setToggled(ButtonState.isEnabled("UNDERGROUND_FLUIDS"), false);
+		undergroundFluidButton.setToggled(ButtonState.isEnabled(ButtonState.UNDERGROUND_FLUIDS_BUTTON), false);
 		undergroundFluidButton.setEnabled(true);
 		undergroundFluidButton.addToggleListener((button, toggled) -> {
-			ButtonState.toggleButton("UNDERGROUND_FLUIDS");
+			ButtonState.toggleButton(ButtonState.UNDERGROUND_FLUIDS_BUTTON);
 
 			return true;
 		});
@@ -78,13 +79,13 @@ public abstract class FullscreenMixin extends JmUI implements ITabCompleter {
 		this.mapTypeToolbar.reverse();
 		this.mapTypeToolbar.reverse().addAll(0, Arrays.asList(oreVeinButton, undergroundFluidButton));
 
-		renderer = new GenericMapRenderer();
+		renderer = new JourneymapRenderer((Fullscreen) (Object) this);
 	}
 
 	@Inject(method = "layoutButtons", at = @At("TAIL"))
 	private void visualores$injectLayoutButtons(CallbackInfo ci) {
-		oreVeinButton.setToggled(ButtonState.isEnabled("ORE_VEINS"), false);
-		undergroundFluidButton.setToggled(ButtonState.isEnabled("UNDERGROUND_FLUIDS"), false);
+		oreVeinButton.setToggled(ButtonState.isEnabled(ButtonState.ORE_VEINS_BUTTON), false);
+		undergroundFluidButton.setToggled(ButtonState.isEnabled(ButtonState.UNDERGROUND_FLUIDS_BUTTON), false);
 	}
 
 	@Redirect(method = "drawMap",
@@ -106,5 +107,13 @@ public abstract class FullscreenMixin extends JmUI implements ITabCompleter {
 		renderer.render(gridRenderer.getCenterBlockX(), gridRenderer.getCenterBlockZ(), scale);
 
 		GlStateManager.popMatrix();
+	}
+
+	@Inject(method = "drawScreen", at = @At(value = "INVOKE", target = "Ljava/util/List;isEmpty()Z", shift = At.Shift.BY, by = -2), locals = LocalCapture.CAPTURE_FAILEXCEPTION)
+	private void visualores$injectTooltip(int scaledMouseX, int scaledMouseY, float partialTicks, CallbackInfo ci, List<String> tooltip) {
+		if (tooltip == null || tooltip.isEmpty()) {
+			double scale = Math.pow(2, fullMapProperties.zoomLevel.get());
+			renderer.renderTooltip(scaledMouseX, scaledMouseY, gridRenderer.getCenterBlockX(), gridRenderer.getCenterBlockZ(), scale);
+		}
 	}
 }

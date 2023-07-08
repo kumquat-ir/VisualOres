@@ -1,11 +1,12 @@
 package hellfall.visualores.mixins.xaeroworldmap;
 
 import hellfall.visualores.map.xaero.SizedTexturedGuiButton;
-import hellfall.visualores.map.ButtonState;
-import hellfall.visualores.map.GenericMapRenderer;
+import hellfall.visualores.map.generic.ButtonState;
+import hellfall.visualores.map.generic.GenericMapRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ResourceLocation;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -34,18 +35,18 @@ public abstract class GuiMapMixin extends ScreenBase {
     @Inject(method = "initGui", at = @At("TAIL"))
     private void visualores$injectInitGui(CallbackInfo ci) {
         GuiButton oreVeinsButton = new SizedTexturedGuiButton(this.width - 40, this.height - 20, 20, 20,
-                ButtonState.isEnabled("ORE_VEINS") ? 16 : 0, 0, 16, 16,
+                ButtonState.isEnabled(ButtonState.ORE_VEINS_BUTTON) ? 16 : 0, 0, 16, 16,
                 new ResourceLocation("visualores", "textures/xaero/oreveins.png"),
                 (button) -> {
-                    ButtonState.toggleButton("ORE_VEINS");
+                    ButtonState.toggleButton(ButtonState.ORE_VEINS_BUTTON);
                     setWorldAndResolution(mc, width, height);
                 },
                 () -> new CursorBox("visualores.button.oreveins"));
         GuiButton undergroundFluidsButton = new SizedTexturedGuiButton(this.width - 40, this.height - 40, 20, 20,
-                ButtonState.isEnabled("UNDERGROUND_FLUIDS") ? 16 : 0, 0, 16, 16,
+                ButtonState.isEnabled(ButtonState.UNDERGROUND_FLUIDS_BUTTON) ? 16 : 0, 0, 16, 16,
                 new ResourceLocation("visualores", "textures/xaero/undergroundfluid.png"),
                 (button) -> {
-                    ButtonState.toggleButton("UNDERGROUND_FLUIDS");
+                    ButtonState.toggleButton(ButtonState.UNDERGROUND_FLUIDS_BUTTON);
                     setWorldAndResolution(mc, width, height);
                 },
                 () -> new CursorBox("visualores.button.undergroundfluids"));
@@ -71,5 +72,13 @@ public abstract class GuiMapMixin extends ScreenBase {
         renderer.updateVisibleArea(mapProcessor.getMapWorld().getCurrentDimensionId(), (int) (cameraX - rw / 2), (int) (cameraZ - rh / 2), (int) (rw), (int) (rh));
 
         renderer.render(cameraX, cameraZ, scale);
+    }
+
+    @Inject(method = "drawScreen",
+            at = @At(value = "FIELD", opcode = Opcodes.GETFIELD, target = "Lxaero/map/MapProcessor;renderThreadPauseSync:Ljava/lang/Object;"),
+            slice = @Slice(from = @At(value = "INVOKE", target = "Lxaero/map/gui/GuiMap;renderTooltips(IIF)Z"))
+    )
+    private void visualores$injectTooltip(int scaledMouseX, int scaledMouseY, float partialTicks, CallbackInfo ci) {
+        renderer.renderTooltip(scaledMouseX, scaledMouseY, cameraX, cameraZ, scale);
     }
 }

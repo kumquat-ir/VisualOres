@@ -9,6 +9,7 @@ import hellfall.visualores.database.ClientCache;
 import hellfall.visualores.database.CommandResetClientCache;
 import hellfall.visualores.database.ServerCache;
 import hellfall.visualores.database.WorldIDSaveData;
+import hellfall.visualores.map.generic.RenderLayer;
 import hellfall.visualores.network.ProspectToClientPacket;
 import hellfall.visualores.network.WorldIDPacket;
 import net.minecraft.entity.player.EntityPlayer;
@@ -55,6 +56,7 @@ public class VisualOresModule implements IGregTechModule {
     public void postInit(FMLPostInitializationEvent event) {
         if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
             ClientCommandHandler.instance.registerCommand(new CommandResetClientCache());
+            RenderLayer.initLayers();
         }
     }
 
