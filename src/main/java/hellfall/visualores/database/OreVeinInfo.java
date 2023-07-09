@@ -1,15 +1,19 @@
 package hellfall.visualores.database;
 
+import gregtech.api.GregTechAPI;
 import gregtech.api.unification.OreDictUnifier;
 import gregtech.api.unification.material.Material;
 import gregtech.api.unification.material.info.MaterialIconType;
 import gregtech.api.unification.stack.MaterialStack;
+import gregtech.api.util.FileUtility;
 import gregtech.api.util.GTUtility;
+import gregtech.api.util.LocalizationUtils;
 import gregtech.api.worldgen.config.OreDepositDefinition;
 import gregtech.api.worldgen.filler.FillerEntry;
 import gregtech.api.worldgen.filler.LayeredBlockFiller;
 import gregtech.api.worldgen.populator.SurfaceRockPopulator;
 import gregtech.common.blocks.BlockOre;
+import hellfall.visualores.VOConfig;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -24,6 +28,7 @@ public class OreVeinInfo {
 
     public ResourceLocation texture;
     public int color;
+    public List<String> tooltipStrings;
 
     public OreVeinInfo(OreDepositDefinition def) {
         oreMaterialStrings = new ArrayList<>();
@@ -54,12 +59,26 @@ public class OreVeinInfo {
                     }
                 }
             }
+
+            tooltipStrings = new ArrayList<>();
+            if (def.getAssignedName() != null) {
+                tooltipStrings.add(def.getAssignedName());
+            }
+            else {
+                tooltipStrings.add(FileUtility.trimFileName(def.getDepositName()));
+            }
+            for (String mat : oreMaterialStrings) {
+                // the material name is guaranteed to come from a material that exists
+                //noinspection DataFlowIssue
+                tooltipStrings.add(VOConfig.client.oreNamePrefix + LocalizationUtils.format("item.material.oreprefix.ore",
+                        GregTechAPI.MaterialRegistry.get(mat).getLocalizedName()));
+            }
         }
     }
 
     public static String getBaseMaterialName(IBlockState state) {
         MaterialStack stack = OreDictUnifier.getMaterial(GTUtility.toItem(state));
         if (stack == null) return "";
-        return stack.material.getUnlocalizedName();
+        return stack.material.toString();
     }
 }

@@ -56,7 +56,7 @@ public abstract class GuiMapMixin extends ScreenBase {
         oreVeinsButton.enabled = true;
         undergroundFluidsButton.enabled = true;
 
-        renderer = new GenericMapRenderer();
+        renderer = new GenericMapRenderer((GuiMap) (Object) this);
     }
 
     @Inject(method = "drawScreen",

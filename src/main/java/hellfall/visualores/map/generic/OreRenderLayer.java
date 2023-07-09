@@ -52,22 +52,26 @@ public class OreRenderLayer extends RenderLayer {
         visibleVeins = ClientCache.instance.getVeinsInArea(dimensionID, visibleBounds);
     }
 
-    @SuppressWarnings("IntegerDivisionInFloatingPointContext")
     @Override
     public List<String> getTooltip(double mouseX, double mouseY, double cameraX, double cameraZ, double scale) {
         List<String> tooltip = new ArrayList<>();
         double clampedScale = Math.max(scale, VOConfig.client.oreScaleStop);
-        double iconRadius = ORE_ICON_SIZE / 2 * (scale / clampedScale);
+        double iconRadius = ORE_ICON_SIZE / 2.0 * (scale / clampedScale);
         Minecraft mc = Minecraft.getMinecraft();
         ScaledResolution res = new ScaledResolution(mc);
-        mouseX = mouseX * res.getScaleFactor() - mc.displayWidth / 2;
-        mouseY = mouseY * res.getScaleFactor() - mc.displayHeight / 2;
+        mouseX = mouseX * res.getScaleFactor() - mc.displayWidth / 2.0;
+        mouseY = mouseY * res.getScaleFactor() - mc.displayHeight / 2.0;
         for (OreVeinPosition vein : visibleVeins) {
             double scaledVeinX = (vein.x - 0.5 - cameraX) * scale;
             double scaledVeinZ = (vein.z - 0.5 - cameraZ) * scale;
             if (mouseX > scaledVeinX - iconRadius && mouseX < scaledVeinX + iconRadius &&
                 mouseY > scaledVeinZ - iconRadius && mouseY < scaledVeinZ + iconRadius) {
-                tooltip.add(vein.depositname);
+                if (VOConfig.client.stackTooltips) {
+                    tooltip.addAll(0, vein.veinInfo.tooltipStrings);
+                }
+                else {
+                    tooltip = vein.veinInfo.tooltipStrings;
+                }
             }
         }
         return tooltip;

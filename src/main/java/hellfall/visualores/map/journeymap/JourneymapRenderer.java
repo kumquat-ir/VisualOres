@@ -10,10 +10,8 @@ import java.util.List;
  * A map renderer for Journeymap, uses Journeymap's own tooltip rendering to fit existing theming better
  */
 public class JourneymapRenderer extends GenericMapRenderer {
-    private final Fullscreen gui;
-
     public JourneymapRenderer(Fullscreen gui) {
-        this.gui = gui;
+        super(gui);
     }
 
     @Override
@@ -22,7 +20,7 @@ public class JourneymapRenderer extends GenericMapRenderer {
             if (layer.isEnabled()) {
                 List<String> tooltip = layer.getTooltip(mouseX, mouseY, cameraX, cameraZ, scale);
                 if (tooltip != null && !tooltip.isEmpty()) {
-                    gui.drawHoveringText(tooltip, (int) mouseX, (int) mouseY, gui.getFontRenderer());
+                    ((Fullscreen) gui).drawHoveringText(tooltip, (int) mouseX, (int) mouseY, ((Fullscreen) gui).getFontRenderer());
                 }
             }
         }

@@ -1,13 +1,25 @@
 package hellfall.visualores.map;
 
 import codechicken.lib.gui.GuiDraw;
+import gregtech.api.util.LocalizationUtils;
 import net.minecraft.client.renderer.GlStateManager;
 
 import java.util.List;
 
 public class DrawUtils {
-    public static void drawSimpleTooltip(List<String> text, double x, double y, int fontColor, int bgColor) {
+    public static void drawSimpleTooltip(List<String> text, double x, double y, int screenW, int screenH, int fontColor, int bgColor) {
         if (text.isEmpty()) return;
+
+        int boxHeight = text.size() * (GuiDraw.fontRenderer.FONT_HEIGHT + 2) + 6;
+
+        // if box is taller than screen, truncate list of lines and add a line with how many were truncated
+        if (boxHeight > screenH) {
+            int maxLines = (screenH - 6) / (GuiDraw.fontRenderer.FONT_HEIGHT + 2);
+            int oldsize = text.size();
+            text = text.subList(0, maxLines - 1);
+            text.add(LocalizationUtils.format("visualores.tooltipoverflow", oldsize - maxLines + 1));
+            boxHeight = text.size() * (GuiDraw.fontRenderer.FONT_HEIGHT + 2) + 6;
+        }
 
         int maxTextWidth = 0;
         for (String str : text) {
@@ -16,7 +28,25 @@ public class DrawUtils {
         }
 
         int boxWidth = maxTextWidth + 6;
-        int boxHeight = text.size() * (GuiDraw.fontRenderer.FONT_HEIGHT + 2) + 6;
+
+        // mirror box if it intersects screen edge
+        // shift box left/up if no space to mirror
+        if (x + boxWidth > screenW) {
+            if (x - boxWidth < 0) {
+                x = Math.max(0, screenW - boxWidth);
+            }
+            else {
+                x -= boxWidth;
+            }
+        }
+        if (y + boxHeight > screenH) {
+            if (y - boxHeight < 0) {
+                y = Math.max(0, screenH - boxHeight);
+            }
+            else {
+                y -= boxHeight;
+            }
+        }
 
         double dx = x - (double) (int) x;
         double dy = y - (double) (int) y;

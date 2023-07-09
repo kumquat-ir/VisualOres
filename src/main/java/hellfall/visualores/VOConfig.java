@@ -18,6 +18,12 @@ public class VOConfig {
         public double oreScaleStop = 1;
 
 //        public double textDisplayStop = 1;
+
+        @Config.Comment("Whether to display tooltips for all veins in the same location.")
+        public boolean stackTooltips = true;
+
+        @Config.Comment("The string prepending ore names in the ore vein tooltip")
+        public String oreNamePrefix = "- ";
     }
 
     public static class ServerOptions {
@@ -31,7 +37,8 @@ public class VOConfig {
 
         @Config.Comment({"Whether to cull cache entries in chunks that nothing generated in.",
                 "Prevents \"phantom veins\" from being recorded in, for example, the End void.",
-                "Can cause veins to not be recorded if they only generated blocks in chunks other than their centers. (i.e. at the edge of end islands)"})
+                "Can cause veins to not be recorded if they only generated blocks in chunks other than their centers. (i.e. at the edge of end islands)",
+                "Default: true"})
         public boolean cullEmptyChunks = true;
     }
 }
