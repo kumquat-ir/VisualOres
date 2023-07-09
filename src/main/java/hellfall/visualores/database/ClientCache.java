@@ -65,4 +65,15 @@ public class ClientCache extends WorldCache {
             throw new RuntimeException(e);
         }
     }
+
+    public void reset() {
+        clear();
+        try {
+            Files.walk(worldFolder.toPath(), 1).filter(Files::isRegularFile)
+                    .filter(path -> path.getFileName().toString().startsWith("DIM"))
+                    .forEach(file -> file.toFile().delete());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

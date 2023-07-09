@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 public class CommandResetClientCache extends ClientCommandBase {
     @Override
     public void execute(Minecraft minecraft, EntityPlayerSP entityPlayerSP, String[] strings) {
-        ClientCache.instance.clear();
+        ClientCache.instance.reset();
         minecraft.ingameGUI.getChatGUI().printChatMessage(new TextComponentTranslation("visualores.resetclientcache"));
     }
 
