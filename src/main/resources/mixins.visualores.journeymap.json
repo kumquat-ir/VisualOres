@@ -6,7 +6,9 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [],
   "client": [
-    "FullscreenMixin"
+    "FullscreenMixin",
+    "MiniMapMixin",
+    "DisplayVarsAccessor"
   ],
   "server": []
 }

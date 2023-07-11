@@ -12,6 +12,7 @@ import java.util.List;
  */
 @SideOnly(Side.CLIENT)
 public class GenericMapRenderer {
+    private static final int VISIBLE_AREA_PADDING = 20;
 
     protected int dimensionID;
     protected GuiScreen gui;
@@ -25,6 +26,11 @@ public class GenericMapRenderer {
     }
 
     public void updateVisibleArea(int dim, int x, int y, int w, int h) {
+        // padding visible area to reduce/eliminate pop-in at map edges
+        x -= VISIBLE_AREA_PADDING;
+        y -= VISIBLE_AREA_PADDING;
+        w += VISIBLE_AREA_PADDING * 2;
+        h += VISIBLE_AREA_PADDING * 2;
         if (dimensionID != dim || visibleBounds[0] != x || visibleBounds[1] != y || visibleBounds[2] != w || visibleBounds[3] != h) {
             dimensionID = dim;
             visibleBounds[0] = x;

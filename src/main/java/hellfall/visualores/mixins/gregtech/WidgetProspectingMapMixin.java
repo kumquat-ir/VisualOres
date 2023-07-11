@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-@Mixin(WidgetProspectingMap.class)
+@Mixin(value = WidgetProspectingMap.class, remap = false)
 public abstract class WidgetProspectingMapMixin extends Widget {
     @Shadow @Final private int mode;
 
