@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(BlockSurfaceRock.class)
 public abstract class BlockSurfaceRockMixin {
-    @Shadow @Final public PropertyMaterial variantProperty;
+    @Shadow(remap = false) @Final public PropertyMaterial variantProperty;
 
     @Inject(method = "onBlockActivated", at = @At("HEAD"))
     private void visualores$onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ, CallbackInfoReturnable<Boolean> cir) {

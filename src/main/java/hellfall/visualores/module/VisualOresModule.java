@@ -9,9 +9,10 @@ import hellfall.visualores.database.ClientCache;
 import hellfall.visualores.database.CommandResetClientCache;
 import hellfall.visualores.database.ServerCache;
 import hellfall.visualores.database.WorldIDSaveData;
-import hellfall.visualores.map.generic.RenderLayer;
+import hellfall.visualores.map.generic.GenericMapRenderer;
 import hellfall.visualores.network.ProspectToClientPacket;
 import hellfall.visualores.network.WorldIDPacket;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.client.ClientCommandHandler;
@@ -22,6 +23,7 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -53,10 +55,22 @@ public class VisualOresModule implements IGregTechModule {
     }
 
     @Override
+    public void preInit(FMLPreInitializationEvent event) {
+        if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
+            if (!Minecraft.getMinecraft().getFramebuffer().isStencilEnabled()) {
+                Minecraft.getMinecraft().getFramebuffer().enableStencil();
+            }
+            GenericMapRenderer.stencilEnabled = Minecraft.getMinecraft().getFramebuffer().isStencilEnabled();
+            if (!GenericMapRenderer.stencilEnabled) {
+                VisualOres.LOGGER.error("Could not enable stencil buffer! Xaero's minimap rendering will be disabled.");
+            }
+        }
+    }
+
+    @Override
     public void postInit(FMLPostInitializationEvent event) {
         if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
             ClientCommandHandler.instance.registerCommand(new CommandResetClientCache());
-            RenderLayer.initLayers();
         }
     }
 

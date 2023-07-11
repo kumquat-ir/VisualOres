@@ -28,7 +28,7 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import java.util.Arrays;
 import java.util.List;
 
-@Mixin(value = Fullscreen.class, remap = false)
+@Mixin(Fullscreen.class)
 public abstract class FullscreenMixin extends JmUI implements ITabCompleter {
 
 	@Unique private JourneymapRenderer renderer;
@@ -53,7 +53,7 @@ public abstract class FullscreenMixin extends JmUI implements ITabCompleter {
 					target = "Ljourneymap/client/ui/fullscreen/Fullscreen;mapTypeToolbar:Ljourneymap/client/ui/theme/ThemeToolbar;",
 					opcode = Opcodes.PUTFIELD,
 					shift = At.Shift.AFTER
-			)
+			), remap = false
 	)
 	private void visualores$injectInitButtons(CallbackInfo ci) {
 		final Theme theme = ThemeLoader.getCurrentTheme();
@@ -82,14 +82,15 @@ public abstract class FullscreenMixin extends JmUI implements ITabCompleter {
 		renderer = new JourneymapRenderer((Fullscreen) (Object) this);
 	}
 
-	@Inject(method = "layoutButtons", at = @At("TAIL"))
+	@Inject(method = "layoutButtons", at = @At("TAIL"), remap = false)
 	private void visualores$injectLayoutButtons(CallbackInfo ci) {
 		oreVeinButton.setToggled(ButtonState.isEnabled(ButtonState.ORE_VEINS_BUTTON), false);
 		undergroundFluidButton.setToggled(ButtonState.isEnabled(ButtonState.UNDERGROUND_FLUIDS_BUTTON), false);
 	}
 
 	@Redirect(method = "drawMap",
-			at = @At(value = "INVOKE", target = "Ljourneymap/client/render/map/GridRenderer;draw(Ljava/util/List;DDDD)V", ordinal = 1)
+			at = @At(value = "INVOKE", target = "Ljourneymap/client/render/map/GridRenderer;draw(Ljava/util/List;DDDD)V", ordinal = 1),
+			remap = false
 	)
 	private void visualores$injectDrawMap(GridRenderer instance, List<? extends DrawStep> drawStepList, double xOffset, double yOffset, double fontScale, double rotation) {
 		instance.draw(drawStepList, xOffset, yOffset, fontScale, rotation);

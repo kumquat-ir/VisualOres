@@ -1,5 +1,6 @@
 package hellfall.visualores.mixins.journeymap;
 
+import hellfall.visualores.VOConfig;
 import hellfall.visualores.map.generic.GenericMapRenderer;
 import journeymap.client.model.MapState;
 import journeymap.client.properties.MiniMapProperties;
@@ -33,17 +34,19 @@ public abstract class MiniMapMixin {
 
     @Inject(method = "drawOnMapWaypoints", at = @At("HEAD"))
     private void visualores$injectDrawMinimap(double rotation, CallbackInfo ci) {
-        double scale = Math.pow(2, miniMapProperties.zoomLevel.get());
-		double rw = ((DisplayVarsAccessor) dv).getMinimapWidth() / scale;
-		double rh = ((DisplayVarsAccessor) dv).getMinimapHeight() / scale;
-		renderer.updateVisibleArea(state.getDimension(), (int) (gridRenderer.getCenterBlockX() - rw / 2), (int) (gridRenderer.getCenterBlockZ() - rh / 2), (int) rw, (int) rh);
+        if (VOConfig.client.enableMinimapRendering) {
+            double scale = Math.pow(2, miniMapProperties.zoomLevel.get());
+            double rw = ((DisplayVarsAccessor) dv).getMinimapWidth() / scale;
+            double rh = ((DisplayVarsAccessor) dv).getMinimapHeight() / scale;
+            renderer.updateVisibleArea(state.getDimension(), (int) (gridRenderer.getCenterBlockX() - rw / 2), (int) (gridRenderer.getCenterBlockZ() - rh / 2), (int) rw, (int) rh);
 
-		GlStateManager.pushMatrix();
-        GlStateManager.translate(mc.displayWidth / 2.0, mc.displayHeight / 2.0, 0);
-        GlStateManager.scale(scale, scale, 1);
+            GlStateManager.pushMatrix();
+            GlStateManager.translate(mc.displayWidth / 2.0, mc.displayHeight / 2.0, 0);
+            GlStateManager.scale(scale, scale, 1);
 
-        renderer.render((gridRenderer.getCenterBlockX()), gridRenderer.getCenterBlockZ(), scale);
+            renderer.render((gridRenderer.getCenterBlockX()), gridRenderer.getCenterBlockZ(), scale);
 
-		GlStateManager.popMatrix();
+            GlStateManager.popMatrix();
+        }
     }
 }

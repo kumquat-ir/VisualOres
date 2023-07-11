@@ -24,6 +24,9 @@ public class VOConfig {
 
         @Config.Comment("The string prepending ore names in the ore vein tooltip")
         public String oreNamePrefix = "- ";
+
+        @Config.Comment("Whether to enable rendering on minimaps")
+        public boolean enableMinimapRendering = true;
     }
 
     public static class ServerOptions {

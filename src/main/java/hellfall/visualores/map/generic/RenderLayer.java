@@ -1,14 +1,11 @@
 package hellfall.visualores.map.generic;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class RenderLayer {
-    public static List<RenderLayer> layers = new ArrayList<>();
-
     protected ButtonState.Button button;
 
-    public static void initLayers() {
+    public static void addLayers(List<RenderLayer> layers) {
         layers.add(new OreRenderLayer(ButtonState.ORE_VEINS_BUTTON));
         layers.add(new UndergroundFluidRenderLayer(ButtonState.UNDERGROUND_FLUIDS_BUTTON));
     }

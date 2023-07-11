@@ -5,6 +5,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,6 +13,8 @@ import java.util.List;
  */
 @SideOnly(Side.CLIENT)
 public class GenericMapRenderer {
+    public static boolean stencilEnabled = false;
+
     private static final int VISIBLE_AREA_PADDING = 20;
 
     protected int dimensionID;
@@ -19,9 +22,15 @@ public class GenericMapRenderer {
 
     protected int[] visibleBounds = new int[4];
 
-    public GenericMapRenderer() {}
+    protected List<RenderLayer> layers;
+
+    public GenericMapRenderer() {
+        layers = new ArrayList<>();
+        RenderLayer.addLayers(layers);
+    }
 
     public GenericMapRenderer(GuiScreen gui) {
+        this();
         this.gui = gui;
     }
 
@@ -38,7 +47,7 @@ public class GenericMapRenderer {
             visibleBounds[2] = w;
             visibleBounds[3] = h;
 
-            for (RenderLayer layer : RenderLayer.layers) {
+            for (RenderLayer layer : layers) {
                 layer.updateVisibleArea(dimensionID, visibleBounds);
             }
 
@@ -56,7 +65,7 @@ public class GenericMapRenderer {
      * @param scale Scale of the camera, such that scaling by <code>1/scale</code> results in 1 unit = 1 pixel
      */
     public void render(double cameraX, double cameraZ, double scale) {
-        for (RenderLayer layer : RenderLayer.layers) {
+        for (RenderLayer layer : layers) {
             if (layer.isEnabled()) {
                 layer.render(cameraX, cameraZ, scale);
             }
@@ -74,7 +83,7 @@ public class GenericMapRenderer {
      * @param scale Scale of the camera, such that scaling by <code>1/scale</code> results in 1 unit = 1 pixel
      */
     public void renderTooltip(double mouseX, double mouseY, double cameraX, double cameraZ, double scale) {
-        for (RenderLayer layer : RenderLayer.layers) {
+        for (RenderLayer layer : layers) {
             if (layer.isEnabled()) {
                 List<String> tooltip = layer.getTooltip(mouseX, mouseY, cameraX, cameraZ, scale);
                 if (tooltip != null && !tooltip.isEmpty()) {

@@ -16,7 +16,7 @@ public class JourneymapRenderer extends GenericMapRenderer {
 
     @Override
     public void renderTooltip(double mouseX, double mouseY, double cameraX, double cameraZ, double scale) {
-        for (RenderLayer layer : RenderLayer.layers) {
+        for (RenderLayer layer : layers) {
             if (layer.isEnabled()) {
                 List<String> tooltip = layer.getTooltip(mouseX, mouseY, cameraX, cameraZ, scale);
                 if (tooltip != null && !tooltip.isEmpty()) {

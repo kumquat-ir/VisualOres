@@ -16,7 +16,6 @@ import org.apache.logging.log4j.Logger;
         dependencies = "required-before:gregtech@[2.6.2-beta,);" // actually USING the gt module system requires loading before gt
                 + CodeChickenLib.MOD_VERSION_DEP)
 public class VisualOres {
-
     public static final Logger LOGGER = LogManager.getLogger(Tags.MODID);
 
     @EventHandler
