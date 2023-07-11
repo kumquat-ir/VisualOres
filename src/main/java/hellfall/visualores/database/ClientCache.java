@@ -5,6 +5,7 @@ import hellfall.visualores.VisualOres;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.util.text.TextComponentTranslation;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,10 +27,9 @@ public class ClientCache extends WorldCache {
         loadCache();
     }
 
-    @Override
-    public void addVein(int dim, int x, int z, int gridX, int gridZ, String name) {
-        VisualOres.LOGGER.info("got more vein " + x + "," + z);
-        super.addVein(dim, x, z, gridX, gridZ, name);
+    public void notifyNewVeins(int amount) {
+        if (amount <= 0) return;
+        Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(new TextComponentTranslation("visualores.newveins", amount));
     }
 
     public void saveCache() {

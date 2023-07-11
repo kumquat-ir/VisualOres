@@ -12,8 +12,10 @@ import java.util.stream.Collectors;
 public class GridCache {
     private final List<OreVeinPosition> veins = new ArrayList<>();
 
-    public void addVein(int x, int z, String name) {
+    public boolean addVein(int x, int z, String name) {
+        if (veins.contains(new OreVeinPosition(x, z, name))) return false;
         veins.add(new OreVeinPosition(x, z, name));
+        return true;
     }
 
     public NBTTagList toNBT() {

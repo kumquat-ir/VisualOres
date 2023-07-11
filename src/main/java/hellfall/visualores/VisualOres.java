@@ -13,7 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 @Mod(modid = Tags.MODID, version = Tags.VERSION, name = Tags.MODNAME, acceptedMinecraftVersions = "[1.12.2]",
-        dependencies = "required-before:gregtech@[2.6.2-beta,);" // actually USING the gt module system requires loading before gt
+        dependencies = "required-before:gregtech@[2.7.0-beta,);" // actually USING the gt module system requires loading before gt
                 + CodeChickenLib.MOD_VERSION_DEP)
 public class VisualOres {
     public static final Logger LOGGER = LogManager.getLogger(Tags.MODID);

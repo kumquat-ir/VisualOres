@@ -61,9 +61,13 @@ public class ProspectToClientPacket implements IPacket, IClientExecutor {
 
     @Override
     public void executeClient(NetHandlerPlayClient netHandlerPlayClient) {
+        int newVeins = 0;
         for (int i = 0; i < dimList.size(); i++) {
-            ClientCache.instance.addVein(dimList.get(i), xList.get(i), zList.get(i), gridXList.get(i), gridZList.get(i), nameList.get(i));
+            if (ClientCache.instance.addVein(dimList.get(i), xList.get(i), zList.get(i), gridXList.get(i), gridZList.get(i), nameList.get(i))) {
+                newVeins++;
+            }
         }
+        ClientCache.instance.notifyNewVeins(newVeins);
     }
 
     @Override

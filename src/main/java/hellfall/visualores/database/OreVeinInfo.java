@@ -69,9 +69,8 @@ public class OreVeinInfo {
             }
             for (String mat : oreMaterialStrings) {
                 // the material name is guaranteed to come from a material that exists
-                //noinspection DataFlowIssue
                 tooltipStrings.add(VOConfig.client.oreNamePrefix + LocalizationUtils.format("item.material.oreprefix.ore",
-                        GregTechAPI.MaterialRegistry.get(mat).getLocalizedName()));
+                        GregTechAPI.materialManager.getMaterial(mat).getLocalizedName()));
             }
         }
     }

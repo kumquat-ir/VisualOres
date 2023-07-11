@@ -14,13 +14,14 @@ public class DimensionCache {
 
     public boolean dirty;
 
-    public void addVein(int x, int z, int gridX, int gridZ, String name) {
+    public boolean addVein(int x, int z, int gridX, int gridZ, String name) {
         GridPos key = new GridPos(gridX, gridZ);
         if (!cache.containsKey(key)) {
             cache.put(key, new GridCache());
         }
-        cache.get(key).addVein(x, z, name);
-        dirty = true;
+        boolean added = cache.get(key).addVein(x, z, name);
+        dirty = added || dirty;
+        return added;
     }
 
     public NBTTagCompound toNBT() {

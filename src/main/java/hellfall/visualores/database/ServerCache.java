@@ -36,11 +36,12 @@ public class ServerCache extends WorldCache {
     }
 
     @Override
-    public void addVein(int dim, int x, int z, int gridX, int gridZ, String name) {
-        super.addVein(dim, x, z, gridX, gridZ, name);
-        if (saveData.containsKey(dim)) {
+    public boolean addVein(int dim, int x, int z, int gridX, int gridZ, String name) {
+        boolean added = super.addVein(dim, x, z, gridX, gridZ, name);
+        if (added && saveData.containsKey(dim)) {
             saveData.get(dim).markDirty();
         }
+        return added;
     }
 
     @Override

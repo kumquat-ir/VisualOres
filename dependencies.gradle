@@ -22,7 +22,7 @@
  * For more details, see https://docs.gradle.org/8.0.1/userguide/java_library_plugin.html#sec:java_library_configurations_graph
  */
 dependencies {
-    implementation rfg.deobf('maven.modrinth:gregtech-ce-unofficial:2.6.2')
+    implementation rfg.deobf('maven.modrinth:gregtech-ce-unofficial:2.7.0-beta')
     implementation rfg.deobf('maven.modrinth:journeymap:1.12.2-5.7.1')
     implementation rfg.deobf('maven.modrinth:xaeros-minimap:23.5.0_Forge_1.12')
     implementation rfg.deobf('maven.modrinth:xaeros-world-map:1.30.5_Forge_1.12')
