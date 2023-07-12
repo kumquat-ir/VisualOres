@@ -18,8 +18,8 @@ public class OreRenderLayer extends RenderLayer {
 
     protected List<OreVeinPosition> visibleVeins;
 
-    public OreRenderLayer(ButtonState.Button button) {
-        super(button);
+    public OreRenderLayer() {
+        super(ButtonState.ORE_VEINS_BUTTON);
     }
 
     @Override

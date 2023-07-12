@@ -25,8 +25,9 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Mixin(Fullscreen.class)
 public abstract class FullscreenMixin extends JmUI implements ITabCompleter {
@@ -43,6 +44,7 @@ public abstract class FullscreenMixin extends JmUI implements ITabCompleter {
 
 	@Unique private ThemeToggle oreVeinButton;
 	@Unique private ThemeToggle undergroundFluidButton;
+	@Unique private Map<String, ThemeToggle> buttons;
 
 	public FullscreenMixin(String title) {
 		super(title);
@@ -57,35 +59,33 @@ public abstract class FullscreenMixin extends JmUI implements ITabCompleter {
 	)
 	private void visualores$injectInitButtons(CallbackInfo ci) {
 		final Theme theme = ThemeLoader.getCurrentTheme();
-		oreVeinButton = new ThemeToggle(theme, "visualores.button.oreveins", "oreveins");
-		oreVeinButton.setToggled(ButtonState.isEnabled(ButtonState.ORE_VEINS_BUTTON), false);
-		oreVeinButton.setEnabled(true);
-		oreVeinButton.addToggleListener((button, toggled) -> {
-			ButtonState.toggleButton(ButtonState.ORE_VEINS_BUTTON);
+		buttons = new HashMap<>();
 
-			return true;
-		});
+		for (ButtonState.Button button : ButtonState.getAllButtons()) {
+			ThemeToggle mapButton = new ThemeToggle(theme, "visualores.button." + button.name, button.name);
+			mapButton.setToggled(ButtonState.isEnabled(button), false);
+			mapButton.setEnabled(true);
+			mapButton.addToggleListener((onOffButton, b) -> {
+				ButtonState.toggleButton(button);
 
-		undergroundFluidButton = new ThemeToggle(theme, "visualores.button.undergroundfluids", "undergroundfluid");
-		undergroundFluidButton.setToggled(ButtonState.isEnabled(ButtonState.UNDERGROUND_FLUIDS_BUTTON), false);
-		undergroundFluidButton.setEnabled(true);
-		undergroundFluidButton.addToggleListener((button, toggled) -> {
-			ButtonState.toggleButton(ButtonState.UNDERGROUND_FLUIDS_BUTTON);
+				return true;
+			});
 
-			return true;
-		});
+			buttons.put(button.name, mapButton);
+		}
 
 		// jank to not have to add an accessor/at
 		this.mapTypeToolbar.reverse();
-		this.mapTypeToolbar.reverse().addAll(0, Arrays.asList(oreVeinButton, undergroundFluidButton));
+		this.mapTypeToolbar.reverse().addAll(0, buttons.values());
 
 		renderer = new JourneymapRenderer((Fullscreen) (Object) this);
 	}
 
 	@Inject(method = "layoutButtons", at = @At("TAIL"), remap = false)
 	private void visualores$injectLayoutButtons(CallbackInfo ci) {
-		oreVeinButton.setToggled(ButtonState.isEnabled(ButtonState.ORE_VEINS_BUTTON), false);
-		undergroundFluidButton.setToggled(ButtonState.isEnabled(ButtonState.UNDERGROUND_FLUIDS_BUTTON), false);
+		for (String buttonName : buttons.keySet()) {
+			buttons.get(buttonName).setToggled(ButtonState.isEnabled(buttonName), false);
+		}
 	}
 
 	@Redirect(method = "drawMap",

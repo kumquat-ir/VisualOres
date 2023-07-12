@@ -1,14 +1,27 @@
 package hellfall.visualores.map.generic;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class RenderLayer {
-    protected ButtonState.Button button;
+    private static final List<Class<? extends RenderLayer>> layerClasses = new ArrayList<>();
 
-    public static void addLayers(List<RenderLayer> layers) {
-        layers.add(new OreRenderLayer(ButtonState.ORE_VEINS_BUTTON));
-        layers.add(new UndergroundFluidRenderLayer(ButtonState.UNDERGROUND_FLUIDS_BUTTON));
+    public static void registerLayer(Class<? extends RenderLayer> clazz) {
+        layerClasses.add(clazz);
     }
+
+    public static void addLayersTo(List<RenderLayer> layers) {
+        for (Class<? extends RenderLayer> layer : layerClasses) {
+            try {
+                layers.add(layer.getConstructor().newInstance());
+            } catch (InstantiationException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    protected ButtonState.Button button;
 
     public RenderLayer(ButtonState.Button button) {
         this.button = button;
@@ -22,5 +35,7 @@ public abstract class RenderLayer {
 
     public abstract void updateVisibleArea(int dimensionID, int[] visibleBounds);
 
-    public abstract List<String> getTooltip(double mouseX, double mouseY, double cameraX, double cameraZ, double scale);
+    public List<String> getTooltip(double mouseX, double mouseY, double cameraX, double cameraZ, double scale) {
+        return null;
+    }
 }

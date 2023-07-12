@@ -1,7 +1,7 @@
 visualores.resetclientcache=Reset client ore cache!
 
 visualores.button.oreveins=Toggle ore vein display
-visualores.button.undergroundfluids=Toggle underground fluid display
+visualores.button.undergroundfluid=Toggle underground fluid display
 
 visualores.tooltipoverflow=... (%d more lines)
 

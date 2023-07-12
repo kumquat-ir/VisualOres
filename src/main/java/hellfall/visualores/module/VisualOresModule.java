@@ -10,6 +10,9 @@ import hellfall.visualores.database.CommandResetClientCache;
 import hellfall.visualores.database.ServerCache;
 import hellfall.visualores.database.WorldIDSaveData;
 import hellfall.visualores.map.generic.GenericMapRenderer;
+import hellfall.visualores.map.generic.OreRenderLayer;
+import hellfall.visualores.map.generic.RenderLayer;
+import hellfall.visualores.map.generic.UndergroundFluidRenderLayer;
 import hellfall.visualores.network.ProspectToClientPacket;
 import hellfall.visualores.network.WorldIDPacket;
 import net.minecraft.client.Minecraft;
@@ -64,6 +67,9 @@ public class VisualOresModule implements IGregTechModule {
             if (!GenericMapRenderer.stencilEnabled) {
                 VisualOres.LOGGER.error("Could not enable stencil buffer! Xaero's minimap rendering will be disabled.");
             }
+
+            RenderLayer.registerLayer(OreRenderLayer.class);
+            RenderLayer.registerLayer(UndergroundFluidRenderLayer.class);
         }
     }
 

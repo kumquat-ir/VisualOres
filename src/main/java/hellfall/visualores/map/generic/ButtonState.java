@@ -1,13 +1,16 @@
 package hellfall.visualores.map.generic;
 
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ButtonState {
     private static final Map<String, Button> buttons = new HashMap<>();
 
-    public static Button ORE_VEINS_BUTTON = new Button("ORE_VEINS");
-    public static Button UNDERGROUND_FLUIDS_BUTTON = new Button("UNDERGROUND_FLUIDS");
+    public static Button ORE_VEINS_BUTTON = new Button("oreveins", 0);
+    public static Button UNDERGROUND_FLUIDS_BUTTON = new Button("undergroundfluid", 1);
 
     public static void toggleButton(Button button) {
         button.enabled = !button.enabled;
@@ -26,13 +29,23 @@ public class ButtonState {
         return button.enabled;
     }
 
+    public static boolean isEnabled(String buttonName) {
+        return buttons.get(buttonName).enabled;
+    }
+
+    public static Collection<Button> getAllButtons() {
+        return buttons.values().stream().sorted(Comparator.comparingInt(a -> a.sort)).collect(Collectors.toList());
+    }
+
     public static class Button {
         public boolean enabled;
+        protected int sort;
         public String name;
 
-        public Button(String name) {
+        public Button(String name, int sort) {
             this.enabled = false;
             this.name = name;
+            this.sort = sort;
             buttons.put(name, this);
         }
     }

@@ -26,7 +26,7 @@ public class GenericMapRenderer {
 
     public GenericMapRenderer() {
         layers = new ArrayList<>();
-        RenderLayer.addLayers(layers);
+        RenderLayer.addLayersTo(layers);
     }
 
     public GenericMapRenderer(GuiScreen gui) {

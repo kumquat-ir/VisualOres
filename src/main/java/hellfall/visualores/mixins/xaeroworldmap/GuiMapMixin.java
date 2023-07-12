@@ -34,27 +34,23 @@ public abstract class GuiMapMixin extends ScreenBase {
 
     @Inject(method = "initGui", at = @At("TAIL"))
     private void visualores$injectInitGui(CallbackInfo ci) {
-        GuiButton oreVeinsButton = new SizedTexturedGuiButton(this.width - 40, this.height - 20, 20, 20,
-                ButtonState.isEnabled(ButtonState.ORE_VEINS_BUTTON) ? 16 : 0, 0, 16, 16,
-                new ResourceLocation("visualores", "textures/xaero/oreveins.png"),
-                (button) -> {
-                    ButtonState.toggleButton(ButtonState.ORE_VEINS_BUTTON);
-                    setWorldAndResolution(mc, width, height);
-                },
-                () -> new CursorBox("visualores.button.oreveins"));
-        GuiButton undergroundFluidsButton = new SizedTexturedGuiButton(this.width - 40, this.height - 40, 20, 20,
-                ButtonState.isEnabled(ButtonState.UNDERGROUND_FLUIDS_BUTTON) ? 16 : 0, 0, 16, 16,
-                new ResourceLocation("visualores", "textures/xaero/undergroundfluid.png"),
-                (button) -> {
-                    ButtonState.toggleButton(ButtonState.UNDERGROUND_FLUIDS_BUTTON);
-                    setWorldAndResolution(mc, width, height);
-                },
-                () -> new CursorBox("visualores.button.undergroundfluids"));
+        int offset = 1;
+        for (ButtonState.Button button : ButtonState.getAllButtons()) {
+            GuiButton mapButton = new SizedTexturedGuiButton(
+                    width - 40, height - (20 * offset), 20, 20,
+                    ButtonState.isEnabled(button) ? 16 : 0, 0, 16, 16,
+                    new ResourceLocation("visualores", "textures/xaero/" + button.name + ".png"),
+                    (guiButton -> {
+                        ButtonState.toggleButton(button);
+                        setWorldAndResolution(mc, width, height);
+                    }),
+                    () -> new CursorBox("visualores.button." + button.name)
+            );
 
-        this.addButton(oreVeinsButton);
-        this.addButton(undergroundFluidsButton);
-        oreVeinsButton.enabled = true;
-        undergroundFluidsButton.enabled = true;
+            addButton(mapButton);
+            mapButton.enabled = true;
+            offset++;
+        }
 
         renderer = new GenericMapRenderer((GuiMap) (Object) this);
     }
