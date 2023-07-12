@@ -9,6 +9,7 @@
 3. Call `RenderLayer.registerLayer()` with that class in client preinit
 
 For example:
+
 ```java
 // somewhere
 public static final ButtonState.Button FOO_BUTTON = new ButtonState.Button("foo", 2);
@@ -28,3 +29,11 @@ public class FooRenderLayer {
 // in client FMLPreInitializationEvent handler
 RenderLayer.registerLayer(FooRenderLayer.class);
 ```
+In a lang file:
+`visualores.button.foo=A tooltip!`  
+In `assets/`:
+- `journeymap/theme/flat/icon/foo.png`
+  - Should be a single square icon with padding
+- `visualores/textures/xaero/foo.png`
+  - Should have two equal-sized square icons next to each other, left is deactivated state, right is activated state
+  - See [the included icons](src/main/resources/assets/visualores/textures/xaero) for reference
