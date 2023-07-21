@@ -3,8 +3,8 @@ package hellfall.visualores.network;
 import gregtech.api.network.IClientExecutor;
 import gregtech.api.network.IPacket;
 import hellfall.visualores.database.ClientCache;
-import hellfall.visualores.database.GridPos;
-import hellfall.visualores.database.OreVeinPosition;
+import hellfall.visualores.database.ore.GridPos;
+import hellfall.visualores.database.ore.OreVeinPosition;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.network.PacketBuffer;
 
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ProspectToClientPacket implements IPacket, IClientExecutor {
+public class OreProspectToClientPacket implements IPacket, IClientExecutor {
     private final List<Integer> dimList;
     private final List<Integer> xList;
     private final List<Integer> zList;
@@ -20,7 +20,7 @@ public class ProspectToClientPacket implements IPacket, IClientExecutor {
     private final List<Integer> gridZList;
     private final List<String> nameList;
 
-    public ProspectToClientPacket() {
+    public OreProspectToClientPacket() {
         this.dimList = new ArrayList<>();
         this.xList = new ArrayList<>();
         this.zList = new ArrayList<>();
@@ -29,7 +29,7 @@ public class ProspectToClientPacket implements IPacket, IClientExecutor {
         this.nameList = new ArrayList<>();
     }
 
-    public ProspectToClientPacket(int dim, int x, int z, int gridX, int gridZ, String name) {
+    public OreProspectToClientPacket(int dim, int x, int z, int gridX, int gridZ, String name) {
         this.dimList = Collections.singletonList(dim);
         this.xList = Collections.singletonList(x);
         this.zList = Collections.singletonList(z);
@@ -38,7 +38,7 @@ public class ProspectToClientPacket implements IPacket, IClientExecutor {
         this.nameList = Collections.singletonList(name);
     }
 
-    public ProspectToClientPacket(List<Integer> dimList, List<Integer> xList, List<Integer> zList, List<Integer> gridXList, List<Integer> gridZList, List<String> nameList) {
+    public OreProspectToClientPacket(List<Integer> dimList, List<Integer> xList, List<Integer> zList, List<Integer> gridXList, List<Integer> gridZList, List<String> nameList) {
         this.dimList = dimList;
         this.xList = xList;
         this.zList = zList;
@@ -47,7 +47,7 @@ public class ProspectToClientPacket implements IPacket, IClientExecutor {
         this.nameList = nameList;
     }
 
-    public ProspectToClientPacket(int dim, List<OreVeinPosition> positions) {
+    public OreProspectToClientPacket(int dim, List<OreVeinPosition> positions) {
         this();
         for (OreVeinPosition position : positions) {
             dimList.add(dim);

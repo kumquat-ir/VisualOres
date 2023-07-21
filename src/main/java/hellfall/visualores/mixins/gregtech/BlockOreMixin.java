@@ -2,8 +2,8 @@ package hellfall.visualores.mixins.gregtech;
 
 import gregtech.api.util.IBlockOre;
 import gregtech.common.blocks.BlockOre;
-import hellfall.visualores.database.OreVeinInfo;
-import hellfall.visualores.database.ServerCache;
+import hellfall.visualores.database.ore.OreVeinInfo;
+import hellfall.visualores.database.ore.ServerCache;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;

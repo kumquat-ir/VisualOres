@@ -1,4 +1,4 @@
-package hellfall.visualores.database;
+package hellfall.visualores.database.ore;
 
 import net.minecraft.nbt.NBTTagCompound;
 

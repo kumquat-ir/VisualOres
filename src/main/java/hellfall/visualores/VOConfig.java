@@ -17,6 +17,10 @@ public class VOConfig {
         @Config.RangeDouble(min = 0.1, max = 16)
         public double oreScaleStop = 1;
 
+        @Config.Comment("The size, in pixels, of ore icons on the map")
+        @Config.RangeInt(min = 4)
+        public int oreIconSize = 32;
+
 //        public double textDisplayStop = 1;
 
         @Config.Comment("Whether to display tooltips for all veins in the same location.")
@@ -27,6 +31,9 @@ public class VOConfig {
 
         @Config.Comment("Whether to enable rendering on minimaps")
         public boolean enableMinimapRendering = true;
+
+        @Config.Comment("Whether to allow multiple overlays to render at the same time")
+        public boolean allowMultipleLayers = false;
     }
 
     public static class ServerOptions {

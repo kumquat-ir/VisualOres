@@ -7,13 +7,13 @@ import hellfall.visualores.Tags;
 import hellfall.visualores.VisualOres;
 import hellfall.visualores.database.ClientCache;
 import hellfall.visualores.database.CommandResetClientCache;
-import hellfall.visualores.database.ServerCache;
+import hellfall.visualores.database.ore.ServerCache;
 import hellfall.visualores.database.WorldIDSaveData;
 import hellfall.visualores.map.generic.GenericMapRenderer;
 import hellfall.visualores.map.generic.OreRenderLayer;
 import hellfall.visualores.map.generic.RenderLayer;
 import hellfall.visualores.map.generic.UndergroundFluidRenderLayer;
-import hellfall.visualores.network.ProspectToClientPacket;
+import hellfall.visualores.network.OreProspectToClientPacket;
 import hellfall.visualores.network.WorldIDPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -54,7 +54,7 @@ public class VisualOresModule implements IGregTechModule {
     @Override
     public void registerPackets() {
         GregTechAPI.networkHandler.registerPacket(WorldIDPacket.class);
-        GregTechAPI.networkHandler.registerPacket(ProspectToClientPacket.class);
+        GregTechAPI.networkHandler.registerPacket(OreProspectToClientPacket.class);
     }
 
     @Override

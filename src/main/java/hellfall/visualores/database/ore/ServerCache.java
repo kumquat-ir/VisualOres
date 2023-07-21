@@ -1,9 +1,9 @@
-package hellfall.visualores.database;
+package hellfall.visualores.database.ore;
 
 import gregtech.api.GregTechAPI;
 import gregtech.api.unification.material.Material;
 import hellfall.visualores.VOConfig;
-import hellfall.visualores.network.ProspectToClientPacket;
+import hellfall.visualores.network.OreProspectToClientPacket;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -58,7 +58,7 @@ public class ServerCache extends WorldCache {
                 foundVeins.add(nearbyVein);
             }
         }
-        GregTechAPI.networkHandler.sendTo(new ProspectToClientPacket(dim, foundVeins), player);
+        GregTechAPI.networkHandler.sendTo(new OreProspectToClientPacket(dim, foundVeins), player);
     }
 
     public void prospectOreBlock(int dim, String oredictName, BlockPos pos, EntityPlayerMP player) {
@@ -69,12 +69,12 @@ public class ServerCache extends WorldCache {
                 foundVeins.add(nearbyVein);
             }
         }
-        GregTechAPI.networkHandler.sendTo(new ProspectToClientPacket(dim, foundVeins), player);
+        GregTechAPI.networkHandler.sendTo(new OreProspectToClientPacket(dim, foundVeins), player);
     }
 
     public void prospectAllInChunk(int dim, ChunkPos pos, EntityPlayerMP player) {
         if (cache.containsKey(dim)) {
-            GregTechAPI.networkHandler.sendTo(new ProspectToClientPacket(dim, cache.get(dim).getVeinsInChunk(pos)), player);
+            GregTechAPI.networkHandler.sendTo(new OreProspectToClientPacket(dim, cache.get(dim).getVeinsInChunk(pos)), player);
         }
     }
 

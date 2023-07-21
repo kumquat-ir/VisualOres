@@ -42,8 +42,6 @@ public abstract class FullscreenMixin extends JmUI implements ITabCompleter {
 
 	@Shadow FullMapProperties fullMapProperties;
 
-	@Unique private ThemeToggle oreVeinButton;
-	@Unique private ThemeToggle undergroundFluidButton;
 	@Unique private Map<String, ThemeToggle> buttons;
 
 	public FullscreenMixin(String title) {

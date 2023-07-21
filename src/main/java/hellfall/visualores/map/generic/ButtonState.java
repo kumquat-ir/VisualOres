@@ -1,5 +1,7 @@
 package hellfall.visualores.map.generic;
 
+import hellfall.visualores.VOConfig;
+
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -9,14 +11,11 @@ import java.util.stream.Collectors;
 public class ButtonState {
     private static final Map<String, Button> buttons = new HashMap<>();
 
-    public static Button ORE_VEINS_BUTTON = new Button("oreveins", 0);
-    public static Button UNDERGROUND_FLUIDS_BUTTON = new Button("undergroundfluid", 1);
-
     public static void toggleButton(Button button) {
         button.enabled = !button.enabled;
 
         // disable all other buttons if one is enabled
-        if(button.enabled) {
+        if (!VOConfig.client.allowMultipleLayers && button.enabled) {
             for (String name : buttons.keySet()) {
                 if (!name.equals(button.name)) {
                     buttons.get(name).enabled = false;

@@ -1,7 +1,6 @@
 package hellfall.visualores.map.journeymap;
 
 import hellfall.visualores.map.generic.GenericMapRenderer;
-import hellfall.visualores.map.generic.RenderLayer;
 import journeymap.client.ui.fullscreen.Fullscreen;
 
 import java.util.List;
@@ -15,14 +14,7 @@ public class JourneymapRenderer extends GenericMapRenderer {
     }
 
     @Override
-    public void renderTooltip(double mouseX, double mouseY, double cameraX, double cameraZ, double scale) {
-        for (RenderLayer layer : layers) {
-            if (layer.isEnabled()) {
-                List<String> tooltip = layer.getTooltip(mouseX, mouseY, cameraX, cameraZ, scale);
-                if (tooltip != null && !tooltip.isEmpty()) {
-                    ((Fullscreen) gui).drawHoveringText(tooltip, (int) mouseX, (int) mouseY, ((Fullscreen) gui).getFontRenderer());
-                }
-            }
-        }
+    protected void renderTooltipInternal(List<String> tooltip, double mouseX, double mouseY) {
+        ((Fullscreen) gui).drawHoveringText(tooltip, (int) mouseX, (int) mouseY, ((Fullscreen) gui).getFontRenderer());
     }
 }

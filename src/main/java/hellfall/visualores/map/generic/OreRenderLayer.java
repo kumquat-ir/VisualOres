@@ -2,11 +2,10 @@ package hellfall.visualores.map.generic;
 
 import hellfall.visualores.VOConfig;
 import hellfall.visualores.database.ClientCache;
-import hellfall.visualores.database.OreVeinPosition;
+import hellfall.visualores.database.ore.OreVeinPosition;
 import hellfall.visualores.map.DrawUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
@@ -14,17 +13,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OreRenderLayer extends RenderLayer {
-    public static final int ORE_ICON_SIZE = 32;
-
-    protected List<OreVeinPosition> visibleVeins;
+    public static ButtonState.Button ORE_VEINS_BUTTON = new ButtonState.Button("oreveins", 0);
+    protected List<OreVeinPosition> visibleVeins = new ArrayList<>();
 
     public OreRenderLayer() {
-        super(ButtonState.ORE_VEINS_BUTTON);
+        super(ORE_VEINS_BUTTON);
     }
 
     @Override
     public void render(double cameraX, double cameraZ, double scale) {
         double clampedScale = Math.max(scale, VOConfig.client.oreScaleStop);
+        int iconSize = VOConfig.client.oreIconSize;
 
         for (OreVeinPosition vein : visibleVeins) {
             GlStateManager.pushMatrix();
@@ -37,11 +36,11 @@ public class OreRenderLayer extends RenderLayer {
             GlStateManager.color(1, 1, 1, 1);
 
             Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("textures/blocks/stone.png"));
-            Gui.drawModalRectWithCustomSizedTexture(-ORE_ICON_SIZE / 2, -ORE_ICON_SIZE / 2, 0, 0, ORE_ICON_SIZE, ORE_ICON_SIZE, ORE_ICON_SIZE, ORE_ICON_SIZE);
+            Gui.drawModalRectWithCustomSizedTexture(-iconSize / 2, -iconSize / 2, 0, 0, iconSize, iconSize, iconSize, iconSize);
 
             Minecraft.getMinecraft().getTextureManager().bindTexture(vein.veinInfo.texture);
             GlStateManager.color(colors[0], colors[1], colors[2], 1);
-            Gui.drawModalRectWithCustomSizedTexture(-ORE_ICON_SIZE / 2, -ORE_ICON_SIZE / 2, 0, 0, ORE_ICON_SIZE, ORE_ICON_SIZE, ORE_ICON_SIZE, ORE_ICON_SIZE);
+            Gui.drawModalRectWithCustomSizedTexture(-iconSize / 2, -iconSize / 2, 0, 0, iconSize, iconSize, iconSize, iconSize);
 
             GlStateManager.popMatrix();
         }
@@ -56,11 +55,10 @@ public class OreRenderLayer extends RenderLayer {
     public List<String> getTooltip(double mouseX, double mouseY, double cameraX, double cameraZ, double scale) {
         List<String> tooltip = new ArrayList<>();
         double clampedScale = Math.max(scale, VOConfig.client.oreScaleStop);
-        double iconRadius = ORE_ICON_SIZE / 2.0 * (scale / clampedScale);
+        double iconRadius = VOConfig.client.oreIconSize / 2.0 * (scale / clampedScale);
         Minecraft mc = Minecraft.getMinecraft();
-        ScaledResolution res = new ScaledResolution(mc);
-        mouseX = mouseX * res.getScaleFactor() - mc.displayWidth / 2.0;
-        mouseY = mouseY * res.getScaleFactor() - mc.displayHeight / 2.0;
+        mouseX = mouseX - mc.displayWidth / 2.0;
+        mouseY = mouseY - mc.displayHeight / 2.0;
         for (OreVeinPosition vein : visibleVeins) {
             double scaledVeinX = (vein.x - 0.5 - cameraX) * scale;
             double scaledVeinZ = (vein.z - 0.5 - cameraZ) * scale;

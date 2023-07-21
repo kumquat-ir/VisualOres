@@ -1,7 +1,10 @@
 package hellfall.visualores.map.generic;
 
+import hellfall.visualores.VOConfig;
 import hellfall.visualores.map.DrawUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -83,13 +86,29 @@ public class GenericMapRenderer {
      * @param scale Scale of the camera, such that scaling by <code>1/scale</code> results in 1 unit = 1 pixel
      */
     public void renderTooltip(double mouseX, double mouseY, double cameraX, double cameraZ, double scale) {
+        ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft());
+        List<String> tooltip = new ArrayList<>();
         for (RenderLayer layer : layers) {
             if (layer.isEnabled()) {
-                List<String> tooltip = layer.getTooltip(mouseX, mouseY, cameraX, cameraZ, scale);
-                if (tooltip != null && !tooltip.isEmpty()) {
-                    DrawUtils.drawSimpleTooltip(tooltip, mouseX, mouseY, gui.width, gui.height, 0xFFFFFFFF, 0x86000000);
+                List<String> layerTooltip = layer.getTooltip(mouseX * res.getScaleFactor(), mouseY * res.getScaleFactor(), cameraX, cameraZ, scale);
+                if (layerTooltip != null && !layerTooltip.isEmpty()) {
+                    if (!tooltip.isEmpty() && VOConfig.client.stackTooltips) {
+                        tooltip.add(0, "---");
+                        tooltip.addAll(0, layerTooltip);
+                    }
+                    else {
+                        tooltip = layerTooltip;
+                    }
                 }
             }
         }
+        renderTooltipInternal(tooltip, mouseX, mouseY);
+    }
+
+    /**
+     * Override this if specializing the renderer to have consistent tooltip theming.
+     */
+    protected void renderTooltipInternal(List<String> tooltip, double mouseX, double mouseY) {
+        DrawUtils.drawSimpleTooltip(tooltip, mouseX, mouseY, gui.width, gui.height, 0xFFFFFFFF, 0x86000000);
     }
 }
