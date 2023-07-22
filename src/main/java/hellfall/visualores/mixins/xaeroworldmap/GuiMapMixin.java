@@ -1,11 +1,13 @@
 package hellfall.visualores.mixins.xaeroworldmap;
 
 import hellfall.visualores.KeyBindings;
-import hellfall.visualores.map.xaero.SizedTexturedGuiButton;
+import hellfall.visualores.VOConfig;
 import hellfall.visualores.map.generic.ButtonState;
 import hellfall.visualores.map.generic.GenericMapRenderer;
+import hellfall.visualores.map.xaero.SizedTexturedGuiButton;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import org.objectweb.asm.Opcodes;
@@ -38,10 +40,82 @@ public abstract class GuiMapMixin extends ScreenBase {
 
     @Inject(method = "initGui", at = @At("TAIL"))
     private void visualores$injectInitGui(CallbackInfo ci) {
-        int offset = 1;
+        int startX, startY, xOffset, yOffset;
+
+        switch (VOConfig.client.xmap.direction) {
+            case VERTICAL -> {
+                xOffset = 0;
+                yOffset = 1;
+            }
+            case HORIZONTAL -> {
+                xOffset = 1;
+                yOffset = 0;
+            }
+            default -> throw new IllegalStateException("Unexpected value: " + VOConfig.client.xmap.direction);
+        }
+
+        switch (VOConfig.client.xmap.buttonAnchor) {
+            case TOP_LEFT -> {
+                startX = VOConfig.client.xmap.xOffset;
+                startY = VOConfig.client.xmap.yOffset;
+            }
+            case TOP_CENTER -> {
+                startX = width / 2 + VOConfig.client.xmap.xOffset;
+                startY = VOConfig.client.xmap.yOffset;
+            }
+            case TOP_RIGHT -> {
+                startX = width - 20 - VOConfig.client.xmap.xOffset;
+                startY = VOConfig.client.xmap.yOffset;
+                xOffset = -xOffset;
+            }
+            case RIGHT_CENTER -> {
+                startX = width - 20 - VOConfig.client.xmap.xOffset;
+                startY = height / 2 + VOConfig.client.xmap.yOffset;
+                xOffset = -xOffset;
+                yOffset = -yOffset;
+            }
+            case BOTTOM_RIGHT -> {
+                startX = width - 20 - VOConfig.client.xmap.xOffset;
+                startY = height - 20 - VOConfig.client.xmap.yOffset;
+                xOffset = -xOffset;
+                yOffset = -yOffset;
+            }
+            case BOTTOM_CENTER -> {
+                startX = width / 2 + VOConfig.client.xmap.xOffset;
+                startY = height - 20 - VOConfig.client.xmap.yOffset;
+                yOffset = -yOffset;
+            }
+            case BOTTOM_LEFT -> {
+                startX = VOConfig.client.xmap.xOffset;
+                startY = height - 20 - VOConfig.client.xmap.yOffset;
+                yOffset = -yOffset;
+            }
+            case LEFT_CENTER -> {
+                startX = VOConfig.client.xmap.xOffset;
+                startY = height / 2 + VOConfig.client.xmap.yOffset;
+                yOffset = -yOffset;
+            }
+            default -> throw new IllegalStateException("Unexpected value: " + VOConfig.client.xmap.buttonAnchor);
+        }
+
+        if (VOConfig.client.xmap.buttonAnchor.isCentered()) {
+            int totalButtonSize = ButtonState.buttonAmount() * 10;
+            if (VOConfig.client.xmap.buttonAnchor.usualDirection().equals(VOConfig.client.xmap.direction)) {
+                startX -= xOffset * totalButtonSize;
+                startY -= yOffset * totalButtonSize;
+                if (xOffset < 0) startX -= 20;
+                if (yOffset < 0) startY -= 20;
+            }
+            else {
+                startX -= Math.abs(yOffset) * 10;
+                startY -= Math.abs(xOffset) * 10;
+            }
+        }
+
+        int offset = 0;
         for (ButtonState.Button button : ButtonState.getAllButtons()) {
             GuiButton mapButton = new SizedTexturedGuiButton(
-                    width - 40, height - (20 * offset), 20, 20,
+                    startX + (20 * xOffset * offset), startY + (20 * yOffset * offset), 20, 20,
                     ButtonState.isEnabled(button) ? 16 : 0, 0, 16, 16,
                     new ResourceLocation("visualores", "textures/xaero/" + button.name + ".png"),
                     (guiButton -> {
@@ -72,6 +146,11 @@ public abstract class GuiMapMixin extends ScreenBase {
         renderer.updateVisibleArea(mapProcessor.getMapWorld().getCurrentDimensionId(), (int) (cameraX - rw / 2), (int) (cameraZ - rh / 2), (int) (rw), (int) (rh));
 
         renderer.render(cameraX, cameraZ, scale);
+    }
+
+    @Inject(method = "drawScreen", at = @At(value = "INVOKE", target = "Lxaero/map/gui/ScreenBase;drawScreen(IIF)V"))
+    private void visualores$injectDrawButtons(int scaledMouseX, int scaledMouseY, float partialTicks, CallbackInfo ci) {
+        GlStateManager.enableBlend();
     }
 
     @Inject(method = "drawScreen",

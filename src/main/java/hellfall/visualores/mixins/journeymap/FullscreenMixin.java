@@ -1,6 +1,7 @@
 package hellfall.visualores.mixins.journeymap;
 
 import hellfall.visualores.KeyBindings;
+import hellfall.visualores.VOConfig;
 import hellfall.visualores.map.generic.ButtonState;
 import hellfall.visualores.map.journeymap.JourneymapRenderer;
 import journeymap.client.io.ThemeLoader;
@@ -8,6 +9,8 @@ import journeymap.client.model.MapState;
 import journeymap.client.properties.FullMapProperties;
 import journeymap.client.render.draw.DrawStep;
 import journeymap.client.render.map.GridRenderer;
+import journeymap.client.ui.component.Button;
+import journeymap.client.ui.component.ButtonList;
 import journeymap.client.ui.component.JmUI;
 import journeymap.client.ui.fullscreen.Fullscreen;
 import journeymap.client.ui.theme.Theme;
@@ -26,9 +29,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Mixin(Fullscreen.class)
 public abstract class FullscreenMixin extends JmUI implements ITabCompleter {
@@ -45,6 +46,8 @@ public abstract class FullscreenMixin extends JmUI implements ITabCompleter {
 
 	@Unique private Map<String, ThemeToggle> buttons;
 
+	@Unique private ThemeToolbar overlayToolbar;
+
 	public FullscreenMixin(String title) {
 		super(title);
 	}
@@ -58,7 +61,7 @@ public abstract class FullscreenMixin extends JmUI implements ITabCompleter {
 	)
 	private void visualores$injectInitButtons(CallbackInfo ci) {
 		final Theme theme = ThemeLoader.getCurrentTheme();
-		buttons = new HashMap<>();
+		buttons = new LinkedHashMap<>();
 
 		for (ButtonState.Button button : ButtonState.getAllButtons()) {
 			ThemeToggle mapButton = new ThemeToggle(theme, "visualores.button." + button.name, button.name);
@@ -73,9 +76,20 @@ public abstract class FullscreenMixin extends JmUI implements ITabCompleter {
 			buttons.put(button.name, mapButton);
 		}
 
-		// jank to not have to add an accessor/at
-		this.mapTypeToolbar.reverse();
-		this.mapTypeToolbar.reverse().addAll(0, buttons.values());
+		List<ThemeToggle> allButtons = new ArrayList<>(buttons.values());
+		Collections.reverse(allButtons);
+
+		if (VOConfig.client.jmap.rightToolbar) {
+			overlayToolbar = new ThemeToolbar(theme, allButtons.toArray(new Button[0]));
+			overlayToolbar.setLayout(ButtonList.Layout.Vertical, ButtonList.Direction.RightToLeft);
+			overlayToolbar.addAllButtons((Fullscreen) (Object) this);
+		}
+		else {
+			// jank to not have to add an accessor/at
+			this.mapTypeToolbar.reverse();
+			this.mapTypeToolbar.reverse().addAll(0, allButtons);
+		}
+
 
 		renderer = new JourneymapRenderer((Fullscreen) (Object) this);
 	}
@@ -84,6 +98,10 @@ public abstract class FullscreenMixin extends JmUI implements ITabCompleter {
 	private void visualores$injectLayoutButtons(CallbackInfo ci) {
 		for (String buttonName : buttons.keySet()) {
 			buttons.get(buttonName).setToggled(ButtonState.isEnabled(buttonName), false);
+		}
+
+		if (VOConfig.client.jmap.rightToolbar) {
+			overlayToolbar.layoutCenteredVertical(width - overlayToolbar.getHMargin(), height / 2, false, mapTypeToolbar.getToolbarSpec().padding);
 		}
 	}
 

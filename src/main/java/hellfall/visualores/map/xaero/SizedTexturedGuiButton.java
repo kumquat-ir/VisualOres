@@ -20,19 +20,19 @@ public class SizedTexturedGuiButton extends GuiTexturedButton {
     @Override
     public void drawButton(Minecraft minecraft, int mouseX, int mouseY, float partialTicks) {
         Minecraft.getMinecraft().getTextureManager().bindTexture(this.texture);
-        int iconX = this.x + this.width / 2 - this.textureW / 2;
-        int iconY = this.y + this.height / 2 - this.textureH / 2;
+        int iconX = x + width / 2 - textureW / 2;
+        int iconY = y + height / 2 - textureH / 2;
         if (this.enabled) {
-            if (mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height) {
-                --iconY;
-                GlStateManager.color(0.9F, 0.9F, 0.9F, 1.0F);
+            if (mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height) {
+                iconY--;
+                GlStateManager.color(0.9F, 0.9F, 0.9F);
             } else {
                 GlStateManager.color(0.9882F, 0.9882F, 0.9882F, 1.0F);
             }
         } else {
-            GlStateManager.color(0.25F, 0.25F, 0.25F, 1.0F);
+            GlStateManager.color(0.25F, 0.25F, 0.25F);
         }
 
-        Gui.drawModalRectWithCustomSizedTexture(iconX, iconY, this.textureX, this.textureY, this.textureW, this.textureH, 32, 16);
+        Gui.drawModalRectWithCustomSizedTexture(iconX, iconY, textureX, textureY, textureW, textureH, 32, 16);
     }
 }

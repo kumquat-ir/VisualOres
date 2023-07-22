@@ -58,6 +58,7 @@ public class UndergroundFluidRenderLayer extends RenderLayer {
         int mouseFieldX = (mouseBlockX >> 4) / BedrockFluidVeinHandler.VEIN_CHUNK_SIZE;
         int mouseFieldZ = (mouseBlockZ >> 4) / BedrockFluidVeinHandler.VEIN_CHUNK_SIZE;
 
+        hovered = null;
         for (var fluidPos : visibleFluids) {
             if (mouseFieldX == fluidPos.pos.x && mouseFieldZ == fluidPos.pos.z) {
                 hovered = fluidPos;

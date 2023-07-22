@@ -17,7 +17,7 @@ import java.util.Random;
 
 @Mixin(value = WorldGeneratorImpl.class, remap = false)
 public abstract class WorldGeneratorImplMixin {
-    @Unique private static boolean shouldCull = VOConfig.server.cullEmptyChunks;
+    @Unique private static boolean shouldCull = VOConfig.server.gregtech.cullEmptyChunks;
 
     @Redirect(method = "generateInternal", at = @At(value = "INVOKE", target = "Lgregtech/api/worldgen/generator/CachedGridEntry;populateChunk(Lnet/minecraft/world/World;IILjava/util/Random;)Z"))
     private static boolean visualores$injectGetChunksToCull(CachedGridEntry gridEntry, World world, int chunkX, int chunkZ, Random random) {
@@ -33,6 +33,6 @@ public abstract class WorldGeneratorImplMixin {
         if (shouldCull) {
             ServerCache.instance.removeAllInChunk(world.provider.getDimension(), new ChunkPos(chunkX, chunkZ));
         }
-        shouldCull = VOConfig.server.cullEmptyChunks;
+        shouldCull = VOConfig.server.gregtech.cullEmptyChunks;
     }
 }

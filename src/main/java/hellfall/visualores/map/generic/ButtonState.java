@@ -32,8 +32,12 @@ public class ButtonState {
         return buttons.get(buttonName).enabled;
     }
 
+    public static int buttonAmount() {
+        return buttons.size();
+    }
+
     public static Collection<Button> getAllButtons() {
-        return buttons.values().stream().sorted(Comparator.comparingInt(a -> a.sort)).collect(Collectors.toList());
+        return buttons.values().stream().sorted(Comparator.comparingInt(a -> VOConfig.client.reverseButtonOrder ? -a.sort : a.sort)).collect(Collectors.toList());
     }
 
     public static class Button {

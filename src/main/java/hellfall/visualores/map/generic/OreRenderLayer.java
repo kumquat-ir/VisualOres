@@ -27,8 +27,8 @@ public class OreRenderLayer extends RenderLayer {
 
     @Override
     public void render(double cameraX, double cameraZ, double scale) {
-        double clampedScale = Math.max(scale, VOConfig.client.oreScaleStop);
-        int iconSize = VOConfig.client.oreIconSize;
+        double clampedScale = Math.max(scale, VOConfig.client.gregtech.oreScaleStop);
+        int iconSize = VOConfig.client.gregtech.oreIconSize;
 
         for (OreVeinPosition vein : visibleVeins) {
             GlStateManager.pushMatrix();
@@ -66,8 +66,8 @@ public class OreRenderLayer extends RenderLayer {
     @Override
     public void updateHovered(double mouseX, double mouseY, double cameraX, double cameraZ, double scale) {
         hoveredVeins.clear();
-        double clampedScale = Math.max(scale, VOConfig.client.oreScaleStop);
-        double iconRadius = VOConfig.client.oreIconSize / 2.0 * (scale / clampedScale);
+        double clampedScale = Math.max(scale, VOConfig.client.gregtech.oreScaleStop);
+        double iconRadius = VOConfig.client.gregtech.oreIconSize / 2.0 * (scale / clampedScale);
         Minecraft mc = Minecraft.getMinecraft();
         mouseX = mouseX - mc.displayWidth / 2.0;
         mouseY = mouseY - mc.displayHeight / 2.0;
