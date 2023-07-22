@@ -1,7 +1,10 @@
 package hellfall.visualores.database.ore;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.nbt.NBTTagCompound;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class OreVeinPosition {
@@ -9,24 +12,36 @@ public class OreVeinPosition {
     public int z;
     public String depositname;
     public OreVeinInfo veinInfo;
+    public boolean depleted;
 
     public OreVeinPosition(int x, int z, String depositname) {
         this.x = x;
         this.z = z;
         this.depositname = depositname;
         this.veinInfo = VeinInfoCache.getByName(depositname);
+        this.depleted = false;
     }
 
-    public NBTTagCompound toNBT() {
+    public NBTTagCompound toNBT(boolean saveDepleted) {
         NBTTagCompound result = new NBTTagCompound();
         result.setInteger("x", x);
         result.setInteger("z", z);
         result.setString("name", depositname);
+        if (saveDepleted) result.setBoolean("depleted", depleted);
         return result;
     }
 
     public GridPos getGridPos() {
         return new GridPos(GridPos.blockToGridCoords(x), GridPos.blockToGridCoords(z));
+    }
+
+    public List<String> getTooltipStrings() {
+        if (depleted) {
+            List<String> tooltip = new ArrayList<>(veinInfo.tooltipStrings);
+            tooltip.set(0, tooltip.get(0) + I18n.format("visualores.depleted"));
+            return tooltip;
+        }
+        return veinInfo.tooltipStrings;
     }
 
     @Override

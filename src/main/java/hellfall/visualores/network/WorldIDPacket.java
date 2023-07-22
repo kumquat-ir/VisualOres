@@ -18,7 +18,7 @@ public class WorldIDPacket implements IPacket, IClientExecutor {
 
     @Override
     public void executeClient(NetHandlerPlayClient netHandlerPlayClient) {
-        VisualOres.LOGGER.info("got id " + id);
+//        VisualOres.LOGGER.info("got id " + id);
         ClientCache.instance.init(id);
     }
 

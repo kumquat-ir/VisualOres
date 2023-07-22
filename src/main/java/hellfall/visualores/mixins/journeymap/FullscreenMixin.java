@@ -1,5 +1,6 @@
 package hellfall.visualores.mixins.journeymap;
 
+import hellfall.visualores.KeyBindings;
 import hellfall.visualores.map.generic.ButtonState;
 import hellfall.visualores.map.journeymap.JourneymapRenderer;
 import journeymap.client.io.ThemeLoader;
@@ -110,9 +111,17 @@ public abstract class FullscreenMixin extends JmUI implements ITabCompleter {
 
 	@Inject(method = "drawScreen", at = @At(value = "INVOKE", target = "Ljava/util/List;isEmpty()Z", shift = At.Shift.BY, by = -2), locals = LocalCapture.CAPTURE_FAILEXCEPTION)
 	private void visualores$injectTooltip(int scaledMouseX, int scaledMouseY, float partialTicks, CallbackInfo ci, List<String> tooltip) {
+		double scale = Math.pow(2, fullMapProperties.zoomLevel.get());
+		renderer.updateHovered(scaledMouseX, scaledMouseY, gridRenderer.getCenterBlockX(), gridRenderer.getCenterBlockZ(), scale);
 		if (tooltip == null || tooltip.isEmpty()) {
-			double scale = Math.pow(2, fullMapProperties.zoomLevel.get());
-			renderer.renderTooltip(scaledMouseX, scaledMouseY, gridRenderer.getCenterBlockX(), gridRenderer.getCenterBlockZ(), scale);
+			renderer.renderTooltip(scaledMouseX, scaledMouseY);
+		}
+	}
+
+	@Inject(method = "keyTyped", at = @At("TAIL"))
+	private void visualores$injectKeyPress(char c, int key, CallbackInfo ci) {
+		if (KeyBindings.action.getKeyCode() == key) {
+			renderer.onActionKey();
 		}
 	}
 }

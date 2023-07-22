@@ -9,6 +9,13 @@ public abstract class RenderLayer {
 
     public static void registerLayer(Class<? extends RenderLayer> clazz) {
         layerClasses.add(clazz);
+        try {
+            // poke!
+            // (to instantiate buttons nice and early)
+            Class.forName(clazz.getName());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void addLayersTo(List<RenderLayer> layers) {
@@ -35,7 +42,16 @@ public abstract class RenderLayer {
 
     public abstract void updateVisibleArea(int dimensionID, int[] visibleBounds);
 
-    public List<String> getTooltip(double mouseX, double mouseY, double cameraX, double cameraZ, double scale) {
+    public List<String> getTooltip() {
         return null;
+    }
+
+    public void updateHovered(double mouseX, double mouseY, double cameraX, double cameraZ, double scale) {}
+
+    /**
+     * @return true if the keypress should be consumed
+     */
+    public boolean onActionKey() {
+        return false;
     }
 }

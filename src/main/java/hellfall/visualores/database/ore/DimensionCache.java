@@ -24,13 +24,17 @@ public class DimensionCache {
         return added;
     }
 
-    public NBTTagCompound toNBT() {
-        return toNBT(new NBTTagCompound());
+    public NBTTagCompound toNBT(boolean saveDepleted) {
+        return toNBT(new NBTTagCompound(), saveDepleted);
     }
 
     public NBTTagCompound toNBT(NBTTagCompound nbt) {
+        return toNBT(nbt, false);
+    }
+
+    public NBTTagCompound toNBT(NBTTagCompound nbt, boolean saveDepleted) {
         for (GridPos key : cache.keySet()) {
-            nbt.setTag(key.x + "," + key.z, cache.get(key).toNBT());
+            nbt.setTag(key.x + "," + key.z, cache.get(key).toNBT(saveDepleted));
         }
         return nbt;
     }

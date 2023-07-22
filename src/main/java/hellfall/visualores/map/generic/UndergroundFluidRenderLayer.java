@@ -9,12 +9,14 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class UndergroundFluidRenderLayer extends RenderLayer {
-    public static ButtonState.Button UNDERGROUND_FLUIDS_BUTTON = new ButtonState.Button("undergroundfluid", 1);
+    public static final ButtonState.Button UNDERGROUND_FLUIDS_BUTTON = new ButtonState.Button("undergroundfluid", 1);
 
     protected List<UndergroundFluidPosition> visibleFluids = new ArrayList<>();
+    protected UndergroundFluidPosition hovered;
 
     public UndergroundFluidRenderLayer() {
         super(UNDERGROUND_FLUIDS_BUTTON);
@@ -48,9 +50,7 @@ public class UndergroundFluidRenderLayer extends RenderLayer {
     }
 
     @Override
-    public List<String> getTooltip(double mouseX, double mouseY, double cameraX, double cameraZ, double scale) {
-        List<String> tooltip = new ArrayList<>();
-
+    public void updateHovered(double mouseX, double mouseY, double cameraX, double cameraZ, double scale) {
         int mouseBlockX = (int) Math.floor((mouseX - Minecraft.getMinecraft().displayWidth / 2.0) / scale + cameraX);
         int mouseBlockZ = (int) Math.floor((mouseY - Minecraft.getMinecraft().displayHeight / 2.0) / scale + cameraZ);
 
@@ -60,12 +60,16 @@ public class UndergroundFluidRenderLayer extends RenderLayer {
 
         for (var fluidPos : visibleFluids) {
             if (mouseFieldX == fluidPos.pos.x && mouseFieldZ == fluidPos.pos.z) {
-                tooltip.add(I18n.format("terminal.prospector.fluid.info", fluidPos.name, fluidPos.yield, fluidPos.percent));
+                hovered = fluidPos;
                 break;
             }
         }
+    }
 
-        return tooltip;
+    @Override
+    public List<String> getTooltip() {
+        if (hovered == null) return null;
+        return Collections.singletonList(I18n.format("terminal.prospector.fluid.info", hovered.name, hovered.yield, hovered.percent));
     }
 
     private int adjustForBadCoords(int chunkCoord) {

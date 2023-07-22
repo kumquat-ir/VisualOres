@@ -6,3 +6,8 @@ visualores.button.undergroundfluid=Toggle underground fluid display
 visualores.tooltipoverflow=... (%d more lines)
 
 visualores.newveins=Prospected %d new veins!
+visualores.depleted= (depleted)
+
+visualores.keycategory=VisualOres
+
+visualores.key.action=Action Key

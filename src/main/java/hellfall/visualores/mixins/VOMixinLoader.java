@@ -1,4 +1,4 @@
-package hellfall.visualores;
+package hellfall.visualores.mixins;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraftforge.fml.common.Loader;

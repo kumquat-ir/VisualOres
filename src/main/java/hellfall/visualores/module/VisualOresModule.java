@@ -3,6 +3,7 @@ package hellfall.visualores.module;
 import gregtech.api.GregTechAPI;
 import gregtech.api.modules.GregTechModule;
 import gregtech.api.modules.IGregTechModule;
+import hellfall.visualores.KeyBindings;
 import hellfall.visualores.Tags;
 import hellfall.visualores.VisualOres;
 import hellfall.visualores.database.ClientCache;
@@ -16,23 +17,24 @@ import hellfall.visualores.map.generic.UndergroundFluidRenderLayer;
 import hellfall.visualores.network.OreProspectToClientPacket;
 import hellfall.visualores.network.WorldIDPacket;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.client.ClientCommandHandler;
+import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
+import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import org.lwjgl.input.Keyboard;
 
 import java.util.Collections;
 import java.util.List;
@@ -71,6 +73,12 @@ public class VisualOresModule implements IGregTechModule {
             RenderLayer.registerLayer(OreRenderLayer.class);
             RenderLayer.registerLayer(UndergroundFluidRenderLayer.class);
         }
+    }
+
+    @Override
+    public void init(FMLInitializationEvent event) {
+        KeyBindings.action = new KeyBinding("visualores.key.action", KeyConflictContext.GUI, Keyboard.KEY_DELETE, "visualores.keycategory");
+        ClientRegistry.registerKeyBinding(KeyBindings.action);
     }
 
     @Override
@@ -113,7 +121,7 @@ public class VisualOresModule implements IGregTechModule {
                 GregTechAPI.networkHandler.sendTo(new WorldIDPacket(WorldIDSaveData.getWorldID()), (EntityPlayerMP) event.getEntity());
             }
             else if (event.getEntity() instanceof EntityPlayer) {
-                VisualOres.LOGGER.info("got id local " + WorldIDSaveData.getWorldID());
+//                VisualOres.LOGGER.info("got id local " + WorldIDSaveData.getWorldID());
                 ClientCache.instance.init(WorldIDSaveData.getWorldID());
             }
         }

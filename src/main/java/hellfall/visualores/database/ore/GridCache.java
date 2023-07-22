@@ -18,10 +18,10 @@ public class GridCache {
         return true;
     }
 
-    public NBTTagList toNBT() {
+    public NBTTagList toNBT(boolean saveDepleted) {
         NBTTagList result = new NBTTagList();
         for (OreVeinPosition pos : veins) {
-            result.appendTag(pos.toNBT());
+            result.appendTag(pos.toNBT(saveDepleted));
         }
         return result;
     }
@@ -34,6 +34,9 @@ public class GridCache {
                     veinpostag.getInteger("z"),
                     veinpostag.getString("name")
             );
+            if (veinpostag.hasKey("depleted")) {
+                veinpos.depleted = veinpostag.getBoolean("depleted");
+            }
             if (!veins.contains(veinpos)) {
                 veins.add(veinpos);
             }

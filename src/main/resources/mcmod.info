@@ -5,7 +5,7 @@
     "version": "${version}",
     "mcversion": "${mcversion}",
     "logoFile": "",
-    "url": "",
+    "url": "https://github.com/kumquat-ir/VisualOres",
     "authorList": ["TheLastKumquat", "SinTh0r4s"],
     "credits": "",
     "dependencies": []

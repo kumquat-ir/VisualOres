@@ -4,6 +4,7 @@ import hellfall.visualores.Tags;
 import hellfall.visualores.database.fluid.FluidCache;
 import hellfall.visualores.database.fluid.UndergroundFluidPosition;
 import hellfall.visualores.database.ore.DimensionCache;
+import hellfall.visualores.database.ore.OreVeinPosition;
 import hellfall.visualores.database.ore.WorldCache;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -52,7 +53,7 @@ public class ClientCache extends WorldCache {
         for (int dim : cache.keySet()) {
             File dimFile = new File(worldFolder, "DIM" + dim);
             try {
-                CompressedStreamTools.writeCompressed(cache.get(dim).toNBT(), new FileOutputStream(dimFile));
+                CompressedStreamTools.writeCompressed(cache.get(dim).toNBT(true), new FileOutputStream(dimFile));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

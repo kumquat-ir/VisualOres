@@ -1,11 +1,13 @@
 package hellfall.visualores.mixins.xaeroworldmap;
 
+import hellfall.visualores.KeyBindings;
 import hellfall.visualores.map.xaero.SizedTexturedGuiButton;
 import hellfall.visualores.map.generic.ButtonState;
 import hellfall.visualores.map.generic.GenericMapRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.settings.KeyConflictContext;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -14,10 +16,12 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xaero.map.MapProcessor;
 import xaero.map.gui.CursorBox;
 import xaero.map.gui.GuiMap;
 import xaero.map.gui.ScreenBase;
+import xaero.map.misc.Misc;
 
 @Mixin(GuiMap.class)
 public abstract class GuiMapMixin extends ScreenBase {
@@ -75,6 +79,14 @@ public abstract class GuiMapMixin extends ScreenBase {
             slice = @Slice(from = @At(value = "INVOKE", target = "Lxaero/map/gui/GuiMap;renderTooltips(IIF)Z"))
     )
     private void visualores$injectTooltip(int scaledMouseX, int scaledMouseY, float partialTicks, CallbackInfo ci) {
-        renderer.renderTooltip(scaledMouseX, scaledMouseY, cameraX, cameraZ, scale);
+        renderer.updateHovered(scaledMouseX, scaledMouseY, cameraX, cameraZ, scale);
+        renderer.renderTooltip(scaledMouseX, scaledMouseY);
+    }
+
+    @Inject(method = "onInputPress", at = @At("HEAD"), cancellable = true, remap = false)
+    private void visualores$injectKeyPress(boolean mouse, int code, CallbackInfoReturnable<Boolean> cir) {
+        if (Misc.inputMatchesKeyBinding(mouse, code, KeyBindings.action, KeyConflictContext.GUI) && renderer.onActionKey()) {
+            cir.setReturnValue(true);
+        }
     }
 }

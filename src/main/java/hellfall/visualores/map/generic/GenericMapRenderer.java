@@ -58,6 +58,23 @@ public class GenericMapRenderer {
     }
 
     /**
+     * Update the active overlays' hovered items.
+     * @param mouseX X position of the mouse, intended to be taken from the first parameter of {@link net.minecraft.client.gui.GuiScreen#drawScreen}
+     * @param mouseY Y position of the mouse, see mouseX
+     * @param cameraX X position of the center block of the view
+     * @param cameraZ Z position of the center block of the view
+     * @param scale Scale of the camera, such that scaling by <code>1/scale</code> results in 1 unit = 1 pixel
+     */
+    public void updateHovered(double mouseX, double mouseY, double cameraX, double cameraZ, double scale) {
+        ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft());
+        for (RenderLayer layer : layers) {
+            if (layer.isEnabled()) {
+                layer.updateHovered(mouseX * res.getScaleFactor(), mouseY * res.getScaleFactor(), cameraX, cameraZ, scale);
+            }
+        }
+    }
+
+    /**
      * Render all active map overlays.
      * <br>
      * EXPECTED GL STATE:
@@ -81,16 +98,12 @@ public class GenericMapRenderer {
      * Will error if called from a context with no GuiScreen provided - such as a minimap. Only call if one was provided.
      * @param mouseX X position of the mouse, intended to be taken from the first parameter of {@link net.minecraft.client.gui.GuiScreen#drawScreen}
      * @param mouseY Y position of the mouse, see mouseX
-     * @param cameraX X position of the center block of the view
-     * @param cameraZ Z position of the center block of the view
-     * @param scale Scale of the camera, such that scaling by <code>1/scale</code> results in 1 unit = 1 pixel
      */
-    public void renderTooltip(double mouseX, double mouseY, double cameraX, double cameraZ, double scale) {
-        ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft());
+    public void renderTooltip(double mouseX, double mouseY) {
         List<String> tooltip = new ArrayList<>();
         for (RenderLayer layer : layers) {
             if (layer.isEnabled()) {
-                List<String> layerTooltip = layer.getTooltip(mouseX * res.getScaleFactor(), mouseY * res.getScaleFactor(), cameraX, cameraZ, scale);
+                List<String> layerTooltip = layer.getTooltip();
                 if (layerTooltip != null && !layerTooltip.isEmpty()) {
                     if (!tooltip.isEmpty() && VOConfig.client.stackTooltips) {
                         tooltip.add(0, "---");
@@ -106,7 +119,20 @@ public class GenericMapRenderer {
     }
 
     /**
-     * Override this if specializing the renderer to have consistent tooltip theming.
+     * Call when {@link hellfall.visualores.KeyBindings#action} is pressed.
+     * @return Whether to consume the key press
+     */
+    public boolean onActionKey() {
+        for (RenderLayer layer : layers) {
+            if (layer.isEnabled() && layer.onActionKey()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Override this if specializing the renderer to have consistent tooltip theming
      */
     protected void renderTooltipInternal(List<String> tooltip, double mouseX, double mouseY) {
         DrawUtils.drawSimpleTooltip(tooltip, mouseX, mouseY, gui.width, gui.height, 0xFFFFFFFF, 0x86000000);
