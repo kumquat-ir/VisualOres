@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(WidgetProspectingMap.class)
 public abstract class WidgetProspectingMapMixin extends Widget {
-    @Shadow @Final private ProspectorMode mode;
+    @Shadow(remap = false) @Final private ProspectorMode mode;
 
     public WidgetProspectingMapMixin(Position selfPosition, Size size) {
         super(selfPosition, size);

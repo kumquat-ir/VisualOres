@@ -36,13 +36,13 @@ public abstract class FullscreenMixin extends JmUI implements ITabCompleter {
 
     @Unique private JourneymapRenderer renderer;
 
-    @Shadow ThemeToolbar mapTypeToolbar;
+    @Shadow(remap = false) ThemeToolbar mapTypeToolbar;
 
-    @Shadow @Final static MapState state;
+    @Shadow(remap = false) @Final static MapState state;
 
-    @Shadow @Final static GridRenderer gridRenderer;
+    @Shadow(remap = false) @Final static GridRenderer gridRenderer;
 
-    @Shadow FullMapProperties fullMapProperties;
+    @Shadow(remap = false) FullMapProperties fullMapProperties;
 
     @Unique private Map<String, ThemeToggle> buttons;
 

@@ -27,11 +27,11 @@ import xaero.map.misc.Misc;
 
 @Mixin(GuiMap.class)
 public abstract class GuiMapMixin extends ScreenBase {
-    @Shadow private MapProcessor mapProcessor;
+    @Shadow(remap = false) private MapProcessor mapProcessor;
 
-    @Shadow private double scale;
-    @Shadow private double cameraX;
-    @Shadow private double cameraZ;
+    @Shadow(remap = false) private double scale;
+    @Shadow(remap = false) private double cameraX;
+    @Shadow(remap = false) private double cameraZ;
     @Unique private GenericMapRenderer renderer;
 
     protected GuiMapMixin(GuiScreen parent, GuiScreen escape) {
@@ -136,8 +136,8 @@ public abstract class GuiMapMixin extends ScreenBase {
     @Inject(method = "drawScreen",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/GlStateManager;translate(FFF)V"),
             slice = @Slice(
-                    from = @At(value = "INVOKE", target = "Lxaero/map/element/MapElementRenderHandler;render(Lxaero/map/gui/GuiMap;DDIIDDDDFZLxaero/map/element/HoveredMapElementHolder;Lnet/minecraft/client/Minecraft;FLnet/minecraft/client/gui/ScaledResolution;)Lxaero/map/element/HoveredMapElementHolder;"),
-                    to = @At(value = "INVOKE", target = "Lxaero/map/MapProcessor;getFootprints()Ljava/util/ArrayList;")
+                    from = @At(value = "INVOKE", target = "Lxaero/map/element/MapElementRenderHandler;render(Lxaero/map/gui/GuiMap;DDIIDDDDFZLxaero/map/element/HoveredMapElementHolder;Lnet/minecraft/client/Minecraft;FLnet/minecraft/client/gui/ScaledResolution;)Lxaero/map/element/HoveredMapElementHolder;", remap = false),
+                    to = @At(value = "INVOKE", target = "Lxaero/map/MapProcessor;getFootprints()Ljava/util/ArrayList;", remap = false)
             )
     )
     private void visualores$injectDraw(int scaledMouseX, int scaledMouseY, float partialTicks, CallbackInfo ci) {
@@ -154,8 +154,8 @@ public abstract class GuiMapMixin extends ScreenBase {
     }
 
     @Inject(method = "drawScreen",
-            at = @At(value = "FIELD", opcode = Opcodes.GETFIELD, target = "Lxaero/map/MapProcessor;renderThreadPauseSync:Ljava/lang/Object;"),
-            slice = @Slice(from = @At(value = "INVOKE", target = "Lxaero/map/gui/GuiMap;renderTooltips(IIF)Z"))
+            at = @At(value = "FIELD", opcode = Opcodes.GETFIELD, target = "Lxaero/map/MapProcessor;renderThreadPauseSync:Ljava/lang/Object;", remap = false),
+            slice = @Slice(from = @At(value = "INVOKE", target = "Lxaero/map/gui/GuiMap;renderTooltips(IIF)Z", remap = false))
     )
     private void visualores$injectTooltip(int scaledMouseX, int scaledMouseY, float partialTicks, CallbackInfo ci) {
         renderer.updateHovered(scaledMouseX, scaledMouseY, cameraX, cameraZ, scale);
