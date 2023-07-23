@@ -1,6 +1,7 @@
 package hellfall.visualores.database.ore;
 
 import hellfall.visualores.Tags;
+import hellfall.visualores.database.ore.retrogen.OreCacheRetrogenerator;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.MapStorage;
@@ -29,6 +30,11 @@ public class ServerCacheSaveData extends WorldSavedData {
         if (instance == null) {
             instance = new ServerCacheSaveData();
             storage.setData(DATA_NAME, instance);
+
+            OreCacheRetrogenerator.doRetrogen(world);
+
+            // always save the cache on initial load as a marker to not redo retrogen
+            instance.markDirty();
         }
 
         instance.backingCache = backingCache;

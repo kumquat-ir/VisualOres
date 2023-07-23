@@ -57,4 +57,8 @@ public class GridPos {
     public static int blockToGridCoords(int c) {
         return Math.floorDiv((c >> 4), 3);
     }
+
+    public static GridPos fromChunkCoords(int cx, int cz) {
+        return new GridPos(chunkToGridCoords(cx), chunkToGridCoords(cz));
+    }
 }
