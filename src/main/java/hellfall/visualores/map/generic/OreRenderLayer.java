@@ -21,6 +21,9 @@ public class OreRenderLayer extends RenderLayer {
     protected List<OreVeinPosition> visibleVeins = new ArrayList<>();
     protected List<OreVeinPosition> hoveredVeins = new ArrayList<>();
 
+    // should be shared between all renderer instances
+    protected static OreVeinPosition waypointVein;
+
     public OreRenderLayer() {
         super(ORE_VEINS_BUTTON);
     }
@@ -47,11 +50,21 @@ public class OreRenderLayer extends RenderLayer {
             GlStateManager.color(colors[0], colors[1], colors[2], 1);
             Gui.drawModalRectWithCustomSizedTexture(-iconSize / 2, -iconSize / 2, 0, 0, iconSize, iconSize, iconSize, iconSize);
 
+            GlStateManager.color(1, 1, 1, 1);
             if (vein.depleted) {
-                GlStateManager.color(1, 1, 1, 1);
                 GuiDraw.drawRect(-iconSize / 2, -iconSize / 2, iconSize, iconSize, 0x96000000);
                 Minecraft.getMinecraft().getTextureManager().bindTexture(DEPLETED);
                 Gui.drawModalRectWithCustomSizedTexture(-iconSize / 2, -iconSize / 2, 0, 0, iconSize, iconSize, iconSize, iconSize);
+            }
+
+            if (vein == waypointVein) {
+                int thickness = iconSize / 8;
+                int color = 0xFFFFD700;
+
+                GuiDraw.drawRect(-thickness - iconSize / 2, -thickness - iconSize / 2, thickness + iconSize, thickness, color);
+                GuiDraw.drawRect(iconSize / 2, -thickness - iconSize / 2, thickness, thickness + iconSize, color);
+                GuiDraw.drawRect(-thickness - iconSize / 2, -iconSize / 2, thickness, thickness + iconSize, color);
+                GuiDraw.drawRect(-iconSize / 2, iconSize / 2, thickness + iconSize, thickness, color);
             }
 
             GlStateManager.popMatrix();
@@ -101,6 +114,14 @@ public class OreRenderLayer extends RenderLayer {
     public boolean onActionKey() {
         if (hoveredVeins.isEmpty()) return false;
         hoveredVeins.get(0).depleted = !hoveredVeins.get(0).depleted;
+        return true;
+    }
+
+    @Override
+    public boolean onDoubleClick() {
+        if (hoveredVeins.isEmpty()) return false;
+        OreVeinPosition vein = hoveredVeins.get(0);
+        waypointVein = WaypointManager.toggleWaypoint("oreveins", vein.veinInfo.tooltipStrings.get(0), null, vein.x, 64, vein.z) ? vein : null;
         return true;
     }
 }

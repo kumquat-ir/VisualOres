@@ -54,4 +54,12 @@ public abstract class RenderLayer {
     public boolean onActionKey() {
         return false;
     }
+
+    public boolean onClick() {
+        return false;
+    }
+
+    public boolean onDoubleClick() {
+        return false;
+    }
 }

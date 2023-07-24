@@ -6,9 +6,10 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [],
   "client": [
+    "DisplayVarsAccessor",
     "FullscreenMixin",
     "MiniMapMixin",
-    "DisplayVarsAccessor"
+    "RenderWaypointBeaconMixin"
   ],
   "server": []
 }

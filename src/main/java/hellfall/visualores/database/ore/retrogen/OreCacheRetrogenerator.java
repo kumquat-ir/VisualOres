@@ -10,7 +10,6 @@ import hellfall.visualores.database.ore.ServerCache;
 import hellfall.visualores.lib.io.xol.enklume.MinecraftChunk;
 import hellfall.visualores.lib.io.xol.enklume.MinecraftRegion;
 import hellfall.visualores.lib.io.xol.enklume.MinecraftWorld;
-import hellfall.visualores.lib.io.xol.enklume.nbt.NBTCompound;
 import it.unimi.dsi.fastutil.ints.Int2BooleanMap;
 import it.unimi.dsi.fastutil.ints.Int2BooleanRBTreeMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
@@ -48,8 +47,8 @@ public class OreCacheRetrogenerator {
                 for (int x = 0; x < CHUNKS_PER_REGION; x++) {
                     for (int z = 0; z < CHUNKS_PER_REGION; z++) {
                         MinecraftChunk chunk = mcRegion.getChunk(x, z);
-                        NBTCompound root = chunk.getRootTag();
-                        if (root != null) {
+                        // the chunk is not yet generated if this is null
+                        if (chunk.getRootTag() != null) {
                             generatedGridPositions.put(GridPos.fromChunkCoords(regionChunkX + x, regionChunkZ + z),
                                     new ChunkPos(regionChunkX + x, regionChunkZ + z));
 

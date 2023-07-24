@@ -28,6 +28,7 @@ import xaero.common.minimap.waypoints.render.WaypointsGuiRenderer;
 @Mixin(value = MinimapRenderer.class, remap = false)
 public abstract class MinimapRendererMixin {
     @Shadow protected Minecraft mc;
+    @Shadow protected double zoom;
     @Unique private GenericMapRenderer renderer;
     @Unique private int frameSize;
     @Unique private float angle;
@@ -55,7 +56,9 @@ public abstract class MinimapRendererMixin {
         return Math.toRadians(v);
     }
 
-    @Redirect(method = "renderMinimap", at = @At(value = "INVOKE", target = "Lxaero/common/minimap/element/render/over/MinimapElementOverMapRendererHandler;render(Lnet/minecraft/entity/Entity;Lnet/minecraft/entity/player/EntityPlayer;DDDDDDZFLnet/minecraft/client/shader/Framebuffer;Lxaero/common/IXaeroMinimap;Lxaero/common/minimap/render/MinimapRendererHelper;Lnet/minecraft/client/gui/FontRenderer;Lnet/minecraft/client/gui/ScaledResolution;IIIIZF)D"))
+    @Redirect(method = "renderMinimap",
+            at = @At(value = "INVOKE", target = "Lxaero/common/minimap/element/render/over/MinimapElementOverMapRendererHandler;render(Lnet/minecraft/entity/Entity;Lnet/minecraft/entity/player/EntityPlayer;DDDDDDZFLnet/minecraft/client/shader/Framebuffer;Lxaero/common/IXaeroMinimap;Lxaero/common/minimap/render/MinimapRendererHelper;Lnet/minecraft/client/gui/FontRenderer;Lnet/minecraft/client/gui/ScaledResolution;IIIIZF)D")
+    )
     private double visualores$injectRender(MinimapElementOverMapRendererHandler instance, Entity renderEntity, EntityPlayer player, double renderX, double renderY, double renderZ, double ps, double pc, double zoom, boolean cave, float partialTicks, Framebuffer framebuffer, IXaeroMinimap modMain, MinimapRendererHelper helper, FontRenderer font, ScaledResolution scaledRes, int specW, int specH, int halfViewW, int halfViewH, boolean circle, float minimapScale) {
         if (GenericMapRenderer.stencilEnabled && VOConfig.client.enableMinimapRendering) {
             renderer.updateVisibleArea(mc.player.dimension, (int) (renderX - frameSize), (int) (renderZ - frameSize), frameSize * 2, frameSize * 2);
@@ -63,6 +66,7 @@ public abstract class MinimapRendererMixin {
             GlStateManager.pushMatrix();
             GL11.glEnable(GL11.GL_STENCIL_TEST);
             GlStateManager.rotate(angle, 0, 0, 1);
+            GlStateManager.scale(this.zoom, this.zoom, 1);
             GL11.glStencilFunc(GL11.GL_EQUAL, 1, 1);
             renderer.render(renderX, renderZ, zoom);
             GL11.glDisable(GL11.GL_STENCIL_TEST);

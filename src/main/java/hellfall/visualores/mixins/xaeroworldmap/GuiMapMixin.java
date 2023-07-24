@@ -168,4 +168,12 @@ public abstract class GuiMapMixin extends ScreenBase {
             cir.setReturnValue(true);
         }
     }
+
+    // no need to cancel if something was done, mapClicked normally only does stuff on right click
+    @Inject(method = "mapClicked", at = @At("TAIL"), remap = false)
+    private void visualores$injectMapClicked(int button, int x, int y, CallbackInfo ci) {
+        if (button == 0) {
+            renderer.onClick(x, y);
+        }
+    }
 }

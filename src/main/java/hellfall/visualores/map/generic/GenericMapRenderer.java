@@ -26,6 +26,9 @@ public class GenericMapRenderer {
     protected int[] visibleBounds = new int[4];
 
     protected List<RenderLayer> layers;
+    private double oldMouseX;
+    private double oldMouseY;
+    private long timeLastClick;
 
     public GenericMapRenderer() {
         layers = new ArrayList<>();
@@ -126,6 +129,23 @@ public class GenericMapRenderer {
         for (RenderLayer layer : layers) {
             if (layer.isEnabled() && layer.onActionKey()) {
                 return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean onClick(double mouseX, double mouseY) {
+        final long timestamp = System.currentTimeMillis();
+        final boolean isDoubleClick = mouseX == oldMouseX && mouseY == oldMouseY && timestamp - timeLastClick < 500;
+        oldMouseX = mouseX;
+        oldMouseY = mouseY;
+        timeLastClick = isDoubleClick ? 0 : timestamp;
+
+        for (RenderLayer layer : layers) {
+            if (layer.isEnabled()) {
+                if (isDoubleClick && layer.onDoubleClick() || !isDoubleClick && layer.onClick()) {
+                    return true;
+                }
             }
         }
         return false;

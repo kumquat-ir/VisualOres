@@ -8,12 +8,11 @@ import hellfall.visualores.Tags;
 import hellfall.visualores.VisualOres;
 import hellfall.visualores.database.ClientCache;
 import hellfall.visualores.database.CommandResetClientCache;
-import hellfall.visualores.database.ore.ServerCache;
 import hellfall.visualores.database.WorldIDSaveData;
-import hellfall.visualores.map.generic.GenericMapRenderer;
-import hellfall.visualores.map.generic.OreRenderLayer;
-import hellfall.visualores.map.generic.RenderLayer;
-import hellfall.visualores.map.generic.UndergroundFluidRenderLayer;
+import hellfall.visualores.database.ore.ServerCache;
+import hellfall.visualores.map.generic.*;
+import hellfall.visualores.map.journeymap.JourneymapWaypointHandler;
+import hellfall.visualores.map.xaero.XaeroWaypointHandler;
 import hellfall.visualores.network.OreProspectToClientPacket;
 import hellfall.visualores.network.WorldIDPacket;
 import net.minecraft.client.Minecraft;
@@ -72,6 +71,8 @@ public class VisualOresModule implements IGregTechModule {
 
             RenderLayer.registerLayer(OreRenderLayer.class);
             RenderLayer.registerLayer(UndergroundFluidRenderLayer.class);
+            WaypointManager.registerWaypointHandler(new XaeroWaypointHandler());
+            WaypointManager.registerWaypointHandler(new JourneymapWaypointHandler());
         }
     }
 
@@ -103,12 +104,24 @@ public class VisualOresModule implements IGregTechModule {
 
     @SubscribeEvent
     public static void onWorldLoad(WorldEvent.Load event) {
-        ServerCache.instance.maybeInitWorld(event.getWorld());
+        if (event.getWorld().isRemote) {
+            WaypointManager.updateDimension(event.getWorld().provider.getDimension());
+        }
+        else {
+            ServerCache.instance.maybeInitWorld(event.getWorld());
+        }
     }
 
     @SubscribeEvent
     public static void onWorldUnload(WorldEvent.Unload event) {
         ServerCache.instance.invalidateWorld(event.getWorld());
+        if (event.getWorld().isRemote) {
+            ClientCache.instance.saveCache();
+        }
+    }
+
+    @SubscribeEvent
+    public static void onWorldSave(WorldEvent.Save event) {
         if (event.getWorld().isRemote) {
             ClientCache.instance.saveCache();
         }
