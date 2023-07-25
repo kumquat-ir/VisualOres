@@ -41,7 +41,7 @@ public abstract class MiniMapMixin {
             renderer.updateVisibleArea(state.getDimension(), (int) (gridRenderer.getCenterBlockX() - rw / 2), (int) (gridRenderer.getCenterBlockZ() - rh / 2), (int) rw, (int) rh);
 
             GlStateManager.pushMatrix();
-            GlStateManager.translate(mc.displayWidth / 2.0, mc.displayHeight / 2.0, 0);
+            GlStateManager.translate(mc.displayWidth / 2.0 - gridRenderer.getCenterBlockX(), mc.displayHeight / 2.0 - gridRenderer.getCenterBlockZ(), 0);
             GlStateManager.scale(scale, scale, 1);
 
             renderer.render((gridRenderer.getCenterBlockX()), gridRenderer.getCenterBlockZ(), scale);

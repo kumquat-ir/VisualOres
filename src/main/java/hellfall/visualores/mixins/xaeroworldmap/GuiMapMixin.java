@@ -145,7 +145,11 @@ public abstract class GuiMapMixin extends ScreenBase {
         double rh = mc.displayHeight / scale;
         renderer.updateVisibleArea(mapProcessor.getMapWorld().getCurrentDimensionId(), (int) (cameraX - rw / 2), (int) (cameraZ - rh / 2), (int) (rw), (int) (rh));
 
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(-cameraX, -cameraZ, 0);
         renderer.render(cameraX, cameraZ, scale);
+
+        GlStateManager.popMatrix();
     }
 
     // so buttons with semi-transparent regions render correctly

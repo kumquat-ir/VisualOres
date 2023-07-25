@@ -13,8 +13,8 @@ public class JourneymapWaypointHandler implements IWaypointHandler {
     private static final Map<String, Waypoint> waypoints = new Object2ObjectOpenHashMap<>();
 
     @Override
-    public void setWaypoint(String key, String name, int dim, int x, int y, int z) {
-        waypoints.put(key, new Waypoint(name, new BlockPos(x, y, z), Color.WHITE, Waypoint.Type.Normal, dim));
+    public void setWaypoint(String key, String name, int color, int dim, int x, int y, int z) {
+        waypoints.put(key, new Waypoint(name, new BlockPos(x, y, z), new Color(color), Waypoint.Type.Normal, dim));
     }
 
     @Override

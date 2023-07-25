@@ -18,7 +18,7 @@ public abstract class RenderLayer {
      * <br>
      * Starting GL state:
      * <br>
-     * 1 unit = 1 block, positioned such that drawing at (x - cameraX, z - cameraZ) draws on the entire block (x, z)
+     * 1 unit = 1 block, positioned such that drawing at (x, z) draws over the entire block (x, z)
      * @param cameraX The X position of the center block of the view
      * @param cameraZ The Z position of the center block of the view
      * @param scale The scale of the view, such that going from blocks -> pixels requires scaling at <code>1/scale</code>
@@ -80,7 +80,7 @@ public abstract class RenderLayer {
      * @return true if the waypoint was created or moved, false if it was deleted.
      */
     @SuppressWarnings("SameParameterValue")
-    protected final boolean toggleWaypoint(String name, Integer dim, int x, int y, int z) {
-        return WaypointManager.toggleWaypoint(key, name, dim, x, y, z);
+    protected final boolean toggleWaypoint(String name, int color, Integer dim, int x, int y, int z) {
+        return WaypointManager.toggleWaypoint(key, name, color, dim, x, y, z);
     }
 }

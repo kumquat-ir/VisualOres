@@ -120,7 +120,7 @@ public abstract class FullscreenMixin extends JmUI implements ITabCompleter {
         GlStateManager.pushMatrix();
         GlStateManager.translate(xOffset, yOffset, 0);
         GlStateManager.scale(scale, scale, 1);
-        GlStateManager.translate(rw / 2, rh / 2, 0);
+        GlStateManager.translate(rw / 2 - gridRenderer.getCenterBlockX(), rh / 2 - gridRenderer.getCenterBlockZ(), 0);
 
         renderer.render(gridRenderer.getCenterBlockX(), gridRenderer.getCenterBlockZ(), scale);
 

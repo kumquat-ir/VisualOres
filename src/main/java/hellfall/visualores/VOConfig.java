@@ -96,6 +96,14 @@ public class VOConfig {
 
             @Config.Comment("The string prepending ore names in the ore vein tooltip")
             public String oreNamePrefix = "- ";
+
+            @Config.Comment({"Fluid colors to override in the underground fluid overlay",
+                    "Format: fluid name=RGB color"})
+            @Config.RequiresMcRestart
+            public String[] fluidColorOverrides = new String[]{
+                    "water=#6B7AF7",
+                    "lava=#D14F0C"
+            };
         }
     }
 

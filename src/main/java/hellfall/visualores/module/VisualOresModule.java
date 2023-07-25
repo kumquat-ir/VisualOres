@@ -9,6 +9,7 @@ import hellfall.visualores.VisualOres;
 import hellfall.visualores.database.ClientCache;
 import hellfall.visualores.database.CommandResetClientCache;
 import hellfall.visualores.database.WorldIDSaveData;
+import hellfall.visualores.database.fluid.UndergroundFluidPosition;
 import hellfall.visualores.database.ore.ServerCache;
 import hellfall.visualores.map.generic.*;
 import hellfall.visualores.map.journeymap.JourneymapWaypointHandler;
@@ -74,6 +75,8 @@ public class VisualOresModule implements IGregTechModule {
             Layers.registerLayer(UndergroundFluidRenderLayer.class, "undergroundfluid");
             WaypointManager.registerWaypointHandler(new XaeroWaypointHandler());
             WaypointManager.registerWaypointHandler(new JourneymapWaypointHandler());
+
+            UndergroundFluidPosition.initColorOverrides();
         }
     }
 

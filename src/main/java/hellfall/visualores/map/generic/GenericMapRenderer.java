@@ -82,7 +82,7 @@ public class GenericMapRenderer {
      * <br>
      * EXPECTED GL STATE:
      * <br>
-     * 1 unit = 1 block, positioned such that drawing at (x - cameraX, z - cameraZ) draws on the entire block (x, z)
+     * 1 unit = 1 block, positioned such that drawing at (x, z) draws over the entire block (x, z)
      * @param cameraX X position of the center block of the view
      * @param cameraZ Z position of the center block of the view
      * @param scale Scale of the camera, such that scaling by <code>1/scale</code> results in 1 unit = 1 pixel

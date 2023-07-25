@@ -14,8 +14,9 @@ public class XaeroWaypointHandler implements IWaypointHandler {
     private final List<String> knownKeys = new ObjectArrayList<>();
 
     @Override
-    public void setWaypoint(String key, String name, int dim, int x, int y, int z) {
-        xwaypoints.put(getIndex(key), new WaypointWithDimension(dim, x, y, z, name, "?", 15));
+    public void setWaypoint(String key, String name, int color, int dim, int x, int y, int z) {
+        // todo get an actual color for this
+        xwaypoints.put(getIndex(key), new WaypointWithDimension(dim, x, y, z, name, name.substring(0, 1), 15));
     }
 
     @Override

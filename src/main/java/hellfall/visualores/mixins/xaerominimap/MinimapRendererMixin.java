@@ -67,6 +67,7 @@ public abstract class MinimapRendererMixin {
             GL11.glEnable(GL11.GL_STENCIL_TEST);
             GlStateManager.rotate(angle, 0, 0, 1);
             GlStateManager.scale(this.zoom, this.zoom, 1);
+            GlStateManager.translate(-renderX, -renderZ, 0);
             GL11.glStencilFunc(GL11.GL_EQUAL, 1, 1);
             renderer.render(renderX, renderZ, zoom);
             GL11.glDisable(GL11.GL_STENCIL_TEST);

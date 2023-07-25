@@ -36,7 +36,7 @@ public class OreRenderLayer extends RenderLayer {
             GlStateManager.pushMatrix();
 
             // -> scale = pixels, origin = center of block vein is in
-            GlStateManager.translate(vein.x - 0.5 - cameraX, vein.z - 0.5 - cameraZ, 0);
+            GlStateManager.translate(vein.x - 0.5, vein.z - 0.5, 0);
             GlStateManager.scale(1 / clampedScale, 1 / clampedScale, 1);
 
             float[] colors = DrawUtils.floats(vein.veinInfo.color);
@@ -120,7 +120,7 @@ public class OreRenderLayer extends RenderLayer {
     public boolean onDoubleClick() {
         if (hoveredVeins.isEmpty()) return false;
         OreVeinPosition vein = hoveredVeins.get(0);
-        waypointVein = toggleWaypoint(vein.getTooltipStrings().get(0), null, vein.x, 64, vein.z) ? vein : null;
+        waypointVein = toggleWaypoint(vein.getTooltipStrings().get(0), vein.veinInfo.color, null, vein.x, 64, vein.z) ? vein : null;
         return true;
     }
 }

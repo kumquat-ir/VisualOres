@@ -5,7 +5,6 @@ import gregtech.api.worldgen.bedrockFluids.BedrockFluidVeinHandler;
 import hellfall.visualores.database.ClientCache;
 import hellfall.visualores.database.fluid.UndergroundFluidPosition;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 
 import java.util.ArrayList;
@@ -22,8 +21,6 @@ public class UndergroundFluidRenderLayer extends RenderLayer {
 
     @Override
     public void render(double cameraX, double cameraZ, double scale) {
-        GlStateManager.pushMatrix();
-        GlStateManager.translate(-cameraX, -cameraZ, 0);
         for (var fluidPos : visibleFluids) {
             int sideColor = (fluidPos.color & 0x00FFFFFF) + 0xDD000000;
             int midColor = (fluidPos.color & 0x00FFFFFF) + 0x77000000;
@@ -39,7 +36,6 @@ public class UndergroundFluidRenderLayer extends RenderLayer {
             GuiDraw.drawGradientRectDirect(l + 1, b - 1, r, b, sideColor, sideColor); // bottom
             GuiDraw.drawGradientRectDirect(l + 1, t + 1, r - 1, b - 1, midColor, midColor); // middle
         }
-        GlStateManager.popMatrix();
     }
 
     @Override

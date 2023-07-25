@@ -17,10 +17,10 @@ public class WaypointManager {
         currentDimension = dim;
     }
 
-    public static void setWaypoint(String key, String name, Integer dim, int x, int y, int z) {
+    public static void setWaypoint(String key, String name, int color, Integer dim, int x, int y, int z) {
         if (dim == null) dim = currentDimension;
         for (IWaypointHandler handler : handlers) {
-            handler.setWaypoint(key, name, dim, x, y, z);
+            handler.setWaypoint(key, name, color, dim, x, y, z);
         }
         waypoints.put(key, new WaypointKey(dim, x, y, z));
     }
@@ -32,13 +32,13 @@ public class WaypointManager {
         waypoints.remove(key);
     }
 
-    public static boolean toggleWaypoint(String key, String name, Integer dim, int x, int y, int z) {
+    public static boolean toggleWaypoint(String key, String name, int color, Integer dim, int x, int y, int z) {
         if (dim == null) dim = currentDimension;
         if ((new WaypointKey(dim, x, y, z)).equals(waypoints.get(key))) {
             removeWaypoint(key);
             return false;
         }
-        setWaypoint(key, name, dim, x, y, z);
+        setWaypoint(key, name, color, dim, x, y, z);
         return true;
     }
 
