@@ -1,7 +1,8 @@
-package hellfall.visualores.map.generic;
+package hellfall.visualores.map;
 
 import hellfall.visualores.VOConfig;
-import hellfall.visualores.map.DrawUtils;
+import hellfall.visualores.map.layers.Layers;
+import hellfall.visualores.map.layers.RenderLayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;

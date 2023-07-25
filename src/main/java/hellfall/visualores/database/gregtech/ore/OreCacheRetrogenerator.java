@@ -1,12 +1,10 @@
-package hellfall.visualores.database.ore.retrogen;
+package hellfall.visualores.database.gregtech.ore;
 
 import gregtech.api.worldgen.generator.CachedGridEntry;
 import gregtech.api.worldgen.generator.WorldGeneratorImpl;
 import gregtech.common.blocks.BlockOre;
 import hellfall.visualores.VOConfig;
 import hellfall.visualores.VisualOres;
-import hellfall.visualores.database.ore.GridPos;
-import hellfall.visualores.database.ore.ServerCache;
 import hellfall.visualores.lib.io.xol.enklume.MinecraftChunk;
 import hellfall.visualores.lib.io.xol.enklume.MinecraftRegion;
 import hellfall.visualores.lib.io.xol.enklume.MinecraftWorld;

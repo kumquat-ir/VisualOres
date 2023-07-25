@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Mixin(value = RenderWaypointBeacon.class, remap = false)
-public class RenderWaypointBeaconMixin {
+public abstract class RenderWaypointBeaconMixin {
     @Redirect(method = "renderAll",
             at = @At(value = "INVOKE", target = "Ljourneymap/client/waypoint/WaypointStore;getAll()Ljava/util/Collection;")
     )

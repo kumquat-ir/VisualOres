@@ -1,4 +1,7 @@
-package hellfall.visualores.map.generic;
+package hellfall.visualores.map.layers;
+
+import hellfall.visualores.map.ButtonState;
+import hellfall.visualores.map.WaypointManager;
 
 import java.util.List;
 

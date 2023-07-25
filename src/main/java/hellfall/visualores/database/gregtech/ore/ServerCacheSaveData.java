@@ -1,7 +1,6 @@
-package hellfall.visualores.database.ore;
+package hellfall.visualores.database.gregtech.ore;
 
 import hellfall.visualores.Tags;
-import hellfall.visualores.database.ore.retrogen.OreCacheRetrogenerator;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.MapStorage;

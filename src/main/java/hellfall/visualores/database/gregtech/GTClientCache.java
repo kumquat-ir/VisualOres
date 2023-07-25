@@ -1,11 +1,10 @@
-package hellfall.visualores.database;
+package hellfall.visualores.database.gregtech;
 
 import hellfall.visualores.Tags;
-import hellfall.visualores.database.fluid.FluidCache;
-import hellfall.visualores.database.fluid.UndergroundFluidPosition;
-import hellfall.visualores.database.ore.DimensionCache;
-import hellfall.visualores.database.ore.OreVeinPosition;
-import hellfall.visualores.database.ore.WorldCache;
+import hellfall.visualores.database.gregtech.fluid.FluidCache;
+import hellfall.visualores.database.gregtech.fluid.UndergroundFluidPosition;
+import hellfall.visualores.database.gregtech.ore.DimensionCache;
+import hellfall.visualores.database.gregtech.ore.WorldCache;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.CompressedStreamTools;
@@ -17,9 +16,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-public class ClientCache extends WorldCache {
+public class GTClientCache extends WorldCache {
     public static final File clientCacheDir = new File(Minecraft.getMinecraft().gameDir, Tags.MODID);
-    public static final ClientCache instance = new ClientCache();
+    public static final GTClientCache instance = new GTClientCache();
     private File worldFolder;
 
     private final FluidCache fluids = new FluidCache();

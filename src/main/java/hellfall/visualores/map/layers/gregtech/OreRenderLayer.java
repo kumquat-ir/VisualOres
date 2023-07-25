@@ -1,10 +1,11 @@
-package hellfall.visualores.map.generic;
+package hellfall.visualores.map.layers.gregtech;
 
 import codechicken.lib.gui.GuiDraw;
 import hellfall.visualores.VOConfig;
-import hellfall.visualores.database.ClientCache;
-import hellfall.visualores.database.ore.OreVeinPosition;
+import hellfall.visualores.database.gregtech.GTClientCache;
+import hellfall.visualores.database.gregtech.ore.OreVeinPosition;
 import hellfall.visualores.map.DrawUtils;
+import hellfall.visualores.map.layers.RenderLayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -72,7 +73,7 @@ public class OreRenderLayer extends RenderLayer {
 
     @Override
     public void updateVisibleArea(int dimensionID, int[] visibleBounds) {
-        visibleVeins = ClientCache.instance.getVeinsInArea(dimensionID, visibleBounds);
+        visibleVeins = GTClientCache.instance.getVeinsInArea(dimensionID, visibleBounds);
     }
 
     @Override

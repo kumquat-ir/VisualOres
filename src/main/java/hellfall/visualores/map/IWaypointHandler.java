@@ -1,4 +1,4 @@
-package hellfall.visualores.map.generic;
+package hellfall.visualores.map;
 
 public interface IWaypointHandler {
 

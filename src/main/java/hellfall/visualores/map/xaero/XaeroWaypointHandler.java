@@ -1,7 +1,7 @@
 package hellfall.visualores.map.xaero;
 
 import hellfall.visualores.Tags;
-import hellfall.visualores.map.generic.IWaypointHandler;
+import hellfall.visualores.map.IWaypointHandler;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import xaero.common.minimap.waypoints.Waypoint;
 import xaero.common.minimap.waypoints.WaypointsManager;

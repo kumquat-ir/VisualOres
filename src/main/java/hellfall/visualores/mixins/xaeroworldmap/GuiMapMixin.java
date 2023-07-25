@@ -2,8 +2,8 @@ package hellfall.visualores.mixins.xaeroworldmap;
 
 import hellfall.visualores.KeyBindings;
 import hellfall.visualores.VOConfig;
-import hellfall.visualores.map.generic.ButtonState;
-import hellfall.visualores.map.generic.GenericMapRenderer;
+import hellfall.visualores.map.ButtonState;
+import hellfall.visualores.map.GenericMapRenderer;
 import hellfall.visualores.map.xaero.SizedTexturedGuiButton;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -117,7 +117,7 @@ public abstract class GuiMapMixin extends ScreenBase {
             GuiButton mapButton = new SizedTexturedGuiButton(
                     startX + (20 * xOffset * offset), startY + (20 * yOffset * offset), 20, 20,
                     ButtonState.isEnabled(button) ? 16 : 0, 0, 16, 16,
-                    new ResourceLocation("visualores", "textures/xaero/" + button.name + ".png"),
+                    new ResourceLocation("visualores", "textures/buttons/" + button.name + ".png"),
                     (guiButton -> {
                         ButtonState.toggleButton(button);
                         setWorldAndResolution(mc, width, height);

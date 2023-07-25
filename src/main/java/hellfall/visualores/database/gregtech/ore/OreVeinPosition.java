@@ -1,4 +1,4 @@
-package hellfall.visualores.database.ore;
+package hellfall.visualores.database.gregtech.ore;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.nbt.NBTTagCompound;

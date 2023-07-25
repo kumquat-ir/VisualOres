@@ -1,4 +1,4 @@
-package hellfall.visualores.database.fluid;
+package hellfall.visualores.database.gregtech.fluid;
 
 import gregtech.api.fluids.MaterialFluid;
 import gregtech.api.util.GTUtility;

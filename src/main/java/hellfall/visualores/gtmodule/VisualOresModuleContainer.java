@@ -1,4 +1,4 @@
-package hellfall.visualores.module;
+package hellfall.visualores.gtmodule;
 
 import gregtech.api.modules.IModuleContainer;
 import hellfall.visualores.Tags;

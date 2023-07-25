@@ -1,6 +1,7 @@
-package hellfall.visualores.map.generic;
+package hellfall.visualores.map.layers;
 
 import hellfall.visualores.VOConfig;
+import hellfall.visualores.map.ButtonState;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;

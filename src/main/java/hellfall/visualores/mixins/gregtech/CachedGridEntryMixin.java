@@ -3,7 +3,7 @@ package hellfall.visualores.mixins.gregtech;
 import gregtech.api.worldgen.config.OreDepositDefinition;
 import gregtech.api.worldgen.generator.CachedGridEntry;
 import gregtech.api.worldgen.generator.GTWorldGenCapability;
-import hellfall.visualores.database.ore.ServerCache;
+import hellfall.visualores.database.gregtech.ore.ServerCache;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

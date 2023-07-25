@@ -2,7 +2,7 @@ package hellfall.visualores.mixins.journeymap;
 
 import hellfall.visualores.KeyBindings;
 import hellfall.visualores.VOConfig;
-import hellfall.visualores.map.generic.ButtonState;
+import hellfall.visualores.map.ButtonState;
 import hellfall.visualores.map.journeymap.JourneymapRenderer;
 import journeymap.client.io.ThemeLoader;
 import journeymap.client.model.MapState;

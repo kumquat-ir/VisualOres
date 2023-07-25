@@ -3,7 +3,7 @@ package hellfall.visualores;
 import codechicken.lib.CodeChickenLib;
 import gregtech.api.modules.ModuleContainerRegistryEvent;
 import gregtech.modules.ModuleManager;
-import hellfall.visualores.module.VisualOresModuleContainer;
+import hellfall.visualores.gtmodule.VisualOresModuleContainer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;

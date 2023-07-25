@@ -1,4 +1,4 @@
-package hellfall.visualores.map.generic;
+package hellfall.visualores.map;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;

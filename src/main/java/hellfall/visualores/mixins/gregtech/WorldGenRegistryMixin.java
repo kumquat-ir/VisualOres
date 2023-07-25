@@ -1,7 +1,7 @@
 package hellfall.visualores.mixins.gregtech;
 
 import gregtech.api.worldgen.config.WorldGenRegistry;
-import hellfall.visualores.database.ore.VeinInfoCache;
+import hellfall.visualores.database.gregtech.ore.VeinInfoCache;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

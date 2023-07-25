@@ -1,6 +1,6 @@
 package hellfall.visualores.map.xaero;
 
-import hellfall.visualores.map.generic.WaypointManager;
+import hellfall.visualores.map.WaypointManager;
 import xaero.common.minimap.waypoints.Waypoint;
 
 public class WaypointWithDimension extends Waypoint {

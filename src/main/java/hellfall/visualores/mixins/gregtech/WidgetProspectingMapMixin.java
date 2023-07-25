@@ -7,8 +7,8 @@ import gregtech.api.worldgen.bedrockFluids.BedrockFluidVeinHandler;
 import gregtech.common.terminal.app.prospector.ProspectorMode;
 import gregtech.common.terminal.app.prospector.widget.WidgetProspectingMap;
 import gregtech.core.network.packets.PacketProspecting;
-import hellfall.visualores.database.ClientCache;
-import hellfall.visualores.database.ore.ServerCache;
+import hellfall.visualores.database.gregtech.GTClientCache;
+import hellfall.visualores.database.gregtech.ore.ServerCache;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.ChunkPos;
@@ -52,7 +52,7 @@ public abstract class WidgetProspectingMapMixin extends Widget {
             //todo BedrockFluidVeinHandler.getVeinCoord()
             int fieldX = packet.chunkX / BedrockFluidVeinHandler.VEIN_CHUNK_SIZE;
             int fieldZ = packet.chunkZ / BedrockFluidVeinHandler.VEIN_CHUNK_SIZE;
-            ClientCache.instance.addFluid(gui.entityPlayer.getEntityWorld().provider.getDimension(), fieldX, fieldZ,
+            GTClientCache.instance.addFluid(gui.entityPlayer.getEntityWorld().provider.getDimension(), fieldX, fieldZ,
                     packet.map[0][0].get((byte) 1), Integer.parseInt(packet.map[0][0].get(((byte) 2))), Double.parseDouble(packet.map[0][0].get(((byte) 3))));
         }
     }

@@ -1,4 +1,4 @@
-package hellfall.visualores.database.ore;
+package hellfall.visualores.database.gregtech.ore;
 
 import gregtech.api.GregTechAPI;
 import gregtech.api.unification.OreDictUnifier;

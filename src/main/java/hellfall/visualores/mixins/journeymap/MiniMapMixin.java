@@ -1,7 +1,7 @@
 package hellfall.visualores.mixins.journeymap;
 
 import hellfall.visualores.VOConfig;
-import hellfall.visualores.map.generic.GenericMapRenderer;
+import hellfall.visualores.map.GenericMapRenderer;
 import journeymap.client.model.MapState;
 import journeymap.client.properties.MiniMapProperties;
 import journeymap.client.render.map.GridRenderer;

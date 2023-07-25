@@ -1,6 +1,6 @@
 package hellfall.visualores.map.journeymap;
 
-import hellfall.visualores.map.generic.IWaypointHandler;
+import hellfall.visualores.map.IWaypointHandler;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import journeymap.client.model.Waypoint;
 import net.minecraft.util.math.BlockPos;

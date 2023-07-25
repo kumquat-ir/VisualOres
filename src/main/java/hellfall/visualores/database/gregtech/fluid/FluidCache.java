@@ -1,4 +1,4 @@
-package hellfall.visualores.database.fluid;
+package hellfall.visualores.database.gregtech.fluid;
 
 import gregtech.api.worldgen.bedrockFluids.BedrockFluidVeinHandler;
 import gregtech.api.worldgen.bedrockFluids.ChunkPosDimension;

@@ -1,7 +1,7 @@
 package hellfall.visualores.mixins.xaerominimap;
 
 import hellfall.visualores.VOConfig;
-import hellfall.visualores.map.generic.GenericMapRenderer;
+import hellfall.visualores.map.GenericMapRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;

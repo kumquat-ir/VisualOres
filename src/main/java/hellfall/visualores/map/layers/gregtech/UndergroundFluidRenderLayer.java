@@ -1,9 +1,10 @@
-package hellfall.visualores.map.generic;
+package hellfall.visualores.map.layers.gregtech;
 
 import codechicken.lib.gui.GuiDraw;
 import gregtech.api.worldgen.bedrockFluids.BedrockFluidVeinHandler;
-import hellfall.visualores.database.ClientCache;
-import hellfall.visualores.database.fluid.UndergroundFluidPosition;
+import hellfall.visualores.database.gregtech.GTClientCache;
+import hellfall.visualores.database.gregtech.fluid.UndergroundFluidPosition;
+import hellfall.visualores.map.layers.RenderLayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 
@@ -40,7 +41,7 @@ public class UndergroundFluidRenderLayer extends RenderLayer {
 
     @Override
     public void updateVisibleArea(int dimensionID, int[] visibleBounds) {
-        visibleFluids = ClientCache.instance.getFluidsInArea(dimensionID, visibleBounds);
+        visibleFluids = GTClientCache.instance.getFluidsInArea(dimensionID, visibleBounds);
     }
 
     @Override

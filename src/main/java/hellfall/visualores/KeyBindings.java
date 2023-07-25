@@ -1,6 +1,6 @@
 package hellfall.visualores;
 
-import hellfall.visualores.map.generic.ButtonState;
+import hellfall.visualores.map.ButtonState;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import net.minecraft.client.settings.KeyBinding;
 

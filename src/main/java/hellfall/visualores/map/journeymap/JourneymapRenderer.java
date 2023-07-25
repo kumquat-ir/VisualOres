@@ -1,6 +1,6 @@
 package hellfall.visualores.map.journeymap;
 
-import hellfall.visualores.map.generic.GenericMapRenderer;
+import hellfall.visualores.map.GenericMapRenderer;
 import journeymap.client.ui.fullscreen.Fullscreen;
 
 import java.util.List;

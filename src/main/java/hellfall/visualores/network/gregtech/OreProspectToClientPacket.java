@@ -1,10 +1,10 @@
-package hellfall.visualores.network;
+package hellfall.visualores.network.gregtech;
 
 import gregtech.api.network.IClientExecutor;
 import gregtech.api.network.IPacket;
-import hellfall.visualores.database.ClientCache;
-import hellfall.visualores.database.ore.GridPos;
-import hellfall.visualores.database.ore.OreVeinPosition;
+import hellfall.visualores.database.gregtech.GTClientCache;
+import hellfall.visualores.database.gregtech.ore.GridPos;
+import hellfall.visualores.database.gregtech.ore.OreVeinPosition;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.network.PacketBuffer;
 
@@ -63,11 +63,11 @@ public class OreProspectToClientPacket implements IPacket, IClientExecutor {
     public void executeClient(NetHandlerPlayClient netHandlerPlayClient) {
         int newVeins = 0;
         for (int i = 0; i < dimList.size(); i++) {
-            if (ClientCache.instance.addVein(dimList.get(i), xList.get(i), zList.get(i), gridXList.get(i), gridZList.get(i), nameList.get(i))) {
+            if (GTClientCache.instance.addVein(dimList.get(i), xList.get(i), zList.get(i), gridXList.get(i), gridZList.get(i), nameList.get(i))) {
                 newVeins++;
             }
         }
-        ClientCache.instance.notifyNewVeins(newVeins);
+        GTClientCache.instance.notifyNewVeins(newVeins);
     }
 
     @Override

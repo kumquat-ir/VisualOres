@@ -1,4 +1,4 @@
-package hellfall.visualores.module;
+package hellfall.visualores.gtmodule;
 
 import gregtech.api.GregTechAPI;
 import gregtech.api.modules.GregTechModule;
@@ -6,16 +6,20 @@ import gregtech.api.modules.IGregTechModule;
 import hellfall.visualores.KeyBindings;
 import hellfall.visualores.Tags;
 import hellfall.visualores.VisualOres;
-import hellfall.visualores.database.ClientCache;
 import hellfall.visualores.database.CommandResetClientCache;
 import hellfall.visualores.database.WorldIDSaveData;
-import hellfall.visualores.database.fluid.UndergroundFluidPosition;
-import hellfall.visualores.database.ore.ServerCache;
-import hellfall.visualores.map.generic.*;
+import hellfall.visualores.database.gregtech.GTClientCache;
+import hellfall.visualores.database.gregtech.fluid.UndergroundFluidPosition;
+import hellfall.visualores.database.gregtech.ore.ServerCache;
+import hellfall.visualores.map.GenericMapRenderer;
+import hellfall.visualores.map.WaypointManager;
 import hellfall.visualores.map.journeymap.JourneymapWaypointHandler;
+import hellfall.visualores.map.layers.Layers;
+import hellfall.visualores.map.layers.gregtech.OreRenderLayer;
+import hellfall.visualores.map.layers.gregtech.UndergroundFluidRenderLayer;
 import hellfall.visualores.map.xaero.XaeroWaypointHandler;
-import hellfall.visualores.network.OreProspectToClientPacket;
 import hellfall.visualores.network.WorldIDPacket;
+import hellfall.visualores.network.gregtech.OreProspectToClientPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
@@ -108,7 +112,7 @@ public class VisualOresModule implements IGregTechModule {
     public void serverStopped(FMLServerStoppedEvent event) {
         ServerCache.instance.clear();
         if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
-            ClientCache.instance.clear();
+            GTClientCache.instance.clear();
         }
     }
 
@@ -126,14 +130,14 @@ public class VisualOresModule implements IGregTechModule {
     public static void onWorldUnload(WorldEvent.Unload event) {
         ServerCache.instance.invalidateWorld(event.getWorld());
         if (event.getWorld().isRemote) {
-            ClientCache.instance.saveCache();
+            GTClientCache.instance.saveCache();
         }
     }
 
     @SubscribeEvent
     public static void onWorldSave(WorldEvent.Save event) {
         if (event.getWorld().isRemote) {
-            ClientCache.instance.saveCache();
+            GTClientCache.instance.saveCache();
         }
     }
 
@@ -145,7 +149,7 @@ public class VisualOresModule implements IGregTechModule {
             }
             else if (event.getEntity() instanceof EntityPlayer) {
 //                VisualOres.LOGGER.info("got id local " + WorldIDSaveData.getWorldID());
-                ClientCache.instance.init(WorldIDSaveData.getWorldID());
+                GTClientCache.instance.init(WorldIDSaveData.getWorldID());
             }
         }
     }
