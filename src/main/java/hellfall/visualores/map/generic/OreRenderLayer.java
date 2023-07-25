@@ -15,7 +15,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class OreRenderLayer extends RenderLayer {
-    public static final ButtonState.Button ORE_VEINS_BUTTON = new ButtonState.Button("oreveins", 0);
     protected static final ResourceLocation STONE = new ResourceLocation("textures/blocks/stone.png");
     protected static final ResourceLocation DEPLETED = new ResourceLocation("visualores", "textures/depleted.png");
     protected List<OreVeinPosition> visibleVeins = new ArrayList<>();
@@ -24,8 +23,8 @@ public class OreRenderLayer extends RenderLayer {
     // should be shared between all renderer instances
     protected static OreVeinPosition waypointVein;
 
-    public OreRenderLayer() {
-        super(ORE_VEINS_BUTTON);
+    public OreRenderLayer(String key) {
+        super(key);
     }
 
     @Override
@@ -121,7 +120,7 @@ public class OreRenderLayer extends RenderLayer {
     public boolean onDoubleClick() {
         if (hoveredVeins.isEmpty()) return false;
         OreVeinPosition vein = hoveredVeins.get(0);
-        waypointVein = WaypointManager.toggleWaypoint("oreveins", vein.veinInfo.tooltipStrings.get(0), null, vein.x, 64, vein.z) ? vein : null;
+        waypointVein = toggleWaypoint(vein.getTooltipStrings().get(0), null, vein.x, 64, vein.z) ? vein : null;
         return true;
     }
 }

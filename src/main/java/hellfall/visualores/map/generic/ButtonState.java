@@ -2,14 +2,13 @@ package hellfall.visualores.map.generic;
 
 import hellfall.visualores.VOConfig;
 
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ButtonState {
     private static final Map<String, Button> buttons = new HashMap<>();
+    private static List<Button> sortedButtons;
+    private static List<Button> reverseSortedButtons;
 
     public static void toggleButton(Button button) {
         button.enabled = !button.enabled;
@@ -24,6 +23,10 @@ public class ButtonState {
         }
     }
 
+    public static void toggleButton(String buttonName) {
+        toggleButton(buttons.get(buttonName));
+    }
+
     public static boolean isEnabled(Button button) {
         return button.enabled;
     }
@@ -36,19 +39,24 @@ public class ButtonState {
         return buttons.size();
     }
 
-    public static Collection<Button> getAllButtons() {
-        return buttons.values().stream().sorted(Comparator.comparingInt(a -> VOConfig.client.reverseButtonOrder ? -a.sort : a.sort)).collect(Collectors.toList());
+    public static List<Button> getAllButtons() {
+        if (sortedButtons == null) {
+            sortedButtons = buttons.values().stream().sorted(
+                    Comparator.comparingInt(b -> Arrays.asList(VOConfig.client.buttonOrder).indexOf(b.name))
+            ).collect(Collectors.toList());
+            reverseSortedButtons = new ArrayList<>(sortedButtons);
+            Collections.reverse(reverseSortedButtons);
+        }
+        return VOConfig.client.reverseButtonOrder ? reverseSortedButtons : sortedButtons;
     }
 
     public static class Button {
         public boolean enabled;
-        protected int sort;
         public String name;
 
-        public Button(String name, int sort) {
+        public Button(String name) {
             this.enabled = false;
             this.name = name;
-            this.sort = sort;
             buttons.put(name, this);
         }
     }

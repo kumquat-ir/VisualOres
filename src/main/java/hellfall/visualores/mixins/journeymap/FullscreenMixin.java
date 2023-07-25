@@ -144,7 +144,7 @@ public abstract class FullscreenMixin extends JmUI implements ITabCompleter {
     }
 
     @Inject(method = "mouseClicked",
-            at = @At(value = "INVOKE", target = "Ljourneymap/client/ui/fullscreen/layer/LayerDelegate;onMouseClicked(Lnet/minecraft/client/Minecraft;Ljourneymap/client/render/map/GridRenderer;Ljava/awt/geom/Point2D$Double;IF)V"),
+            at = @At(value = "INVOKE", target = "Ljourneymap/client/ui/fullscreen/layer/LayerDelegate;onMouseClicked(Lnet/minecraft/client/Minecraft;Ljourneymap/client/render/map/GridRenderer;Ljava/awt/geom/Point2D$Double;IF)V", remap = false),
             cancellable = true
     )
     private void visualores$injectMouseClicked(int mouseX, int mouseY, int mouseButton, CallbackInfo ci) {

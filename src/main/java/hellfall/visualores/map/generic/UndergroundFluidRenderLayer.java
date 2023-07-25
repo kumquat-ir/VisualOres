@@ -13,13 +13,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class UndergroundFluidRenderLayer extends RenderLayer {
-    public static final ButtonState.Button UNDERGROUND_FLUIDS_BUTTON = new ButtonState.Button("undergroundfluid", 1);
-
     protected List<UndergroundFluidPosition> visibleFluids = new ArrayList<>();
     protected UndergroundFluidPosition hovered;
 
-    public UndergroundFluidRenderLayer() {
-        super(UNDERGROUND_FLUIDS_BUTTON);
+    public UndergroundFluidRenderLayer(String key) {
+        super(key);
     }
 
     @Override

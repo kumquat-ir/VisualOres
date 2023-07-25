@@ -30,6 +30,7 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -69,8 +70,8 @@ public class VisualOresModule implements IGregTechModule {
                 VisualOres.LOGGER.error("Could not enable stencil buffer! Xaero's minimap rendering will be disabled.");
             }
 
-            RenderLayer.registerLayer(OreRenderLayer.class);
-            RenderLayer.registerLayer(UndergroundFluidRenderLayer.class);
+            Layers.registerLayer(OreRenderLayer.class, "oreveins");
+            Layers.registerLayer(UndergroundFluidRenderLayer.class, "undergroundfluid");
             WaypointManager.registerWaypointHandler(new XaeroWaypointHandler());
             WaypointManager.registerWaypointHandler(new JourneymapWaypointHandler());
         }
@@ -80,6 +81,12 @@ public class VisualOresModule implements IGregTechModule {
     public void init(FMLInitializationEvent event) {
         KeyBindings.action = new KeyBinding("visualores.key.action", KeyConflictContext.GUI, Keyboard.KEY_DELETE, "visualores.keycategory");
         ClientRegistry.registerKeyBinding(KeyBindings.action);
+
+        for (String layer : Layers.allKeys()) {
+            KeyBinding binding = new KeyBinding("visualores.button." + layer, KeyConflictContext.IN_GAME, Keyboard.KEY_NONE, "visualores.keycategory");
+            ClientRegistry.registerKeyBinding(binding);
+            KeyBindings.layerToggles.put(binding, layer);
+        }
     }
 
     @Override
@@ -145,5 +152,10 @@ public class VisualOresModule implements IGregTechModule {
         if (event.getModID().equals(Tags.MODID)) {
             ConfigManager.sync(Tags.MODID, Config.Type.INSTANCE);
         }
+    }
+
+    @SubscribeEvent
+    public static void onKeyPress(InputEvent.KeyInputEvent event) {
+        KeyBindings.toggleLayers();
     }
 }

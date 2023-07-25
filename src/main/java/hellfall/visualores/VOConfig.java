@@ -34,6 +34,17 @@ public class VOConfig {
         @Config.Comment("Whether to reverse the normal order of buttons")
         public boolean reverseButtonOrder = false;
 
+        @Config.Comment("What the normal order of buttons (and layers) should be")
+        @Config.RequiresMcRestart
+        public String[] buttonOrder = new String[]{
+                "oreveins",
+                "undergroundfluid"
+        };
+
+        @Config.Comment("Layers to not register")
+        @Config.RequiresMcRestart
+        public String[] ignoreLayers = new String[0];
+
         public static class JourneymapOptions {
             @Config.Comment("Whether to put buttons on a separate toolbar on the right instead of the map type toolbar.")
             public boolean rightToolbar = true;

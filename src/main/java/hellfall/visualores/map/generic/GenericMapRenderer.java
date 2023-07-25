@@ -32,7 +32,7 @@ public class GenericMapRenderer {
 
     public GenericMapRenderer() {
         layers = new ArrayList<>();
-        RenderLayer.addLayersTo(layers);
+        Layers.addLayersTo(layers);
     }
 
     public GenericMapRenderer(GuiScreen gui) {
@@ -82,7 +82,7 @@ public class GenericMapRenderer {
      * <br>
      * EXPECTED GL STATE:
      * <br>
-     * Coordinates: 1 unit = 1 block, positioned at block positions in world (i.e. drawing at 5,12 draws on the block at 5,12)
+     * 1 unit = 1 block, positioned such that drawing at (x - cameraX, z - cameraZ) draws on the entire block (x, z)
      * @param cameraX X position of the center block of the view
      * @param cameraZ Z position of the center block of the view
      * @param scale Scale of the camera, such that scaling by <code>1/scale</code> results in 1 unit = 1 pixel
@@ -113,7 +113,8 @@ public class GenericMapRenderer {
                         tooltip.addAll(0, layerTooltip);
                     }
                     else {
-                        tooltip = layerTooltip;
+                        // layerTooltip might be immutable
+                        tooltip = new ArrayList<>(layerTooltip);
                     }
                 }
             }

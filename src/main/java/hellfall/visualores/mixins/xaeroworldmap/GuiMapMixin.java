@@ -148,6 +148,7 @@ public abstract class GuiMapMixin extends ScreenBase {
         renderer.render(cameraX, cameraZ, scale);
     }
 
+    // so buttons with semi-transparent regions render correctly
     @Inject(method = "drawScreen", at = @At(value = "INVOKE", target = "Lxaero/map/gui/ScreenBase;drawScreen(IIF)V"))
     private void visualores$injectDrawButtons(int scaledMouseX, int scaledMouseY, float partialTicks, CallbackInfo ci) {
         GlStateManager.enableBlend();
