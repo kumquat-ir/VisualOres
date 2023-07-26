@@ -30,4 +30,9 @@ In `assets/`:
   - See [the included icons](src/main/resources/assets/journeymap/theme/flat/icon) and Journeymap's own icons for reference
 - `visualores/textures/buttons/bar.png`
   - Should have two equal-sized square icons next to each other, left is deactivated state, right is activated state
-  - See [the included icons](src/main/resources/assets/visualores/textures/xaero) for reference
+  - See [the included icons](src/main/resources/assets/visualores/textures/buttons) for reference
+
+# Adding a client cache
+For saving files in VisualOres' client-side cache directory.
+1. Create a class that implements `IClientCache` or either of its children
+2. Call `ClientCacheManager.registerClientCache()` with an instance of that class
