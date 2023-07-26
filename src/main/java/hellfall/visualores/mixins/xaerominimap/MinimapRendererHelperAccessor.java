@@ -4,7 +4,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 import xaero.common.minimap.render.MinimapRendererHelper;
 
-@Mixin(MinimapRendererHelper.class)
+@Mixin(value = MinimapRendererHelper.class, remap = false)
 public interface MinimapRendererHelperAccessor {
     // why the hell is this package-private
     @Invoker

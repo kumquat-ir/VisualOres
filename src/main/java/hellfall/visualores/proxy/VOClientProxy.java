@@ -3,6 +3,7 @@ package hellfall.visualores.proxy;
 import codechicken.lib.packet.PacketCustom;
 import hellfall.visualores.KeyBindings;
 import hellfall.visualores.Tags;
+import hellfall.visualores.VisualOres;
 import hellfall.visualores.database.ClientCacheManager;
 import hellfall.visualores.database.CommandResetClientCache;
 import hellfall.visualores.map.DrawUtils;
@@ -11,11 +12,14 @@ import hellfall.visualores.map.journeymap.JourneymapWaypointHandler;
 import hellfall.visualores.map.layers.Layers;
 import hellfall.visualores.map.xaero.XaeroWaypointHandler;
 import hellfall.visualores.network.CCLClientPacketHandler;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -96,6 +100,19 @@ public class VOClientProxy extends VOCommonProxy {
 
         if (event.getWorld().isRemote) {
             ClientCacheManager.saveCaches();
+        }
+    }
+
+    @Override
+    public void entityJoinWorld(EntityJoinWorldEvent event) {
+        super.entityJoinWorld(event);
+
+        if (event.getWorld().isRemote && event.getEntity() instanceof EntityPlayerSP && VisualOres.isClientOnlyMode()) {
+            String cacheName = "unknown";
+            if (Minecraft.getMinecraft().getCurrentServerData() != null) {
+                cacheName = Minecraft.getMinecraft().getCurrentServerData().serverIP;
+            }
+            ClientCacheManager.init("Server-" + cacheName + "-client_only");
         }
     }
 

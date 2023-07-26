@@ -34,5 +34,10 @@ In `assets/`:
 
 # Adding a client cache
 For saving files in VisualOres' client-side cache directory.
-1. Create a class that implements `IClientCache` or either of its children
-2. Call `ClientCacheManager.registerClientCache()` with an instance of that class
+1. Create a class that implements `IClientCache` or either of its child interfaces
+2. Call `ClientCacheManager.registerClientCache()` with an instance of that class in client preinit
+
+# Other useful things
+If you're writing a renderer that uses fluids' colors, use `DrawUtils#getFluidColor(Fluid)` to use the fluid color override list. No more white-colored water and lava!
+
+If your integration requires VisualOres to be on both the server and client, call `VisualOres#addModRequiringServer(String)` to require that.

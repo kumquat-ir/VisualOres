@@ -72,7 +72,9 @@ public class OreCacheRetrogenerator {
 
                 }
             }
-        } catch (IOException | DataFormatException e) {
+        } catch (IOException ignored) {
+            // cant read a file? probably a dedicated server worldgen moment
+        } catch (DataFormatException e) {
             throw new RuntimeException(e);
         }
         if (generatedGridPositions.isEmpty()) {

@@ -76,6 +76,11 @@ public class DrawUtils {
                 (float) (rgb & 255) / 255.0F };
     }
 
+    /**
+     * Get the color of a fluid, respecting the fluid color override list.
+     * <br>
+     * Will also apply a fix for incorrect GregTech fluid colors.
+     */
     public static int getFluidColor(Fluid fluid) {
         int color = fluid.getColor();
         if (colorOverrides.containsKey(fluid.getName())) {
