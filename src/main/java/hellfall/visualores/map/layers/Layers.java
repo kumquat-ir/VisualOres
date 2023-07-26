@@ -14,7 +14,7 @@ public class Layers {
     public static void registerLayer(Class<? extends RenderLayer> clazz, String key) {
         if (Arrays.asList(VOConfig.client.ignoreLayers).contains(key)) return;
         layerClasses.put(clazz, key);
-        new ButtonState.Button(key);
+        ButtonState.Button.makeButton(key);
     }
 
     public static void addLayersTo(List<RenderLayer> layers) {

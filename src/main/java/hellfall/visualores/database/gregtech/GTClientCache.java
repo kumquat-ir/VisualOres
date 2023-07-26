@@ -1,35 +1,22 @@
 package hellfall.visualores.database.gregtech;
 
-import hellfall.visualores.Tags;
+import hellfall.visualores.database.IClientCache;
 import hellfall.visualores.database.gregtech.fluid.FluidCache;
 import hellfall.visualores.database.gregtech.fluid.UndergroundFluidPosition;
 import hellfall.visualores.database.gregtech.ore.DimensionCache;
 import hellfall.visualores.database.gregtech.ore.WorldCache;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.util.Collection;
 import java.util.List;
 
-public class GTClientCache extends WorldCache {
-    public static final File clientCacheDir = new File(Minecraft.getMinecraft().gameDir, Tags.MODID);
+public class GTClientCache extends WorldCache implements IClientCache {
     public static final GTClientCache instance = new GTClientCache();
-    private File worldFolder;
 
     private final FluidCache fluids = new FluidCache();
-
-    public void init(String worldid) {
-        final EntityPlayer player = Minecraft.getMinecraft().player;
-        worldFolder = new File(clientCacheDir, player.getDisplayNameString() + "_" + player.getUniqueID() +
-                File.separator + worldid);
-        worldFolder.mkdirs();
-        loadCache();
-    }
 
     public void notifyNewVeins(int amount) {
         if (amount <= 0) return;
@@ -48,67 +35,39 @@ public class GTClientCache extends WorldCache {
         );
     }
 
-    public void saveCache() {
-        for (int dim : cache.keySet()) {
-            File dimFile = new File(worldFolder, "DIM" + dim);
-            try {
-                CompressedStreamTools.writeCompressed(cache.get(dim).toNBT(true), new FileOutputStream(dimFile));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        File fluidFile = new File(worldFolder, "fluids");
-        try {
-            CompressedStreamTools.writeCompressed(fluids.toNBT(), new FileOutputStream(fluidFile));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    @Override
+    public Collection<Integer> getExistingDimensions(String prefix) {
+        return cache.keySet();
     }
 
-    public void loadCache() {
-        try {
-            Files.walk(worldFolder.toPath(), 1).filter(Files::isRegularFile)
-                    .filter(path -> path.getFileName().toString().startsWith("DIM"))
-                    .forEach(this::loadDimFile);
-            loadFluidFile(worldFolder.toPath().resolve("fluids"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    @Override
+    public NBTTagCompound saveDimFile(String prefix, int dim) {
+        if (!cache.containsKey(dim)) return null;
+        return cache.get(dim).toNBT(true);
     }
 
-    private void loadDimFile(Path path) {
-        File dimFile = path.toFile();
-        int dimid = Integer.parseInt(path.getFileName().toString().substring(3));
-        if (!cache.containsKey(dimid)) {
-            cache.put(dimid, new DimensionCache());
-        }
-        try {
-            cache.get(dimid).fromNBT(CompressedStreamTools.readCompressed(new FileInputStream(dimFile)));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    @Override
+    public NBTTagCompound saveSingleFile(String name) {
+        return fluids.toNBT();
     }
 
-    private void loadFluidFile(Path path) {
-        File fluidFile = path.toFile();
-        if (!fluidFile.exists()) return;
-        try {
-            fluids.fromNBT(CompressedStreamTools.readCompressed(new FileInputStream(fluidFile)));
-        } catch (FileNotFoundException ignored) {
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    @Override
+    public void readDimFile(String prefix, int dim, NBTTagCompound data) {
+        if (!cache.containsKey(dim)) {
+            cache.put(dim, new DimensionCache());
         }
+        cache.get(dim).fromNBT(data);
     }
 
-    public void reset() {
-        clear();
-        try {
-            Files.walk(worldFolder.toPath(), 2).filter(Files::isRegularFile)
-//                    .filter(path -> path.getFileName().toString().startsWith("DIM")) // delete the entire cache
-                    .forEach(file -> file.toFile().delete());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    @Override
+    public void readSingleFile(String name, NBTTagCompound data) {
+        fluids.fromNBT(data);
+    }
+
+    @Override
+    public void setupCacheFiles() {
+        addDimFiles();
+        addSingleFile("fluids");
     }
 
     @Override

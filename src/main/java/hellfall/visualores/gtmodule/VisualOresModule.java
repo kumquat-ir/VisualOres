@@ -6,6 +6,7 @@ import gregtech.api.modules.IGregTechModule;
 import hellfall.visualores.KeyBindings;
 import hellfall.visualores.Tags;
 import hellfall.visualores.VisualOres;
+import hellfall.visualores.database.ClientCacheManager;
 import hellfall.visualores.database.CommandResetClientCache;
 import hellfall.visualores.database.WorldIDSaveData;
 import hellfall.visualores.database.gregtech.GTClientCache;
@@ -80,6 +81,7 @@ public class VisualOresModule implements IGregTechModule {
             WaypointManager.registerWaypointHandler(new XaeroWaypointHandler());
             WaypointManager.registerWaypointHandler(new JourneymapWaypointHandler());
 
+            ClientCacheManager.registerClientCache(GTClientCache.instance, "gregtech");
             UndergroundFluidPosition.initColorOverrides();
         }
     }
@@ -112,7 +114,7 @@ public class VisualOresModule implements IGregTechModule {
     public void serverStopped(FMLServerStoppedEvent event) {
         ServerCache.instance.clear();
         if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
-            GTClientCache.instance.clear();
+            ClientCacheManager.clearCaches();
         }
     }
 
@@ -128,16 +130,18 @@ public class VisualOresModule implements IGregTechModule {
 
     @SubscribeEvent
     public static void onWorldUnload(WorldEvent.Unload event) {
-        ServerCache.instance.invalidateWorld(event.getWorld());
         if (event.getWorld().isRemote) {
-            GTClientCache.instance.saveCache();
+            ClientCacheManager.saveCaches();
+        }
+        else {
+            ServerCache.instance.invalidateWorld(event.getWorld());
         }
     }
 
     @SubscribeEvent
     public static void onWorldSave(WorldEvent.Save event) {
         if (event.getWorld().isRemote) {
-            GTClientCache.instance.saveCache();
+            ClientCacheManager.saveCaches();
         }
     }
 
@@ -149,7 +153,8 @@ public class VisualOresModule implements IGregTechModule {
             }
             else if (event.getEntity() instanceof EntityPlayer) {
 //                VisualOres.LOGGER.info("got id local " + WorldIDSaveData.getWorldID());
-                GTClientCache.instance.init(WorldIDSaveData.getWorldID());
+//                GTClientCache.instance.init(WorldIDSaveData.getWorldID());
+                ClientCacheManager.init(WorldIDSaveData.getWorldID());
             }
         }
     }

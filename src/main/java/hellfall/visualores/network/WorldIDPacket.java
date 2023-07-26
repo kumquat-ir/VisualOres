@@ -2,7 +2,7 @@ package hellfall.visualores.network;
 
 import gregtech.api.network.IClientExecutor;
 import gregtech.api.network.IPacket;
-import hellfall.visualores.database.gregtech.GTClientCache;
+import hellfall.visualores.database.ClientCacheManager;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.network.PacketBuffer;
 
@@ -18,7 +18,7 @@ public class WorldIDPacket implements IPacket, IClientExecutor {
     @Override
     public void executeClient(NetHandlerPlayClient netHandlerPlayClient) {
 //        VisualOres.LOGGER.info("got id " + id);
-        GTClientCache.instance.init(id);
+        ClientCacheManager.init(id);
     }
 
     @Override

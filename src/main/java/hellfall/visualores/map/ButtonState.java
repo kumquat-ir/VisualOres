@@ -57,7 +57,10 @@ public class ButtonState {
         public Button(String name) {
             this.enabled = false;
             this.name = name;
-            buttons.put(name, this);
+        }
+
+        public static void makeButton(String name) {
+            buttons.put(name, new Button(name));
         }
     }
 }

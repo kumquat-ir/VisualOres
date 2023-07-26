@@ -1,7 +1,6 @@
 package hellfall.visualores.database;
 
 import codechicken.lib.command.ClientCommandBase;
-import hellfall.visualores.database.gregtech.GTClientCache;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.command.ICommandSender;
@@ -11,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 public class CommandResetClientCache extends ClientCommandBase {
     @Override
     public void execute(Minecraft minecraft, EntityPlayerSP entityPlayerSP, String[] strings) {
-        GTClientCache.instance.reset();
+        ClientCacheManager.resetCaches();
         minecraft.ingameGUI.getChatGUI().printChatMessage(new TextComponentTranslation("visualores.resetclientcache"));
     }
 
