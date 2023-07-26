@@ -8,12 +8,10 @@ import hellfall.visualores.Tags;
 import hellfall.visualores.VisualOres;
 import hellfall.visualores.database.ClientCacheManager;
 import hellfall.visualores.database.gregtech.GTClientCache;
-import hellfall.visualores.database.gregtech.fluid.UndergroundFluidPosition;
 import hellfall.visualores.database.gregtech.ore.ServerCache;
 import hellfall.visualores.map.layers.Layers;
 import hellfall.visualores.map.layers.gregtech.OreRenderLayer;
 import hellfall.visualores.map.layers.gregtech.UndergroundFluidRenderLayer;
-import hellfall.visualores.network.WorldIDPacket;
 import hellfall.visualores.network.gregtech.OreProspectToClientPacket;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -41,7 +39,6 @@ public class VisualOresModule implements IGregTechModule {
 
     @Override
     public void registerPackets() {
-        GregTechAPI.networkHandler.registerPacket(WorldIDPacket.class);
         GregTechAPI.networkHandler.registerPacket(OreProspectToClientPacket.class);
     }
 
@@ -52,7 +49,6 @@ public class VisualOresModule implements IGregTechModule {
             Layers.registerLayer(UndergroundFluidRenderLayer.class, "undergroundfluid");
 
             ClientCacheManager.registerClientCache(GTClientCache.instance, "gregtech");
-            UndergroundFluidPosition.initColorOverrides();
         }
     }
 

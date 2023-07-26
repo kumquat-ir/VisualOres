@@ -1,12 +1,21 @@
 package hellfall.visualores.map;
 
 import codechicken.lib.gui.GuiDraw;
-import gregtech.api.util.LocalizationUtils;
+import gregtech.api.fluids.MaterialFluid;
+import gregtech.api.util.GTUtility;
+import hellfall.visualores.VOConfig;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fml.common.Loader;
 
 import java.util.List;
 
 public class DrawUtils {
+    public static Object2IntMap<String> colorOverrides = new Object2IntOpenHashMap<>();
+
     public static void drawSimpleTooltip(List<String> text, double x, double y, int screenW, int screenH, int fontColor, int bgColor) {
         if (text.isEmpty()) return;
 
@@ -17,7 +26,7 @@ public class DrawUtils {
             int maxLines = (screenH - 6) / (GuiDraw.fontRenderer.FONT_HEIGHT + 2);
             int oldsize = text.size();
             text = text.subList(0, maxLines - 1);
-            text.add(LocalizationUtils.format("visualores.tooltipoverflow", oldsize - maxLines + 1));
+            text.add(I18n.format("visualores.tooltipoverflow", oldsize - maxLines + 1));
             boxHeight = text.size() * (GuiDraw.fontRenderer.FONT_HEIGHT + 2) + 6;
         }
 
@@ -65,5 +74,31 @@ public class DrawUtils {
     public static float[] floats(int rgb) {
         return new float[] { (float) (rgb >> 16 & 255) / 255.0F, (float) (rgb >> 8 & 255) / 255.0F,
                 (float) (rgb & 255) / 255.0F };
+    }
+
+    public static int getFluidColor(Fluid fluid) {
+        int color = fluid.getColor();
+        if (colorOverrides.containsKey(fluid.getName())) {
+            // make full opacity
+            color = colorOverrides.get(fluid.getName()) | 0xFF000000;
+        }
+        else if (color == 0xFFFFFFFF && Loader.isModLoaded("gregtech")) {
+            color = gtMaterialColor(fluid);
+        }
+        return color;
+    }
+
+    private static int gtMaterialColor(Fluid fluid) {
+        if (fluid instanceof MaterialFluid materialFluid) {
+            return GTUtility.convertRGBtoOpaqueRGBA_MC(materialFluid.getMaterial().getMaterialRGB());
+        }
+        return fluid.getColor();
+    }
+
+    public static void initColorOverrides() {
+        for (String entry : VOConfig.client.fluidColorOverrides) {
+            String[] parts = entry.split("="); // eg. {"water", "#6B7AF7"}
+            colorOverrides.put(parts[0], Integer.decode(parts[1]));
+        }
     }
 }

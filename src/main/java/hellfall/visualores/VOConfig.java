@@ -45,6 +45,14 @@ public class VOConfig {
         @Config.RequiresMcRestart
         public String[] ignoreLayers = new String[0];
 
+        @Config.Comment({"Fluid colors to override in the underground fluid overlay",
+                "Format: fluid name=RGB color"})
+        @Config.RequiresMcRestart
+        public String[] fluidColorOverrides = new String[]{
+                "water=#6B7AF7",
+                "lava=#D14F0C"
+        };
+
         public static class JourneymapOptions {
             @Config.Comment("Whether to put buttons on a separate toolbar on the right instead of the map type toolbar.")
             public boolean rightToolbar = true;
@@ -96,14 +104,6 @@ public class VOConfig {
 
             @Config.Comment("The string prepending ore names in the ore vein tooltip")
             public String oreNamePrefix = "- ";
-
-            @Config.Comment({"Fluid colors to override in the underground fluid overlay",
-                    "Format: fluid name=RGB color"})
-            @Config.RequiresMcRestart
-            public String[] fluidColorOverrides = new String[]{
-                    "water=#6B7AF7",
-                    "lava=#D14F0C"
-            };
         }
     }
 

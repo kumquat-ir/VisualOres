@@ -1,12 +1,8 @@
 package hellfall.visualores.database.gregtech.fluid;
 
-import gregtech.api.fluids.MaterialFluid;
-import gregtech.api.util.GTUtility;
 import gregtech.api.util.LocalizationUtils;
 import gregtech.api.worldgen.bedrockFluids.ChunkPosDimension;
-import hellfall.visualores.VOConfig;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import hellfall.visualores.map.DrawUtils;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -14,7 +10,6 @@ import net.minecraftforge.fluids.FluidRegistry;
 import java.util.Objects;
 
 public class UndergroundFluidPosition {
-    public static Object2IntMap<String> colorOverrides = new Object2IntOpenHashMap<>();
     public ChunkPosDimension pos;
     public String fluid;
     public int yield;
@@ -35,14 +30,7 @@ public class UndergroundFluidPosition {
 
         Fluid f = FluidRegistry.getFluid(fluid);
         this.name = LocalizationUtils.format(f.getUnlocalizedName());
-        this.color = f.getColor();
-
-        if (colorOverrides.containsKey(f.getName())) {
-            color = GTUtility.convertRGBtoOpaqueRGBA_MC(colorOverrides.get(f.getName()));
-        }
-        else if (color == 0xFFFFFFFF && f instanceof MaterialFluid mf) {
-            color = GTUtility.convertRGBtoOpaqueRGBA_MC(mf.getMaterial().getMaterialRGB());
-        }
+        this.color = DrawUtils.getFluidColor(f);
     }
 
     public NBTTagCompound toNBT() {
@@ -73,10 +61,4 @@ public class UndergroundFluidPosition {
         return Objects.hash(pos, fluid, yield, percent);
     }
 
-    public static void initColorOverrides() {
-        for (String entry : VOConfig.client.gregtech.fluidColorOverrides) {
-            String[] parts = entry.split("="); // eg. {"water", "#6B7AF7"}
-            colorOverrides.put(parts[0], Integer.decode(parts[1]));
-        }
-    }
 }

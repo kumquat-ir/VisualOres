@@ -1,13 +1,16 @@
 package hellfall.visualores.proxy;
 
+import codechicken.lib.packet.PacketCustom;
 import hellfall.visualores.KeyBindings;
 import hellfall.visualores.Tags;
 import hellfall.visualores.database.ClientCacheManager;
 import hellfall.visualores.database.CommandResetClientCache;
+import hellfall.visualores.map.DrawUtils;
 import hellfall.visualores.map.WaypointManager;
 import hellfall.visualores.map.journeymap.JourneymapWaypointHandler;
 import hellfall.visualores.map.layers.Layers;
 import hellfall.visualores.map.xaero.XaeroWaypointHandler;
+import hellfall.visualores.network.CCLClientPacketHandler;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.client.settings.KeyConflictContext;
@@ -36,6 +39,9 @@ public class VOClientProxy extends VOCommonProxy {
         if (Loader.isModLoaded("journeymap")) {
             WaypointManager.registerWaypointHandler(new JourneymapWaypointHandler());
         }
+
+        DrawUtils.initColorOverrides();
+        PacketCustom.assignHandler(Tags.MODID, new CCLClientPacketHandler());
     }
 
     @Override

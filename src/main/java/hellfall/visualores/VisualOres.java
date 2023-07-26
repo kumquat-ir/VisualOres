@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Mod(modid = Tags.MODID, version = Tags.VERSION, name = Tags.MODNAME, acceptedMinecraftVersions = "[1.12.2]",
-        dependencies = "required-before:gregtech@[2.7.2-beta,);" // actually USING the gt module system requires loading before gt
+        dependencies = "before:gregtech@[2.7.2-beta,);" // actually USING the gt module system requires loading before gt
                 + CodeChickenLib.MOD_VERSION_DEP + "required-after:mixinbooter")
 public class VisualOres {
     public static final Logger LOGGER = LogManager.getLogger(Tags.MODID);
