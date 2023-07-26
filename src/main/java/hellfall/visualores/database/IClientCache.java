@@ -30,14 +30,14 @@ public interface IClientCache {
      * Save a dimension-specific file.
      * @param prefix The prefix of the file
      * @param dim The dimension id to be saved
-     * @return The NBT to be written to disk
+     * @return The NBT to be written to disk, or <code>null</code> to save nothing
      */
     NBTTagCompound saveDimFile(String prefix, int dim);
 
     /**
      * Save a non-dimension-specific file.
      * @param name The name of the file
-     * @return The NBT to be written to disk
+     * @return The NBT to be written to disk, or <code>null</code> to save nothing
      */
     NBTTagCompound saveSingleFile(String name);
 

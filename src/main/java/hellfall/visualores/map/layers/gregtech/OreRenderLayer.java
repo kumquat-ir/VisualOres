@@ -37,7 +37,7 @@ public class OreRenderLayer extends RenderLayer {
             GlStateManager.pushMatrix();
 
             // -> scale = pixels, origin = center of block vein is in
-            GlStateManager.translate(vein.x - 0.5, vein.z - 0.5, 0);
+            GlStateManager.translate(vein.x + 0.5, vein.z + 0.5, 0);
             GlStateManager.scale(1 / clampedScale, 1 / clampedScale, 1);
 
             float[] colors = DrawUtils.floats(vein.veinInfo.color);

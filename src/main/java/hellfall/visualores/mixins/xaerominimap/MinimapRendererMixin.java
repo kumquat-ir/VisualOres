@@ -13,12 +13,13 @@ import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xaero.common.IXaeroMinimap;
-import xaero.common.XaeroMinimapSession;
 import xaero.common.minimap.MinimapInterface;
-import xaero.common.minimap.MinimapProcessor;
 import xaero.common.minimap.element.render.over.MinimapElementOverMapRendererHandler;
 import xaero.common.minimap.render.MinimapRenderer;
 import xaero.common.minimap.render.MinimapRendererHelper;
@@ -35,9 +36,6 @@ public abstract class MinimapRendererMixin {
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void visualores$injectConstruct(IXaeroMinimap modMain, Minecraft mc, WaypointsGuiRenderer waypointsGuiRenderer, MinimapInterface minimapInterface, CompassRenderer compassRenderer, CallbackInfo ci) {
-        if (!GenericMapRenderer.stencilEnabled) {
-            return;
-        }
         renderer = new GenericMapRenderer();
     }
 
@@ -60,49 +58,57 @@ public abstract class MinimapRendererMixin {
             at = @At(value = "INVOKE", target = "Lxaero/common/minimap/element/render/over/MinimapElementOverMapRendererHandler;render(Lnet/minecraft/entity/Entity;Lnet/minecraft/entity/player/EntityPlayer;DDDDDDZFLnet/minecraft/client/shader/Framebuffer;Lxaero/common/IXaeroMinimap;Lxaero/common/minimap/render/MinimapRendererHelper;Lnet/minecraft/client/gui/FontRenderer;Lnet/minecraft/client/gui/ScaledResolution;IIIIZF)D")
     )
     private double visualores$injectRender(MinimapElementOverMapRendererHandler instance, Entity renderEntity, EntityPlayer player, double renderX, double renderY, double renderZ, double ps, double pc, double zoom, boolean cave, float partialTicks, Framebuffer framebuffer, IXaeroMinimap modMain, MinimapRendererHelper helper, FontRenderer font, ScaledResolution scaledRes, int specW, int specH, int halfViewW, int halfViewH, boolean circle, float minimapScale) {
-        if (GenericMapRenderer.stencilEnabled && VOConfig.client.enableMinimapRendering) {
+        if (VOConfig.client.enableMinimapRendering) {
             renderer.updateVisibleArea(mc.player.dimension, (int) (renderX - frameSize), (int) (renderZ - frameSize), frameSize * 2, frameSize * 2);
 
             GlStateManager.pushMatrix();
-            GL11.glEnable(GL11.GL_STENCIL_TEST);
+            GlStateManager.enableDepth();
+            GlStateManager.depthFunc(GL11.GL_GREATER);
             GlStateManager.rotate(angle, 0, 0, 1);
             GlStateManager.scale(this.zoom, this.zoom, 1);
             GlStateManager.translate(-renderX, -renderZ, 0);
-            GL11.glStencilFunc(GL11.GL_EQUAL, 1, 1);
             renderer.render(renderX, renderZ, zoom);
-            GL11.glDisable(GL11.GL_STENCIL_TEST);
+            GlStateManager.depthFunc(GL11.GL_LEQUAL);
+            GlStateManager.disableDepth();
             GlStateManager.popMatrix();
         }
 
         return instance.render(renderEntity, player, renderX, renderY, renderZ, ps, pc, zoom, cave, partialTicks, framebuffer, modMain, helper, font, scaledRes, specW, specH, halfViewW, halfViewH, circle, minimapScale);
     }
 
-    // if stenciling is disabled, these two will do absolutely nothing
-    @Inject(
-        method = "renderMinimap",
-        at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/GL11;glScalef(FFF)V", shift = At.Shift.AFTER),
-        slice = @Slice(
-                to = @At(
-                        value = "INVOKE",
-                        target = "Lxaero/common/minimap/render/MinimapRendererHelper;drawTexturedElipseInsideRectangle(DIFFIIFF)V")))
-    private void visualores$injectBeginStencil(XaeroMinimapSession minimapSession, MinimapProcessor minimap, int x, int y, int width, int height, ScaledResolution scaledRes, int size, float partial, CallbackInfo ci) {
-        GL11.glEnable(GL11.GL_STENCIL_TEST);
-        GL11.glStencilFunc(GL11.GL_ALWAYS, 1, 1);
-        GL11.glStencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_REPLACE);
-        GL11.glStencilMask(0xFF);
-        GL11.glClear(GL11.GL_STENCIL_BUFFER_BIT);
+    @Redirect(method = "renderMinimap", at = @At(value = "INVOKE", target = "Lxaero/common/minimap/render/MinimapRendererHelper;drawMyTexturedModalRect(FFIIFFF)V"))
+    private void visualores$depthRectMinimap(MinimapRendererHelper instance, float x, float y, int textureX, int textureY, float width, float height, float factor) {
+        GlStateManager.enableDepth();
+        GlStateManager.disableTexture2D();
+        GlStateManager.depthMask(true);
+        GlStateManager.colorMask(false, false, false, false);
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(0, 0, 1000);
+        instance.drawMyTexturedModalRect(x, y, textureX, textureY, width, height, factor);
+        GlStateManager.popMatrix();
+        GlStateManager.colorMask(true, true, true, true);
+        GlStateManager.depthMask(false);
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableDepth();
+
+        instance.drawMyTexturedModalRect(x, y, textureX, textureY, width, height, factor);
     }
 
-    @Inject(
-            method = "renderMinimap",
-            at = @At(value = "INVOKE", target = "Lxaero/common/minimap/MinimapInterface;usingFBO()Z"),
-            slice = @Slice(
-                    from = @At(
-                            value = "INVOKE",
-                            target = "Lxaero/common/minimap/render/MinimapRendererHelper;drawTexturedElipseInsideRectangle(DIFFIIFF)V")))
-    private void visualores$injectEndStencil(XaeroMinimapSession minimapSession, MinimapProcessor minimap, int x, int y, int width, int height, ScaledResolution scaledRes, int size, float partial, CallbackInfo ci) {
-        GL11.glStencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_KEEP);
-        GL11.glStencilMask(0x00);
-        GL11.glDisable(GL11.GL_STENCIL_TEST);
+    @Redirect(method = "renderMinimap", at = @At(value = "INVOKE", target = "Lxaero/common/minimap/render/MinimapRendererHelper;drawTexturedElipseInsideRectangle(DIFFIIFF)V"))
+    private void visualores$depthCircleMinimap(MinimapRendererHelper instance, double startAngle, int sides, float x, float y, int textureX, int textureY, float width, float widthFactor) {
+        GlStateManager.enableDepth();
+        GlStateManager.disableTexture2D();
+        GlStateManager.depthMask(true);
+        GlStateManager.colorMask(false, false, false, false);
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(0, 0, 1000);
+        ((MinimapRendererHelperAccessor) instance).invokeDrawTexturedElipseInsideRectangle(startAngle, sides, x, y, textureX, textureY, width, widthFactor);
+        GlStateManager.popMatrix();
+        GlStateManager.colorMask(true, true, true, true);
+        GlStateManager.depthMask(false);
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableDepth();
+
+        ((MinimapRendererHelperAccessor) instance).invokeDrawTexturedElipseInsideRectangle(startAngle, sides, x, y, textureX, textureY, width, widthFactor);
     }
 }

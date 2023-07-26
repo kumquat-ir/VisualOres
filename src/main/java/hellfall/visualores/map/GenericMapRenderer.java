@@ -17,8 +17,6 @@ import java.util.List;
  */
 @SideOnly(Side.CLIENT)
 public class GenericMapRenderer {
-    public static boolean stencilEnabled = false;
-
     private static final int VISIBLE_AREA_PADDING = 20;
 
     protected int dimensionID;

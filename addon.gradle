@@ -1,0 +1,25 @@
+tasks.register('runMc') {
+    group = "custom"
+    description = "Run a live minecraft environment.\n" +
+            "Requires PrismLauncher on your PATH, and the environment variables VISUALORES_LIVE_MODS_DIR and VISUALORES_INSTANCE_NAME to be set."
+    dependsOn tasks.build
+
+    String mods_dir = System.getenv("VISUALORES_LIVE_MODS_DIR")
+    String instance_name = System.getenv("VISUALORES_INSTANCE_NAME")
+
+    onlyIf {
+        mods_dir != null && instance_name != null
+    }
+
+    doLast {
+        copy {
+            from (tasks.reobfJar.getOutputs().getFiles()) {
+                include '*.jar'
+            }
+            into (mods_dir)
+        }
+        exec {
+            commandLine("prismlauncher", "-l", instance_name)
+        }
+    }
+}
