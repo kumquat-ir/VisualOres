@@ -3,12 +3,14 @@
 
 A mod that adds various overlays to map mods.
 
+Requires CodeChickenLib and MixinBooter.
+
 Supports Journeymap and Xaero's Minimap and World Map.
 
 Overlays can be toggled by either a button on the world map or by pressing a keybind in-game (unbound by default - check the controls settings)  
 The location and order of the buttons can be customized in the config:
 - The order of the buttons can be changed either by a list or just reversing the order
-  - Reversing the order does not require restarting minecraft, while modifying the list does
+  - Reversing the order does not require restarting minecraft, while modifying the list does not
   - Changes to the order list will also affect what order layers render in if multiple are enabled
 - Journeymap users can put the buttons either next to the main map types or in their own toolbar on the right of the screen
 - Xaero's World Map users can put the buttons anywhere!
@@ -17,7 +19,7 @@ The location and order of the buttons can be customized in the config:
 ## Current overlays
 
 ### [GregTech CEu](https://github.com/GregTechCEu/GregTech)
-Requires GTCEU version 2.7.2  
+Requires GTCEu version 2.7.2  
 Requires VisualOres to be installed on both the client and server
 
 #### Ore vein overlay
@@ -33,8 +35,7 @@ Veins may be missing, and veins that do not exist may be marked.
 (Still better than nothing, though. Most veins *should* be accurate.)
 
 #### Underground fluid overlay
-
 ![2023-07-27_12 27 01](https://github.com/kumquat-ir/VisualOres/assets/66188216/810835ba-5437-4a7d-b9f3-4295e85c68d2)
 
 Displays underground fluid fields you have discovered. Use an electric prospector on fluid mode to discover fields.  
-(Yes, the weird shapes of fields are correct. GTCEU 2.7.2 and earlier have a bug with fluid vein generation.)
+(Yes, the weird shapes of fields are correct. GTCEu 2.7.2 and earlier have a bug with fluid vein generation.)
