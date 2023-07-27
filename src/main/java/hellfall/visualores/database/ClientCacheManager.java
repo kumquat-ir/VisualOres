@@ -15,6 +15,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -116,6 +117,41 @@ public class ClientCacheManager {
         caches.get(cache).singleFiles.add(prefix);
     }
 
+    public static List<ProspectionInfo> getProspectionShareData() {
+        List<ProspectionInfo> result = new ArrayList<>();
+        for (IClientCache cache : caches.keySet()) {
+            ClientCacheInfo cacheInfo = caches.get(cache);
+            for (String dimPrefix : cacheInfo.dimFilePrefixes) {
+                for (int dim : cache.getExistingDimensions(dimPrefix)) {
+                    NBTTagCompound data = cache.saveDimFile(dimPrefix, dim);
+                    if (data == null) continue;
+                    result.add(new ProspectionInfo(cacheInfo.key, dimPrefix, true, dim, data));
+                }
+            }
+            for (String singleFileName : cacheInfo.singleFiles) {
+                NBTTagCompound data = cache.saveSingleFile(singleFileName);
+                if (data == null) continue;
+                result.add(new ProspectionInfo(cacheInfo.key, singleFileName, false, 0, data));
+            }
+        }
+        return result;
+    }
+
+    public static void processProspectionShare(String cacheName, String key, boolean isDimCache, int dim, NBTTagCompound data) {
+        for (IClientCache cache : caches.keySet()) {
+            ClientCacheInfo cacheInfo = caches.get(cache);
+            if (cacheInfo.key.equals(cacheName)) {
+                if (isDimCache) {
+                    cache.readDimFile(key, dim, data);
+                }
+                else {
+                    cache.readSingleFile(key, data);
+                }
+                break;
+            }
+        }
+    }
+
     private static List<File> getDimFiles(File parent, String prefix) {
         try (var stream = Files.walk(parent.toPath(), 1)) {
             return stream.filter(Files::isRegularFile)
@@ -136,6 +172,22 @@ public class ClientCacheManager {
             this.key = key;
             dimFilePrefixes = new HashSet<>();
             singleFiles = new HashSet<>();
+        }
+    }
+
+    public static class ProspectionInfo {
+        public String cacheName;
+        public String key;
+        public boolean isDimCache;
+        public int dim;
+        public NBTTagCompound data;
+
+        public ProspectionInfo(String cacheName, String key, boolean isDimCache, int dim, NBTTagCompound data) {
+            this.cacheName = cacheName;
+            this.key = key;
+            this.isDimCache = isDimCache;
+            this.dim = dim;
+            this.data = data;
         }
     }
 }

@@ -24,8 +24,8 @@
 dependencies {
     implementation rfg.deobf('maven.modrinth:gregtech-ce-unofficial:2.7.2-beta')
     implementation rfg.deobf('maven.modrinth:journeymap:1.12.2-5.7.1')
-    implementation rfg.deobf('maven.modrinth:xaeros-minimap:23.5.0_Forge_1.12')
-    implementation rfg.deobf('maven.modrinth:xaeros-world-map:1.30.5_Forge_1.12')
+    implementation rfg.deobf('maven.modrinth:xaeros-minimap:23.6.0_Forge_1.12')
+    implementation rfg.deobf('maven.modrinth:xaeros-world-map:1.31.0_Forge_1.12')
 
     implementation rfg.deobf("curse.maven:codechicken-lib-1-8-242818:2779848")
 }

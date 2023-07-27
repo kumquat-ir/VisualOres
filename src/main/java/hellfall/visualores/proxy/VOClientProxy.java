@@ -6,6 +6,7 @@ import hellfall.visualores.Tags;
 import hellfall.visualores.VisualOres;
 import hellfall.visualores.database.ClientCacheManager;
 import hellfall.visualores.database.CommandResetClientCache;
+import hellfall.visualores.database.CommandShareProspectingData;
 import hellfall.visualores.map.DrawUtils;
 import hellfall.visualores.map.WaypointManager;
 import hellfall.visualores.map.journeymap.JourneymapWaypointHandler;
@@ -67,6 +68,7 @@ public class VOClientProxy extends VOCommonProxy {
         super.postInit(event);
 
         ClientCommandHandler.instance.registerCommand(new CommandResetClientCache());
+        ClientCommandHandler.instance.registerCommand(new CommandShareProspectingData());
     }
 
     @Override
