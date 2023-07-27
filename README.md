@@ -32,7 +32,8 @@ Double-click a vein to mark it as a waypoint, and again to unmark it.
 
 VisualOres will attempt to generate ore vein locations for worlds that were generated before it was added, but it *will* generate some inaccurate vein positions!  
 Veins may be missing, and veins that do not exist may be marked.  
-(Still better than nothing, though. Most veins *should* be accurate.)
+(Still better than nothing, though. Most veins *should* be accurate.)  
+(This uses a modified version of [Enklume](https://github.com/GTNewHorizons/Enklume) to parse the save data, located [here](https://github.com/kumquat-ir/VisualOres/tree/master/src/main/java/hellfall/visualores/lib/io/xol/enklume))
 
 #### Underground fluid overlay
 ![2023-07-27_12 27 01](https://github.com/kumquat-ir/VisualOres/assets/66188216/810835ba-5437-4a7d-b9f3-4295e85c68d2)
