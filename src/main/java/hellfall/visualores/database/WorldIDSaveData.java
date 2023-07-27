@@ -5,8 +5,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldSavedData;
-import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nonnull;
 import java.util.UUID;
 
 public class WorldIDSaveData extends WorldSavedData {
@@ -40,12 +40,12 @@ public class WorldIDSaveData extends WorldSavedData {
     }
 
     @Override
-    public void readFromNBT(@NotNull NBTTagCompound nbt) {
+    public void readFromNBT(@Nonnull NBTTagCompound nbt) {
         worldID = nbt.getString("id");
     }
 
     @Override
-    public @NotNull NBTTagCompound writeToNBT(@NotNull NBTTagCompound compound) {
+    public @Nonnull NBTTagCompound writeToNBT(@Nonnull NBTTagCompound compound) {
         compound.setString("id", worldID);
         return compound;
     }

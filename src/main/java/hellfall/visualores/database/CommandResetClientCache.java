@@ -5,7 +5,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.text.TextComponentTranslation;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 public class CommandResetClientCache extends ClientCommandBase {
     @Override
@@ -15,12 +16,12 @@ public class CommandResetClientCache extends ClientCommandBase {
     }
 
     @Override
-    public @NotNull String getName() {
+    public @Nonnull String getName() {
         return "vo_resetclientcache";
     }
 
     @Override
-    public @NotNull String getUsage(@NotNull ICommandSender sender) {
+    public @Nonnull String getUsage(@Nonnull ICommandSender sender) {
         return "Resets the VisualOres client cache";
     }
 }

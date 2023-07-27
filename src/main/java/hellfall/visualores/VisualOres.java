@@ -152,8 +152,9 @@ public class VisualOres {
                 return false;
             }
         }
-        // the server has no mods that require VisualOres to be on both sides, so we do not care if the server has VisualOres
-        return true;
+        // the server has no mods that require VisualOres to be on both sides, so we do not care if the server has VisualOres or not
+        // but if it does, we want it to be the same version
+        return !containsVO || containsSameVOVersion;
     }
 
     /**

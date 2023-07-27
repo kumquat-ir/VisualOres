@@ -18,20 +18,20 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.List;
 
 @GregTechModule(moduleID = VisualOresModuleContainer.VO_MODULE, containerID = Tags.MODID, name = "VisualOres module", coreModule = true)
 public class VisualOresModule implements IGregTechModule {
-    @NotNull
+    @Nonnull
     @Override
     public List<Class<?>> getEventBusSubscribers() {
         return Collections.singletonList(VisualOresModule.class);
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Logger getLogger() {
         return VisualOres.LOGGER;

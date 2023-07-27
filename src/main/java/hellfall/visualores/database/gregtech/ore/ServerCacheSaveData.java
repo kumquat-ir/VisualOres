@@ -5,7 +5,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldSavedData;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 public class ServerCacheSaveData extends WorldSavedData {
     private static final String DATA_NAME = Tags.MODID;
@@ -49,7 +50,7 @@ public class ServerCacheSaveData extends WorldSavedData {
     }
 
     @Override
-    public void readFromNBT(@NotNull NBTTagCompound nbt) {
+    public void readFromNBT(@Nonnull NBTTagCompound nbt) {
         if (backingCache != null) {
             backingCache.fromNBT(nbt);
         }
@@ -59,7 +60,7 @@ public class ServerCacheSaveData extends WorldSavedData {
     }
 
     @Override
-    public @NotNull NBTTagCompound writeToNBT(@NotNull NBTTagCompound compound) {
+    public @Nonnull NBTTagCompound writeToNBT(@Nonnull NBTTagCompound compound) {
         return backingCache.toNBT(compound);
     }
 }
