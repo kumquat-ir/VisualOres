@@ -16,7 +16,7 @@ The location and order of the buttons can be customized in the config:
 
 ## Current overlays
 
-### [GregTech CEU](https://github.com/GregTechCEu/GregTech)
+### [GregTech CEu](https://github.com/GregTechCEu/GregTech)
 Requires GTCEU version 2.7.2  
 Requires VisualOres to be installed on both the client and server
 
