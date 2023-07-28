@@ -6,8 +6,10 @@ import gregtech.api.util.GTUtility;
 import hellfall.visualores.VOConfig;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fml.common.Loader;
 
@@ -16,6 +18,13 @@ import java.util.List;
 public class DrawUtils {
     public static Object2IntMap<String> colorOverrides = new Object2IntOpenHashMap<>();
 
+    /**
+     * Draws a tooltip on the screen.
+     * @param screenW The width of the screen. Used for tooltip placement
+     * @param screenH The height of the screen. Used for tooltip placement and truncation if too tall
+     * @param fontColor ARGB hex color of the text
+     * @param bgColor ARGB hex color of the background
+     */
     public static void drawSimpleTooltip(List<String> text, double x, double y, int screenW, int screenH, int fontColor, int bgColor) {
         if (text.isEmpty()) return;
 
@@ -71,9 +80,29 @@ public class DrawUtils {
         GlStateManager.popMatrix();
     }
 
-    public static float[] floats(int rgb) {
-        return new float[] { (float) (rgb >> 16 & 255) / 255.0F, (float) (rgb >> 8 & 255) / 255.0F,
-                (float) (rgb & 255) / 255.0F };
+    /**
+     * Converts an (A)RGB integer color into an array of floats, for use in GL calls
+     * @return float[]{R, G, B, A}
+     */
+    public static float[] floats(int argb) {
+        return new float[] {
+                (float) (argb >> 16 & 255) / 255.0F,
+                (float) (argb >> 8 & 255) / 255.0F,
+                (float) (argb & 255) / 255.0F,
+                (float) (argb >> 24 & 255) / 255.0F
+        };
+    }
+
+    /**
+     * Get which block the mouse is hovering over.
+     * <br>
+     * The parameters passed to this should be the parameters of <code>updateHovered</code>
+     * @return A {@link BlockPos} with x and z coordinates of the block the mouse is over, and a y coordinate of 0
+     */
+    public static BlockPos getMouseBlockPos(double mouseX, double mouseY, double cameraX, double cameraZ, double scale) {
+        int mouseBlockX = (int) Math.floor((mouseX - Minecraft.getMinecraft().displayWidth / 2.0) / scale + cameraX);
+        int mouseBlockZ = (int) Math.floor((mouseY - Minecraft.getMinecraft().displayHeight / 2.0) / scale + cameraZ);
+        return new BlockPos(mouseBlockX, 0, mouseBlockZ);
     }
 
     /**

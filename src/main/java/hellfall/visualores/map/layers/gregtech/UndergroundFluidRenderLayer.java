@@ -4,9 +4,10 @@ import codechicken.lib.gui.GuiDraw;
 import gregtech.api.worldgen.bedrockFluids.BedrockFluidVeinHandler;
 import hellfall.visualores.database.gregtech.GTClientCache;
 import hellfall.visualores.database.gregtech.fluid.UndergroundFluidPosition;
+import hellfall.visualores.map.DrawUtils;
 import hellfall.visualores.map.layers.RenderLayer;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,12 +47,11 @@ public class UndergroundFluidRenderLayer extends RenderLayer {
 
     @Override
     public void updateHovered(double mouseX, double mouseY, double cameraX, double cameraZ, double scale) {
-        int mouseBlockX = (int) Math.floor((mouseX - Minecraft.getMinecraft().displayWidth / 2.0) / scale + cameraX);
-        int mouseBlockZ = (int) Math.floor((mouseY - Minecraft.getMinecraft().displayHeight / 2.0) / scale + cameraZ);
+        BlockPos mouseBlock = DrawUtils.getMouseBlockPos(mouseX, mouseY, cameraX, cameraZ, scale);
 
         //todo BedrockFluidVeinHandler.getVeinCoord()
-        int mouseFieldX = (mouseBlockX >> 4) / BedrockFluidVeinHandler.VEIN_CHUNK_SIZE;
-        int mouseFieldZ = (mouseBlockZ >> 4) / BedrockFluidVeinHandler.VEIN_CHUNK_SIZE;
+        int mouseFieldX = (mouseBlock.getX() >> 4) / BedrockFluidVeinHandler.VEIN_CHUNK_SIZE;
+        int mouseFieldZ = (mouseBlock.getZ() >> 4) / BedrockFluidVeinHandler.VEIN_CHUNK_SIZE;
 
         hovered = null;
         for (var fluidPos : visibleFluids) {
