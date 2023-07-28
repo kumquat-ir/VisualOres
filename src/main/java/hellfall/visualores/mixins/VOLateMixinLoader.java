@@ -7,8 +7,8 @@ import zone.rong.mixinbooter.ILateMixinLoader;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class VOMixinLoader implements ILateMixinLoader {
-    private static final List<String> mixinInfixes = ImmutableList.of("journeymap", "xaerominimap", "xaeroworldmap", "gregtech");
+public class VOLateMixinLoader implements ILateMixinLoader {
+    private static final List<String> mixinInfixes = ImmutableList.of("journeymap", "xaerominimap", "xaeroworldmap", "gregtech", "astralsorcery", "thaumcraft");
 
     @Override
     public List<String> getMixinConfigs() {

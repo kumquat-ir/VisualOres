@@ -81,3 +81,7 @@ local.properties
 run/
 
 logs/
+
+# Custom
+*.aseprite
+*.kra

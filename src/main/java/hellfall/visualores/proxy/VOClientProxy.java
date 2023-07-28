@@ -7,10 +7,12 @@ import hellfall.visualores.VisualOres;
 import hellfall.visualores.database.ClientCacheManager;
 import hellfall.visualores.database.CommandResetClientCache;
 import hellfall.visualores.database.CommandShareProspectingData;
+import hellfall.visualores.database.immersiveengineering.IEClientCache;
 import hellfall.visualores.map.DrawUtils;
 import hellfall.visualores.map.WaypointManager;
 import hellfall.visualores.map.journeymap.JourneymapWaypointHandler;
 import hellfall.visualores.map.layers.Layers;
+import hellfall.visualores.map.layers.immersiveengineering.ExcavatorRenderLayer;
 import hellfall.visualores.map.xaero.XaeroWaypointHandler;
 import hellfall.visualores.network.CCLClientPacketHandler;
 import net.minecraft.client.Minecraft;
@@ -47,6 +49,20 @@ public class VOClientProxy extends VOCommonProxy {
 
         DrawUtils.initColorOverrides();
         PacketCustom.assignHandler(Tags.MODID, new CCLClientPacketHandler());
+
+        if (Loader.isModLoaded("astralsorcery")) {
+//            Layers.registerLayer(StarfieldRenderLayer.class, "starlight");
+//            Layers.registerLayer(NeromanticRenderLayer.class, "neromantic");
+//            ClientCacheManager.registerClientCache(ASClientCache.instance, "astral");
+        }
+        if (Loader.isModLoaded("thaumcraft")) {
+//            Layers.registerLayer(AuraFluxRenderLayer.class, "aura_flux");
+//            ClientCacheManager.registerClientCache(TCClientCache.instance, "thaumcraft");
+        }
+        if (Loader.isModLoaded("immersiveengineering")) {
+            Layers.registerLayer(ExcavatorRenderLayer.class, "excavator");
+            ClientCacheManager.registerClientCache(IEClientCache.instance, "immeng");
+        }
     }
 
     @Override

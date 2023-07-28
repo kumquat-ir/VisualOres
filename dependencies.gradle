@@ -22,10 +22,21 @@
  * For more details, see https://docs.gradle.org/8.0.1/userguide/java_library_plugin.html#sec:java_library_configurations_graph
  */
 dependencies {
-    implementation rfg.deobf('maven.modrinth:gregtech-ce-unofficial:2.7.2-beta')
+    // maps
     implementation rfg.deobf('maven.modrinth:journeymap:1.12.2-5.7.1')
     implementation rfg.deobf('maven.modrinth:xaeros-minimap:23.6.0_Forge_1.12')
     implementation rfg.deobf('maven.modrinth:xaeros-world-map:1.31.0_Forge_1.12')
 
-    implementation rfg.deobf("curse.maven:codechicken-lib-1-8-242818:2779848")
+    // mods with layer integrations
+    implementation rfg.deobf('maven.modrinth:gregtech-ce-unofficial:2.7.2-beta')
+    implementation rfg.deobf('curse.maven:thaumcraft-223628:2629023')
+    implementation rfg.deobf('curse.maven:astral-sorcery-241721:3044416')
+    implementation rfg.deobf('curse.maven:immersive-engineering-231951:2974106')
+
+    // deps of vo
+    // mixinbooter is automatically pulled by gt buildscript
+    implementation rfg.deobf('curse.maven:codechicken-lib-1-8-242818:2779848')
+
+    // deps of other mods
+    runtimeOnly rfg.deobf('curse.maven:baubles-227083:2518667')
 }
