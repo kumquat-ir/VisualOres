@@ -1,7 +1,6 @@
 package hellfall.visualores.database.immersiveengineering;
 
 import blusunrize.immersiveengineering.common.util.ItemNBTHelper;
-import hellfall.visualores.VisualOres;
 import hellfall.visualores.database.IClientCachePerDimOnly;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
@@ -20,7 +19,6 @@ public class IEClientCache implements IClientCachePerDimOnly {
 
     public void readCoresampleNBT(ItemStack stack) {
         NBTTagCompound nbt = ItemNBTHelper.getTag(stack);
-        VisualOres.LOGGER.info(nbt);
         if (!nbt.hasKey("coords")) return;
         int dim = nbt.getIntArray("coords")[0];
 

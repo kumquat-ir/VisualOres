@@ -1,7 +1,8 @@
-package hellfall.visualores.database;
+package hellfall.visualores.commands;
 
 import codechicken.lib.command.ClientCommandBase;
 import hellfall.visualores.VisualOres;
+import hellfall.visualores.database.ClientCacheManager;
 import hellfall.visualores.network.CCLPacketSender;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -31,12 +32,12 @@ public class CommandShareProspectingData extends ClientCommandBase {
 
     @Override
     public @Nonnull String getName() {
-        return "vo_share";
+        return "share";
     }
 
     @Override
     public @Nonnull String getUsage(@Nonnull ICommandSender sender) {
-        return "/vo_share <player>";
+        return "/vo share <player>";
     }
 
     private static class ProspectingShareTask implements Runnable {

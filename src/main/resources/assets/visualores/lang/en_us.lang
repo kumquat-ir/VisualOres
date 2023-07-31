@@ -1,8 +1,13 @@
-visualores.resetclientcache=Reset client caches!
 
 visualores.button.oreveins=Toggle ore vein display
 visualores.button.undergroundfluid=Toggle underground fluid display
 visualores.button.excavator=Toggle excavator vein display
+
+visualores.command.reset.usage=Resets the VisualOres client cache
+visualores.command.reset.success=Reset client caches!
+visualores.command.openfolder.usage=Opens the client cache folder
+visualores.command.openfolder.message=Open cache folder
+visualores.command.openfolder.error=Could not open cache folder
 
 visualores.tooltipoverflow=... (%d more lines)
 

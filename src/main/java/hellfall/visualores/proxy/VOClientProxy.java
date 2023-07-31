@@ -4,9 +4,8 @@ import codechicken.lib.packet.PacketCustom;
 import hellfall.visualores.KeyBindings;
 import hellfall.visualores.Tags;
 import hellfall.visualores.VisualOres;
+import hellfall.visualores.commands.VOClientCommand;
 import hellfall.visualores.database.ClientCacheManager;
-import hellfall.visualores.database.CommandResetClientCache;
-import hellfall.visualores.database.CommandShareProspectingData;
 import hellfall.visualores.database.immersiveengineering.IEClientCache;
 import hellfall.visualores.map.DrawUtils;
 import hellfall.visualores.map.WaypointManager;
@@ -83,8 +82,7 @@ public class VOClientProxy extends VOCommonProxy {
     public void postInit(FMLPostInitializationEvent event) {
         super.postInit(event);
 
-        ClientCommandHandler.instance.registerCommand(new CommandResetClientCache());
-        ClientCommandHandler.instance.registerCommand(new CommandShareProspectingData());
+        ClientCommandHandler.instance.registerCommand(new VOClientCommand());
     }
 
     @Override

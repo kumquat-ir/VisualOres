@@ -11,8 +11,8 @@ import java.util.List;
 public class ExcavatorRenderLayer extends RenderLayer {
     private List<ExcavatorVeinPosition> visibleVeins;
     private ExcavatorVeinPosition hoveredVein;
+    private static ExcavatorVeinPosition waypointVein;
 
-    private static final int sideColor = 0xDDFFFFFF;
     private static final int midColor = 0x77FFFFFF;
 
     public ExcavatorRenderLayer(String key) {
@@ -22,6 +22,8 @@ public class ExcavatorRenderLayer extends RenderLayer {
     @Override
     public void render(double cameraX, double cameraZ, double scale) {
         for (ExcavatorVeinPosition vein : visibleVeins) {
+            int sideColor = 0xDDFFFFFF;
+            if (vein == waypointVein) sideColor = 0xFFFFD700;
             DrawUtils.drawOverlayBox(vein.x, vein.z, sideColor, midColor);
         }
     }
@@ -49,5 +51,14 @@ public class ExcavatorRenderLayer extends RenderLayer {
             return hoveredVein.getTooltip();
         }
         return null;
+    }
+
+    @Override
+    public boolean onDoubleClick() {
+        if (hoveredVein == null) return false;
+        waypointVein = toggleWaypoint(
+                hoveredVein.getTooltip().get(0),0xFFFFFF, null, hoveredVein.x * 16, 64, hoveredVein.z * 16
+        ) ? hoveredVein : null;
+        return true;
     }
 }

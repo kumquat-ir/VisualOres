@@ -152,6 +152,10 @@ public class ClientCacheManager {
         }
     }
 
+    public static File getWorldFolder() {
+        return worldFolder;
+    }
+
     private static List<File> getDimFiles(File parent, String prefix) {
         try (var stream = Files.walk(parent.toPath(), 1)) {
             return stream.filter(Files::isRegularFile)
