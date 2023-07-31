@@ -1,6 +1,5 @@
 package hellfall.visualores.map.layers.gregtech;
 
-import codechicken.lib.gui.GuiDraw;
 import gregtech.api.worldgen.bedrockFluids.BedrockFluidVeinHandler;
 import hellfall.visualores.database.gregtech.GTClientCache;
 import hellfall.visualores.database.gregtech.fluid.UndergroundFluidPosition;
@@ -32,11 +31,7 @@ public class UndergroundFluidRenderLayer extends RenderLayer {
             int l = adjustForBadCoords(fluidPos.pos.x * BedrockFluidVeinHandler.VEIN_CHUNK_SIZE) * 16;
             int r = adjustForBadCoords((fluidPos.pos.x + 1) * BedrockFluidVeinHandler.VEIN_CHUNK_SIZE) * 16;
 
-            GuiDraw.drawGradientRectDirect(l, t, r - 1, t + 1, sideColor, sideColor); // top
-            GuiDraw.drawGradientRectDirect(r - 1, t, r, b - 1, sideColor, sideColor); // right
-            GuiDraw.drawGradientRectDirect(l, t + 1, l + 1, b, sideColor, sideColor); // left
-            GuiDraw.drawGradientRectDirect(l + 1, b - 1, r, b, sideColor, sideColor); // bottom
-            GuiDraw.drawGradientRectDirect(l + 1, t + 1, r - 1, b - 1, midColor, midColor); // middle
+            DrawUtils.drawOverlayBox(l, t, r, b, sideColor, midColor);
         }
     }
 

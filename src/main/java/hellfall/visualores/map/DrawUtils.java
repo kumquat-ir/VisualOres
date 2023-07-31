@@ -81,6 +81,24 @@ public class DrawUtils {
     }
 
     /**
+     * Draws a box with different colored sides and center.
+     */
+    public static void drawOverlayBox(int left, int top, int right, int bottom, int sideColor, int middleColor) {
+        GuiDraw.drawGradientRectDirect(left, top, right - 1, top + 1, sideColor, sideColor); // top
+        GuiDraw.drawGradientRectDirect(right - 1, top, right, bottom - 1, sideColor, sideColor); // right
+        GuiDraw.drawGradientRectDirect(left, top + 1, left + 1, bottom, sideColor, sideColor); // left
+        GuiDraw.drawGradientRectDirect(left + 1, bottom - 1, right, bottom, sideColor, sideColor); // bottom
+        GuiDraw.drawGradientRectDirect(left + 1, top + 1, right - 1, bottom - 1, middleColor, middleColor); // middle
+    }
+
+    /**
+     * Draws a box with different colored sides and center over a given chunk.
+     */
+    public static void drawOverlayBox(int chunkX, int chunkZ, int sideColor, int middleColor) {
+        drawOverlayBox(chunkX * 16, chunkZ * 16, (chunkX + 1) * 16, (chunkZ + 1) * 16, sideColor, middleColor);
+    }
+
+    /**
      * Converts an (A)RGB integer color into an array of floats, for use in GL calls
      * @return float[]{R, G, B, A}
      */
