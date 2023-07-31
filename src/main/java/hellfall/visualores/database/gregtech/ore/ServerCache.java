@@ -51,6 +51,7 @@ public class ServerCache extends WorldCache {
     }
 
     public void prospectSurfaceRockMaterial(int dim, Material material, BlockPos pos, EntityPlayerMP player) {
+        if (VOConfig.server.gregtech.surfaceRockProspectRange < 0) return;
         List<OreVeinPosition> nearbyVeins = getNearbyVeins(dim, pos, VOConfig.server.gregtech.surfaceRockProspectRange);
         List<OreVeinPosition> foundVeins = new ArrayList<>();
         for (OreVeinPosition nearbyVein : nearbyVeins) {
@@ -62,6 +63,7 @@ public class ServerCache extends WorldCache {
     }
 
     public void prospectOreBlock(int dim, String oredictName, BlockPos pos, EntityPlayerMP player) {
+        if (VOConfig.server.gregtech.oreBlockProspectRange < 0) return;
         List<OreVeinPosition> nearbyVeins = getNearbyVeins(dim, pos, VOConfig.server.gregtech.oreBlockProspectRange);
         List<OreVeinPosition> foundVeins = new ArrayList<>();
         for (OreVeinPosition nearbyVein : nearbyVeins) {

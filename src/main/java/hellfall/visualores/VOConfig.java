@@ -112,11 +112,13 @@ public class VOConfig {
         public GTServerOptions gregtech = new GTServerOptions();
 
         public static class GTServerOptions {
-            @Config.Comment({"The radius, in blocks, that picking up a surface rock will search for veins in.", "Default: 24"})
+            @Config.Comment({"The radius, in blocks, that picking up a surface rock will search for veins in.",
+                    "-1 to disable.", "Default: 24"})
             @Config.RangeInt(min = 1)
             public int surfaceRockProspectRange = 24;
 
-            @Config.Comment({"The radius, in blocks, that clicking an ore block will search for veins in.", "Default: 24"})
+            @Config.Comment({"The radius, in blocks, that clicking an ore block will search for veins in.",
+                    "-1 to disable", "Default: 24"})
             @Config.RangeInt(min = 1)
             public int oreBlockProspectRange = 24;
 
