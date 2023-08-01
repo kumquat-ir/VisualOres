@@ -1,17 +1,14 @@
 package hellfall.visualores;
 
 import codechicken.lib.CodeChickenLib;
-import gregtech.api.modules.ModuleContainerRegistryEvent;
-import gregtech.modules.ModuleManager;
-import hellfall.visualores.gtmodule.VisualOresModuleContainer;
 import hellfall.visualores.proxy.ICommonProxy;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -24,13 +21,16 @@ import org.apache.logging.log4j.Logger;
 import java.util.*;
 
 @Mod(modid = Tags.MODID, version = Tags.VERSION, name = Tags.MODNAME, acceptedMinecraftVersions = "[1.12.2]",
-        dependencies = "before:gregtech@[2.7.2-beta,);" // actually USING the gt module system requires loading before gt
+        dependencies = "after:gregtech@[2.7.2-beta,);"
                 + CodeChickenLib.MOD_VERSION_DEP + "required:mixinbooter")
 public class VisualOres {
     public static final Logger LOGGER = LogManager.getLogger(Tags.MODID);
 
     @SidedProxy(modId = Tags.MODID, clientSide = "hellfall.visualores.proxy.VOClientProxy", serverSide = "hellfall.visualores.proxy.VOCommonProxy")
     public static ICommonProxy voProxy;
+
+    @SidedProxy(modId = Tags.MODID, clientSide = "hellfall.visualores.proxy.GTClientProxy", serverSide = "hellfall.visualores.proxy.GTCommonProxy")
+    public static ICommonProxy gtProxy;
 
     private static final List<ICommonProxy> proxies = new ArrayList<>();
     private static final Set<String> modsRequiringServer = new HashSet<>();
@@ -43,6 +43,10 @@ public class VisualOres {
 
         proxies.add(voProxy);
         addModRequiringServer("gregtech");
+
+        if (Loader.isModLoaded("gregtech")) {
+            proxies.add(gtProxy);
+        }
     }
 
     @EventHandler
@@ -124,11 +128,12 @@ public class VisualOres {
     }
 
     // non-Forge events //
-    @Optional.Method(modid = "gregtech")
-    @SubscribeEvent
-    public void onModuleRegistration(ModuleContainerRegistryEvent event) {
-        ModuleManager.getInstance().registerContainer(new VisualOresModuleContainer());
-    }
+    // modules currently have non-deterministic loading order, causing issues with packet registration
+//    @Optional.Method(modid = "gregtech")
+//    @SubscribeEvent
+//    public void onModuleRegistration(ModuleContainerRegistryEvent event) {
+//        ModuleManager.getInstance().registerContainer(new VisualOresModuleContainer());
+//    }
 
     // client-only mode handling //
     @NetworkCheckHandler
