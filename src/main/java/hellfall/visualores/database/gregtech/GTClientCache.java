@@ -20,7 +20,7 @@ public class GTClientCache extends WorldCache implements IClientCache {
 
     public void notifyNewVeins(int amount) {
         if (amount <= 0) return;
-        Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(new TextComponentTranslation("visualores.newveins", amount));
+        Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(new TextComponentTranslation("visualores.gregtech.newveins", amount));
     }
 
     public void addFluid(int dim, int fieldX, int fieldZ, String name, int yield, double percent) {

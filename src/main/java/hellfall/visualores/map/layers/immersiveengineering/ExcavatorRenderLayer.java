@@ -57,7 +57,7 @@ public class ExcavatorRenderLayer extends RenderLayer {
     public boolean onDoubleClick() {
         if (hoveredVein == null) return false;
         waypointVein = toggleWaypoint(
-                hoveredVein.getTooltip().get(0),0xFFFFFF, null, hoveredVein.x * 16, 64, hoveredVein.z * 16
+                hoveredVein.getTooltip().get(0),0xFFFFFF, null, hoveredVein.x * 16 + 8, 64, hoveredVein.z * 16 + 8
         ) ? hoveredVein : null;
         return true;
     }

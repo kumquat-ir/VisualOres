@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ParticleItemPickup.class)
-public class ParticleItemPickupMixin {
+public abstract class ParticleItemPickupMixin {
     // is there a better way to get when the client picks up an item on client-side?
     @Inject(method = "<init>", at = @At("TAIL"))
     private void visualores$injectConstructor(World world, Entity entityPickedUp, Entity livingEntity, float yOffset, CallbackInfo ci) {

@@ -7,11 +7,13 @@ import hellfall.visualores.VisualOres;
 import hellfall.visualores.commands.VOClientCommand;
 import hellfall.visualores.database.ClientCacheManager;
 import hellfall.visualores.database.immersiveengineering.IEClientCache;
+import hellfall.visualores.database.thaumcraft.TCClientCache;
 import hellfall.visualores.map.DrawUtils;
 import hellfall.visualores.map.WaypointManager;
 import hellfall.visualores.map.journeymap.JourneymapWaypointHandler;
 import hellfall.visualores.map.layers.Layers;
 import hellfall.visualores.map.layers.immersiveengineering.ExcavatorRenderLayer;
+import hellfall.visualores.map.layers.thaumcraft.AuraFluxRenderLayer;
 import hellfall.visualores.map.xaero.XaeroWaypointHandler;
 import hellfall.visualores.network.CCLClientPacketHandler;
 import net.minecraft.client.Minecraft;
@@ -55,8 +57,8 @@ public class VOClientProxy extends VOCommonProxy {
 //            ClientCacheManager.registerClientCache(ASClientCache.instance, "astral");
         }
         if (Loader.isModLoaded("thaumcraft")) {
-//            Layers.registerLayer(AuraFluxRenderLayer.class, "aura_flux");
-//            ClientCacheManager.registerClientCache(TCClientCache.instance, "thaumcraft");
+            Layers.registerLayer(AuraFluxRenderLayer.class, "aura_flux");
+            ClientCacheManager.registerClientCache(TCClientCache.instance, "thaumcraft");
         }
         if (Loader.isModLoaded("immersiveengineering")) {
             Layers.registerLayer(ExcavatorRenderLayer.class, "excavator");

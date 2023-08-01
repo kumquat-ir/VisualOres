@@ -38,7 +38,9 @@ public class VOConfig {
         @Config.RequiresMcRestart
         public String[] buttonOrder = new String[]{
                 "oreveins",
-                "undergroundfluid"
+                "excavator",
+                "undergroundfluid",
+                "aura_flux"
         };
 
         @Config.Comment("Layers to not register")

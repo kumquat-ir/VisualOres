@@ -38,7 +38,7 @@ public class OreVeinPosition {
     public List<String> getTooltipStrings() {
         if (depleted) {
             List<String> tooltip = new ArrayList<>(veinInfo.tooltipStrings);
-            tooltip.set(0, tooltip.get(0) + I18n.format("visualores.depleted"));
+            tooltip.set(0, tooltip.get(0) + I18n.format("visualores.gregtech.depleted"));
             return tooltip;
         }
         return veinInfo.tooltipStrings;
