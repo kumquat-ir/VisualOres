@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ServerCache extends WorldCache {
-    public static ServerCache instance = new ServerCache();
+    public static final ServerCache instance = new ServerCache();
 
     private final Map<Integer, ServerCacheSaveData> saveData = new HashMap<>();
 

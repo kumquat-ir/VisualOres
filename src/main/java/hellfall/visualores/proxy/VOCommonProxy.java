@@ -23,8 +23,8 @@ public class VOCommonProxy implements ICommonProxy {
 
     @Override
     public void entityJoinWorld(EntityJoinWorldEvent event) {
-        if (!event.getWorld().isRemote && event.getEntity() instanceof EntityPlayerMP) {
-            CCLPacketSender.sendWorldID(WorldIDSaveData.getWorldID(), (EntityPlayerMP) event.getEntity());
+        if (!event.getWorld().isRemote && event.getEntity() instanceof EntityPlayerMP player) {
+            CCLPacketSender.sendWorldID(WorldIDSaveData.getWorldID(), player);
         }
     }
 }

@@ -16,7 +16,7 @@ import net.minecraftforge.fml.common.Loader;
 import java.util.List;
 
 public class DrawUtils {
-    public static Object2IntMap<String> colorOverrides = new Object2IntOpenHashMap<>();
+    public static final Object2IntMap<String> colorOverrides = new Object2IntOpenHashMap<>();
 
     /**
      * Draws a tooltip on the screen.

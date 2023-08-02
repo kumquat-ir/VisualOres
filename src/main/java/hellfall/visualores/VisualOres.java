@@ -21,8 +21,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.*;
 
 @Mod(modid = Tags.MODID, version = Tags.VERSION, name = Tags.MODNAME, acceptedMinecraftVersions = "[1.12.2]",
-        dependencies = "after:gregtech@[2.7.2-beta,);"
-                + CodeChickenLib.MOD_VERSION_DEP + "required:mixinbooter")
+        dependencies = "after:gregtech@[2.7.2-beta,);required:mixinbooter;" + CodeChickenLib.MOD_VERSION_DEP)
 public class VisualOres {
     public static final Logger LOGGER = LogManager.getLogger(Tags.MODID);
 
@@ -144,12 +143,11 @@ public class VisualOres {
         if (side == Side.CLIENT) {
             // we are on the server
             // server will only accept clients with the same version of VisualOres as it
-            // this means the client does not need to check if it has the same version
             return containsSameVOVersion;
         }
 
         // we are on the client
-        clientOnlyMode = !mods.containsKey(Tags.MODID);
+        clientOnlyMode = !containsVO;
         for (String modid : modsRequiringServer) {
             if (mods.containsKey(modid) && !containsVO) {
                 // the server has a mod that requires VisualOres to be on the server but it is not
@@ -164,6 +162,8 @@ public class VisualOres {
 
     /**
      * Add a mod whose presence requires VisualOres to be present on both the client and server.
+     * <br>
+     * Call at some point in the main FML loading process (client preinit is fine)
      */
     public static void addModRequiringServer(String modid) {
         modsRequiringServer.add(modid);

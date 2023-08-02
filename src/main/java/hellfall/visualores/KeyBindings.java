@@ -9,7 +9,7 @@ import java.util.Map;
 public class KeyBindings {
     public static KeyBinding action;
 
-    public static Map<KeyBinding, String> layerToggles = new Object2ObjectArrayMap<>();
+    public static final Map<KeyBinding, String> layerToggles = new Object2ObjectArrayMap<>();
 
     public static void toggleLayers() {
         for (KeyBinding key : layerToggles.keySet()) {

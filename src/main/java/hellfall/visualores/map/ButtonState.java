@@ -52,7 +52,7 @@ public class ButtonState {
 
     public static class Button {
         public boolean enabled;
-        public String name;
+        public final String name;
 
         public Button(String name) {
             this.enabled = false;

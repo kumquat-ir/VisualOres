@@ -125,12 +125,12 @@ public class VOClientProxy extends VOCommonProxy {
     public void entityJoinWorld(EntityJoinWorldEvent event) {
         super.entityJoinWorld(event);
 
-        if (event.getWorld().isRemote && event.getEntity() instanceof EntityPlayerSP && VisualOres.isClientOnlyMode()) {
+        if (VisualOres.isClientOnlyMode() && event.getWorld().isRemote && event.getEntity() instanceof EntityPlayerSP) {
             String cacheName = "unknown";
             if (Minecraft.getMinecraft().getCurrentServerData() != null) {
                 cacheName = Minecraft.getMinecraft().getCurrentServerData().serverIP;
             }
-            ClientCacheManager.init("Server-" + cacheName + "-client_only");
+            ClientCacheManager.init("Server-" + cacheName + "-client-only");
         }
     }
 
