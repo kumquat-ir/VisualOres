@@ -20,9 +20,8 @@ public class FluidCache {
     }
 
     public List<UndergroundFluidPosition> getFluidsInBounds(int dim, BlockPos topLeft, BlockPos bottomRight) {
-        //todo BedrockFluidVeinHandler.getVeinCoord()
-        int[] topLeftField = {(topLeft.getX() >> 4) / BedrockFluidVeinHandler.VEIN_CHUNK_SIZE, (topLeft.getZ() >> 4) / BedrockFluidVeinHandler.VEIN_CHUNK_SIZE};
-        int[] bottomRightField = {(bottomRight.getX() >> 4) / BedrockFluidVeinHandler.VEIN_CHUNK_SIZE, (bottomRight.getZ() >> 4) / BedrockFluidVeinHandler.VEIN_CHUNK_SIZE};
+        int[] topLeftField = {BedrockFluidVeinHandler.getVeinCoord(topLeft.getX() >> 4), BedrockFluidVeinHandler.getVeinCoord(topLeft.getZ() >> 4)};
+        int[] bottomRightField = {BedrockFluidVeinHandler.getVeinCoord(bottomRight.getX() >> 4), BedrockFluidVeinHandler.getVeinCoord(bottomRight.getZ() >> 4)};
         List<UndergroundFluidPosition> found = new ArrayList<>();
         for (int i = topLeftField[0] - 1; i <= bottomRightField[0]; i++) {
             for (int j = topLeftField[1] - 1; j <= bottomRightField[1]; j++) {

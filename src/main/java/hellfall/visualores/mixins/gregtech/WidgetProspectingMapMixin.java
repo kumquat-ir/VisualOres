@@ -49,9 +49,8 @@ public abstract class WidgetProspectingMapMixin extends Widget {
     )
     private void visualores$injectReadFluidPacket(int id, PacketBuffer buffer, CallbackInfo ci, PacketProspecting packet) {
         if (packet.mode == ProspectorMode.FLUID) {
-            //todo BedrockFluidVeinHandler.getVeinCoord()
-            int fieldX = packet.chunkX / BedrockFluidVeinHandler.VEIN_CHUNK_SIZE;
-            int fieldZ = packet.chunkZ / BedrockFluidVeinHandler.VEIN_CHUNK_SIZE;
+            int fieldX = BedrockFluidVeinHandler.getVeinCoord(packet.chunkX);
+            int fieldZ = BedrockFluidVeinHandler.getVeinCoord(packet.chunkZ);
             GTClientCache.instance.addFluid(gui.entityPlayer.getEntityWorld().provider.getDimension(), fieldX, fieldZ,
                     packet.map[0][0].get((byte) 1), Integer.parseInt(packet.map[0][0].get(((byte) 2))), Double.parseDouble(packet.map[0][0].get(((byte) 3))));
         }

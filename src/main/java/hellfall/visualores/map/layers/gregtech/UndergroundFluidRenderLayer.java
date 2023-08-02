@@ -44,9 +44,8 @@ public class UndergroundFluidRenderLayer extends RenderLayer {
     public void updateHovered(double mouseX, double mouseY, double cameraX, double cameraZ, double scale) {
         BlockPos mouseBlock = DrawUtils.getMouseBlockPos(mouseX, mouseY, cameraX, cameraZ, scale);
 
-        //todo BedrockFluidVeinHandler.getVeinCoord()
-        int mouseFieldX = (mouseBlock.getX() >> 4) / BedrockFluidVeinHandler.VEIN_CHUNK_SIZE;
-        int mouseFieldZ = (mouseBlock.getZ() >> 4) / BedrockFluidVeinHandler.VEIN_CHUNK_SIZE;
+        int mouseFieldX = BedrockFluidVeinHandler.getVeinCoord(mouseBlock.getX() >> 4);
+        int mouseFieldZ = BedrockFluidVeinHandler.getVeinCoord(mouseBlock.getZ() >> 4);
 
         hovered = null;
         for (var fluidPos : visibleFluids) {
@@ -64,12 +63,8 @@ public class UndergroundFluidRenderLayer extends RenderLayer {
     }
 
     private int adjustForBadCoords(int chunkCoord) {
-        // todo uncomment when gtceu updates
-        // will need to add a packet for dual-side and some way to guess vein sizes around the origin if client-only
-        if (/*BedrockFluidVeinHandler.saveDataVersion < 2*/ true) {
-            if (chunkCoord <= 0) {
-                chunkCoord = chunkCoord - 7;
-            }
+        if (BedrockFluidVeinHandler.saveDataVersion < 2 && chunkCoord <= 0) {
+            return chunkCoord - 7;
         }
         return chunkCoord;
     }
