@@ -6,6 +6,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraftforge.fluids.Fluid;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,10 +35,26 @@ public class ASClientCache implements IClientCachePerDimOnly {
         return new ArrayList<>();
     }
 
+    public void setNeromanticFluid(int dim, ChunkPos pos, Fluid fluid) {
+        if (!cache.containsKey(dim)) {
+            cache.put(dim, new ASDimensionCache());
+        }
+        cache.get(dim).setNeromanticFluid(pos, fluid);
+    }
+
+    public List<NeromanticPosition> getNeromanticVeinsInBounds(int dim, int[] bounds) {
+        if (cache.containsKey(dim)) {
+            return cache.get(dim).getNeromanticVeinsInArea(
+                    new ChunkPos(bounds[0] >> 4, bounds[1] >> 4),
+                    new ChunkPos((bounds[0] + bounds[2]) >> 4, (bounds[1] + bounds[3]) >> 4)
+            );
+        }
+        return new ArrayList<>();
+    }
+
     @Override
     public void setupCacheFiles() {
         addDimFiles("starfields_");
-        // EntityFxFluidFountain constructor has a BlockPos(ish) and FluidStack
         addDimFiles("neromantic_");
     }
 

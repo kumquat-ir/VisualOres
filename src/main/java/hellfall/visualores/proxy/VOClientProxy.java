@@ -13,6 +13,7 @@ import hellfall.visualores.map.DrawUtils;
 import hellfall.visualores.map.WaypointManager;
 import hellfall.visualores.map.journeymap.JourneymapWaypointHandler;
 import hellfall.visualores.map.layers.Layers;
+import hellfall.visualores.map.layers.astralsorcery.NeromanticRenderLayer;
 import hellfall.visualores.map.layers.astralsorcery.StarfieldRenderLayer;
 import hellfall.visualores.map.layers.immersiveengineering.ExcavatorRenderLayer;
 import hellfall.visualores.map.layers.thaumcraft.AuraFluxRenderLayer;
@@ -55,7 +56,7 @@ public class VOClientProxy extends VOCommonProxy {
 
         if (Loader.isModLoaded("astralsorcery")) {
             Layers.registerLayer(StarfieldRenderLayer.class, "starlight");
-//            Layers.registerLayer(NeromanticRenderLayer.class, "neromantic");
+            Layers.registerLayer(NeromanticRenderLayer.class, "neromantic");
             ClientCacheManager.registerClientCache(ASClientCache.instance, "astral");
         }
         if (Loader.isModLoaded("thaumcraft")) {

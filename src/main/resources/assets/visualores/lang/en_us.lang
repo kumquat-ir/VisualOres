@@ -3,6 +3,7 @@ visualores.button.undergroundfluid=Toggle underground fluid display
 visualores.button.excavator=Toggle excavator vein display
 visualores.button.aura_flux=Toggle aura/flux display
 visualores.button.starlight=Toggle starlight level display
+visualores.button.neromantic=Toggle Neromantic Prime fluid display
 
 visualores.command.reset.usage=Resets the VisualOres client cache
 visualores.command.reset.success=Reset client caches!
@@ -25,3 +26,5 @@ visualores.gregtech.depleted= (depleted)
 visualores.thaumcraft.aura=Aura: %d
 visualores.thaumcraft.flux=Flux: %d
 visualores.thaumcraft.base=Total: %d/%d
+
+visualores.astralsorcery.fluid=Contains %s deep underground

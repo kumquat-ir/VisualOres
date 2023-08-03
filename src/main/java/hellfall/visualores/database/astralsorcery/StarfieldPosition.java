@@ -35,43 +35,44 @@ public class StarfieldPosition {
         }
     }
 
-    public StarfieldPosition(NBTTagCompound nbt) {
-        this.x = nbt.getInteger("x");
-        this.z = nbt.getInteger("z");
-        if (nbt.hasKey("empty")) {
-            return;
+    public StarfieldPosition(NBTTagCompound nbt, int x, int z) {
+        this.x = x;
+        this.z = z;
+        if (nbt.hasKey("low")) {
+            int[] lowi = nbt.getIntArray("low");
+            for (int i = 0; i < 256; i++) {
+                low[i] = ((lowi[i / 32] >> (i % 32)) & 0b1) == 1;
+            }
         }
-        int[] lowi = nbt.getIntArray("low");
-        int[] highi = nbt.getIntArray("high");
-        for (int i = 0; i < 256; i++) {
-            low[i] = ((lowi[i / 32] >> (i % 32)) & 0b1) == 1;
-            high[i] = ((highi[i / 32] >> (i % 32)) & 0b1) == 1;
+        if (nbt.hasKey("high")) {
+            int[] highi = nbt.getIntArray("high");
+            for (int i = 0; i < 256; i++) {
+                high[i] = ((highi[i / 32] >> (i % 32)) & 0b1) == 1;
+            }
         }
     }
 
     public NBTTagCompound toNBT() {
         NBTTagCompound result = new NBTTagCompound();
-        boolean empty = true;
+        boolean lowEmpty = true;
+        boolean highEmpty = true;
         int[] lowi = new int[8];
         int[] highi = new int[8];
         for (int i = 0; i < 256; i++) {
             if (low[i]) {
                 lowi[i / 32] |= 1 << (i % 32);
-                empty = false;
+                lowEmpty = false;
             }
             if (high[i]) {
                 highi[i / 32] |= 1 << (i % 32);
-                empty = false;
+                highEmpty = false;
             }
         }
-        result.setInteger("x", x);
-        result.setInteger("z", z);
-        if (!empty) {
+        if (!lowEmpty) {
             result.setIntArray("low", lowi);
-            result.setIntArray("high", highi);
         }
-        else {
-            result.setBoolean("empty", true);
+        if (!highEmpty) {
+            result.setIntArray("high", highi);
         }
         return result;
     }
