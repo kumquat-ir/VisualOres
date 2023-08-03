@@ -8,6 +8,7 @@ import hellfall.visualores.network.gregtech.OreProspectToClientPacket;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
 
@@ -38,6 +39,7 @@ public class GTCommonProxy implements ICommonProxy {
     }
 
     @Override
+    @Optional.Method(modid = "gregtech")
     public void entityJoinWorld(EntityJoinWorldEvent event) {
         if (!event.getWorld().isRemote && event.getEntity() instanceof EntityPlayerMP player) {
             GregTechAPI.networkHandler.sendTo(new FluidSaveVersionPacket(BedrockFluidVeinHandler.saveDataVersion), player);

@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = EntityFXFluidFountain.class, remap = false)
-public class EntityFxFluidFountainMixin {
+public abstract class EntityFxFluidFountainMixin {
     @Inject(method = "spawnAt", at = @At("TAIL"))
     private static void visualores$injectSpawn(Vector3 pos, FluidStack fluid, CallbackInfoReturnable<EntityFXFluidFountain> cir) {
         ASClientCache.instance.setNeromanticFluid(Minecraft.getMinecraft().world.provider.getDimension(), new ChunkPos(pos.toBlockPos()), fluid.getFluid());

@@ -22,7 +22,7 @@ public class NeromanticPosition {
         this.z = pos.z;
         this.color = DrawUtils.getFluidColor(fluid);
         this.fluid = fluid.getName();
-        this.tooltip = Collections.singletonList(I18n.format("visualores.astralsorcery.fluid", I18n.format(fluid.getUnlocalizedName())));
+        this.tooltip = Collections.singletonList(I18n.format("visualores.astralsorcery.fluid", fluid.getLocalizedName(null)));
     }
 
     public NeromanticPosition(String fluid, int x, int z) {
@@ -32,7 +32,7 @@ public class NeromanticPosition {
 
         Fluid f = FluidRegistry.getFluid(fluid);
         this.color = DrawUtils.getFluidColor(f);
-        this.tooltip = Collections.singletonList(I18n.format("visualores.astralsorcery.fluid", I18n.format(f.getUnlocalizedName())));
+        this.tooltip = Collections.singletonList(I18n.format("visualores.astralsorcery.fluid", f.getLocalizedName(null)));
     }
 
     public NBTTagString toNBT() {
