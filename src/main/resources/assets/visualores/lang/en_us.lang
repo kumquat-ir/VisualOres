@@ -2,6 +2,7 @@ visualores.button.oreveins=Toggle ore vein display
 visualores.button.undergroundfluid=Toggle underground fluid display
 visualores.button.excavator=Toggle excavator vein display
 visualores.button.aura_flux=Toggle aura/flux display
+visualores.button.starlight=Toggle starlight level display
 
 visualores.command.reset.usage=Resets the VisualOres client cache
 visualores.command.reset.success=Reset client caches!

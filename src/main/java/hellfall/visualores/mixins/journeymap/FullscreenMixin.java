@@ -115,7 +115,7 @@ public abstract class FullscreenMixin extends JmUI implements ITabCompleter {
         double scale = Math.pow(2, fullMapProperties.zoomLevel.get());
         double rw = mc.displayWidth / scale;
         double rh = mc.displayHeight / scale;
-        renderer.updateVisibleArea(state.getDimension(), (int) (gridRenderer.getCenterBlockX() - xOffset - rw / 2), (int) (gridRenderer.getCenterBlockZ() - yOffset - rh / 2), (int) rw, (int) rh);
+        renderer.updateVisibleArea(state.getDimension(), (int) (gridRenderer.getCenterBlockX() - xOffset / scale - rw / 2), (int) (gridRenderer.getCenterBlockZ() - yOffset / scale - rh / 2), (int) rw, (int) rh);
 
         GlStateManager.pushMatrix();
         GlStateManager.translate(xOffset, yOffset, 0);

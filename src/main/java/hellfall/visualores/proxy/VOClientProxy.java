@@ -6,12 +6,14 @@ import hellfall.visualores.Tags;
 import hellfall.visualores.VisualOres;
 import hellfall.visualores.commands.VOClientCommand;
 import hellfall.visualores.database.ClientCacheManager;
+import hellfall.visualores.database.astralsorcery.ASClientCache;
 import hellfall.visualores.database.immersiveengineering.IEClientCache;
 import hellfall.visualores.database.thaumcraft.TCClientCache;
 import hellfall.visualores.map.DrawUtils;
 import hellfall.visualores.map.WaypointManager;
 import hellfall.visualores.map.journeymap.JourneymapWaypointHandler;
 import hellfall.visualores.map.layers.Layers;
+import hellfall.visualores.map.layers.astralsorcery.StarfieldRenderLayer;
 import hellfall.visualores.map.layers.immersiveengineering.ExcavatorRenderLayer;
 import hellfall.visualores.map.layers.thaumcraft.AuraFluxRenderLayer;
 import hellfall.visualores.map.xaero.XaeroWaypointHandler;
@@ -52,9 +54,9 @@ public class VOClientProxy extends VOCommonProxy {
         PacketCustom.assignHandler(Tags.MODID, new CCLClientPacketHandler());
 
         if (Loader.isModLoaded("astralsorcery")) {
-//            Layers.registerLayer(StarfieldRenderLayer.class, "starlight");
+            Layers.registerLayer(StarfieldRenderLayer.class, "starlight");
 //            Layers.registerLayer(NeromanticRenderLayer.class, "neromantic");
-//            ClientCacheManager.registerClientCache(ASClientCache.instance, "astral");
+            ClientCacheManager.registerClientCache(ASClientCache.instance, "astral");
         }
         if (Loader.isModLoaded("thaumcraft")) {
             Layers.registerLayer(AuraFluxRenderLayer.class, "aura_flux");

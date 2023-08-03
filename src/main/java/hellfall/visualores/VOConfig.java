@@ -40,7 +40,9 @@ public class VOConfig {
                 "oreveins",
                 "excavator",
                 "undergroundfluid",
-                "aura_flux"
+                "neromantic",
+                "aura_flux",
+                "starlight"
         };
 
         @Config.Comment("Layers to not register")
