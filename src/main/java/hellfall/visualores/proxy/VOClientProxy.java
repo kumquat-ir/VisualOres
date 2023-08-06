@@ -36,6 +36,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import org.lwjgl.input.Keyboard;
 
 @SuppressWarnings("unused")
@@ -151,5 +152,12 @@ public class VOClientProxy extends VOCommonProxy {
         super.onKeyPress(event);
 
         KeyBindings.toggleLayers();
+    }
+
+    @Override
+    public void onClientDisconnect(FMLNetworkEvent.ClientDisconnectionFromServerEvent event) {
+        super.onClientDisconnect(event);
+
+        ClientCacheManager.clearCaches();
     }
 }

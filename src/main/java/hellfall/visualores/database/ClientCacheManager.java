@@ -32,6 +32,8 @@ public class ClientCacheManager {
         worldFolder = new File(clientCacheDir, player.getDisplayNameString() + "_" + player.getUniqueID() +
                 File.separator + worldid);
         worldFolder.mkdirs();
+        // to ensure any cache data that might somehow be lying around gets dealt with
+        clearCaches();
         loadCaches();
     }
 
