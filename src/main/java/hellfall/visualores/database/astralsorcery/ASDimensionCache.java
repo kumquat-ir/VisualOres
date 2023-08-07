@@ -22,7 +22,9 @@ public class ASDimensionCache {
             for (int j = -1; j <= 1; j++) {
                 ChunkPos current = new ChunkPos(center.x + i, center.z + j);
                 // starfields are determined entirely by world seed and are thus immutable
-                starfields.putIfAbsent(current, new StarfieldPosition(current));
+                if (!starfields.containsKey(current)) {
+                    starfields.put(current, new StarfieldPosition(current));
+                }
             }
         }
     }
