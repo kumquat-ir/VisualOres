@@ -63,12 +63,14 @@ public abstract class MinimapRendererMixin {
 
             GlStateManager.pushMatrix();
             GlStateManager.enableDepth();
+            GlStateManager.depthMask(false);
             GlStateManager.depthFunc(GL11.GL_GREATER);
             GlStateManager.rotate(angle, 0, 0, 1);
             GlStateManager.scale(this.zoom, this.zoom, 1);
             GlStateManager.translate(-renderX, -renderZ, 0);
             renderer.render(renderX, renderZ, zoom);
             GlStateManager.depthFunc(GL11.GL_LEQUAL);
+            GlStateManager.depthMask(true);
             GlStateManager.disableDepth();
             GlStateManager.popMatrix();
         }
@@ -78,36 +80,36 @@ public abstract class MinimapRendererMixin {
 
     @Redirect(method = "renderMinimap", at = @At(value = "INVOKE", target = "Lxaero/common/minimap/render/MinimapRendererHelper;drawMyTexturedModalRect(FFIIFFF)V"))
     private void visualores$depthRectMinimap(MinimapRendererHelper instance, float x, float y, int textureX, int textureY, float width, float height, float factor) {
-        GlStateManager.enableDepth();
-        GlStateManager.disableTexture2D();
-        GlStateManager.depthMask(true);
-        GlStateManager.colorMask(false, false, false, false);
-        GlStateManager.pushMatrix();
-        GlStateManager.translate(0, 0, 1000);
-        instance.drawMyTexturedModalRect(x, y, textureX, textureY, width, height, factor);
-        GlStateManager.popMatrix();
-        GlStateManager.colorMask(true, true, true, true);
-        GlStateManager.depthMask(false);
-        GlStateManager.enableTexture2D();
-        GlStateManager.disableDepth();
+        if (VOConfig.client.enableMinimapRendering) {
+            GlStateManager.enableDepth();
+            GlStateManager.disableTexture2D();
+            GlStateManager.colorMask(false, false, false, false);
+            GlStateManager.pushMatrix();
+            GlStateManager.translate(0, 0, 1000);
+            instance.drawMyTexturedModalRect(x, y, textureX, textureY, width, height, factor);
+            GlStateManager.popMatrix();
+            GlStateManager.colorMask(true, true, true, true);
+            GlStateManager.enableTexture2D();
+            GlStateManager.disableDepth();
+        }
 
         instance.drawMyTexturedModalRect(x, y, textureX, textureY, width, height, factor);
     }
 
     @Redirect(method = "renderMinimap", at = @At(value = "INVOKE", target = "Lxaero/common/minimap/render/MinimapRendererHelper;drawTexturedElipseInsideRectangle(DIFFIIFF)V"))
     private void visualores$depthCircleMinimap(MinimapRendererHelper instance, double startAngle, int sides, float x, float y, int textureX, int textureY, float width, float widthFactor) {
-        GlStateManager.enableDepth();
-        GlStateManager.disableTexture2D();
-        GlStateManager.depthMask(true);
-        GlStateManager.colorMask(false, false, false, false);
-        GlStateManager.pushMatrix();
-        GlStateManager.translate(0, 0, 1000);
-        ((MinimapRendererHelperAccessor) instance).invokeDrawTexturedElipseInsideRectangle(startAngle, sides, x, y, textureX, textureY, width, widthFactor);
-        GlStateManager.popMatrix();
-        GlStateManager.colorMask(true, true, true, true);
-        GlStateManager.depthMask(false);
-        GlStateManager.enableTexture2D();
-        GlStateManager.disableDepth();
+        if (VOConfig.client.enableMinimapRendering) {
+            GlStateManager.enableDepth();
+            GlStateManager.disableTexture2D();
+            GlStateManager.colorMask(false, false, false, false);
+            GlStateManager.pushMatrix();
+            GlStateManager.translate(0, 0, 1000);
+            ((MinimapRendererHelperAccessor) instance).invokeDrawTexturedElipseInsideRectangle(startAngle, sides, x, y, textureX, textureY, width, widthFactor);
+            GlStateManager.popMatrix();
+            GlStateManager.colorMask(true, true, true, true);
+            GlStateManager.enableTexture2D();
+            GlStateManager.disableDepth();
+        }
 
         ((MinimapRendererHelperAccessor) instance).invokeDrawTexturedElipseInsideRectangle(startAngle, sides, x, y, textureX, textureY, width, widthFactor);
     }
