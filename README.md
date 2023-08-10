@@ -1,6 +1,7 @@
 # VisualOres
 <a href="https://www.curseforge.com/minecraft/mc-mods/visualores"><img src="https://cf.way2muchnoise.eu/895539.svg?badge_style=for_the_badge" alt="CurseForge"></a>
 <a href="https://modrinth.com/mod/visualores"><img src="https://img.shields.io/modrinth/dt/visualores?logo=modrinth&label=&suffix=%20&style=for-the-badge&color=2d2d2d&labelColor=5ca424&logoColor=1c1c1c" alt="Modrinth"></a>  
+
 "[VisualProspecting](https://github.com/GTNewHorizons/VisualProspecting/) but for 1.12"
 
 A mod that adds various overlays to map mods.
