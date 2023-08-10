@@ -20,7 +20,7 @@ The location and order of the buttons can be customized in the config:
 
 Prospection data can be shared to other players with `/vo share <player name>`. This requires VisualOres to be installed on the server and both clients.
 
-Your client-side cache folder can be opened with `/vo openCacheFolder`, and all prospection data can be reset with `/vo resetClientCache`. Resetting the cache is not reversible!
+Your client-side cache folder can be opened with `/vo openCacheFolder`, and all client-side prospection data can be reset with `/vo resetClientCache`. Resetting the cache is not reversible!
 
 ## Current overlays
 
