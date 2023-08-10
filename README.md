@@ -18,10 +18,14 @@ The location and order of the buttons can be customized in the config:
 - Xaero's World Map users can put the buttons anywhere!
   - The default location was chosen to not interfere with any other map controls
 
+Prospection data can be shared to other players with `/vo share <player name>`. This requires VisualOres to be installed on the server and both clients.
+
+Your client-side cache folder can be opened with `/vo openCacheFolder`, and all prospection data can be reset with `/vo resetClientCache`. Resetting the cache is not reversible!
+
 ## Current overlays
 
 ### [GregTech CEu](https://github.com/GregTechCEu/GregTech)
-Requires GTCEu version 2.7.2  
+Requires GTCEu version 2.7.3  
 Requires VisualOres to be installed on both the client and server
 
 #### Ore vein overlay
@@ -41,4 +45,34 @@ Veins may be missing, and veins that do not exist may be marked.
 ![2023-07-27_12 27 01](https://github.com/kumquat-ir/VisualOres/assets/66188216/810835ba-5437-4a7d-b9f3-4295e85c68d2)
 
 Displays underground fluid fields you have discovered. Use an electric prospector on fluid mode to discover fields.  
-(Yes, the weird shapes of fields are correct. GTCEu 2.7.2 and earlier have a bug with fluid vein generation.)
+(Yes, fields being shown as larger around x=0 and z=0 is correct. Underground fluid veins generated with GTCEu 2.7.2 and earlier have a bug with generation that causes this.)
+
+### [Immersive Engineering](https://www.curseforge.com/minecraft/mc-mods/immersive-engineering)
+Also contains integration with [Immersive Petroleum](https://www.curseforge.com/minecraft/mc-mods/immersive-petroleum)
+
+#### Excavator vein overlay
+![2023-08-02_23 18 53](https://github.com/kumquat-ir/VisualOres/assets/66188216/158d9247-7e32-48f4-984b-3a7be8971bc3)
+
+Displays excavator veins you have discovered. Pick up a core sample to add its data to your map.  
+Double click on a vein to toggle it as a waypoint.
+
+### [Thaumcraft](https://www.curseforge.com/minecraft/mc-mods/thaumcraft)
+
+#### Aura/flux level overlay
+![2023-08-02_23 19 02](https://github.com/kumquat-ir/VisualOres/assets/66188216/78e0e29a-cc44-4599-bdd2-d843214f57ff)
+
+Displays aura/flux levels you have seen in chunks. Hold a thaumometer to add the levels shown in the hud to your map.
+
+### [Astral Sorcery](https://www.curseforge.com/minecraft/mc-mods/astral-sorcery)
+
+#### Starlight level overlay
+![2023-08-02_23 19 40](https://github.com/kumquat-ir/VisualOres/assets/66188216/53d114d3-673d-4783-95c3-11739606302b)
+
+Displays starlight concentration levels. Hold a fosic resonator to add nearby starlight levels to your map.  
+Lighter blue means higher concentration (the areas shown in-world with white sparkles).
+
+#### Neromantic Prime fluid vein overlay
+![2023-08-02_23 19 24](https://github.com/kumquat-ir/VisualOres/assets/66188216/d5279679-c3c0-4a44-8cc3-036af01e69b5)
+
+Displays fluid veins you have discovered. Hold an ichosic resonator to add veins to your map as the particle effects spawn.  
+(This means veins are only discovered when a particle effect spawns in their chunk, so it can take some time before the fluid in a specific chunk is discovered! Be patient.)

@@ -21,7 +21,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.*;
 
 @Mod(modid = Tags.MODID, version = Tags.VERSION, name = Tags.MODNAME, acceptedMinecraftVersions = "[1.12.2]",
-        dependencies = "after:gregtech@[2.7.2-beta,);required:mixinbooter;" + CodeChickenLib.MOD_VERSION_DEP)
+        dependencies = "after:gregtech@[2.7.3-beta,);required:mixinbooter;" + CodeChickenLib.MOD_VERSION_DEP)
 public class VisualOres {
     public static final Logger LOGGER = LogManager.getLogger(Tags.MODID);
 
