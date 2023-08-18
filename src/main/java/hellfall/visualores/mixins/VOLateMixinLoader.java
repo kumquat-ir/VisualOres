@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class VOLateMixinLoader implements ILateMixinLoader {
-    private static final List<String> mixinInfixes = ImmutableList.of("journeymap", "xaerominimap", "xaeroworldmap", "gregtech", "astralsorcery", "thaumcraft");
+    private static final List<String> mixinInfixes = ImmutableList.of("journeymap", "xaerominimap_core", "xaeroworldmap", "gregtech", "astralsorcery", "thaumcraft");
 
     @Override
     public List<String> getMixinConfigs() {
