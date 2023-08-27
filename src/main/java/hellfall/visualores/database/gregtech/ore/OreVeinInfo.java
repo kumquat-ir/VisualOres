@@ -43,7 +43,10 @@ public class OreVeinInfo {
                     ((LayeredBlockFiller) def.getBlockFiller()).getSporadic()
             }) {
                 IBlockState blockState = (IBlockState) filler.getPossibleResults().toArray()[0];
-                oreMaterialStrings.add(getBaseMaterialName(blockState));
+                String name = getBaseMaterialName(blockState);
+                if (!name.isEmpty()) {
+                    oreMaterialStrings.add(name);
+                }
             }
         }
 
@@ -78,6 +81,6 @@ public class OreVeinInfo {
     public static String getBaseMaterialName(IBlockState state) {
         MaterialStack stack = OreDictUnifier.getMaterial(GTUtility.toItem(state));
         if (stack == null) return "";
-        return stack.material.toString();
+        return stack.material.getResourceLocation().toString();
     }
 }
