@@ -129,10 +129,13 @@ public class VOConfig {
             @Config.Comment({"Whether to cull cache entries in chunks that nothing generated in.",
                     "Prevents \"phantom veins\" from being recorded in, for example, the End void.",
                     "Can cause veins to not be recorded if they only generated blocks in chunks other than their centers. (i.e. at the edge of end islands)",
-                    "Causes ore cache retrogen to take longer.",
                     "Default: true"})
             public boolean cullEmptyChunks = true;
 
+            @Config.Comment({"Whether to cull cache entries in chunks that nothing generated in during retrogen.",
+                    "Will make retrogen take significantly longer!",
+                    "Default: false"})
+            public boolean cullEmptyChunksRetrogen = false;
         }
     }
 }

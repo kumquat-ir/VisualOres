@@ -50,7 +50,7 @@ public class OreCacheRetrogenerator {
                             generatedGridPositions.put(GridPos.fromChunkCoords(regionChunkX + x, regionChunkZ + z),
                                     new ChunkPos(regionChunkX + x, regionChunkZ + z));
 
-                            if (VOConfig.server.gregtech.cullEmptyChunks) {
+                            if (VOConfig.server.gregtech.cullEmptyChunksRetrogen) {
                                 boolean foundOre = false;
                                 for (int i = 0; i < 16; i++) outer: {
                                     if (chunk.blocks[i] == null) continue;
