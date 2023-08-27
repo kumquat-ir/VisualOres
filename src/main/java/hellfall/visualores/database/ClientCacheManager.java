@@ -26,15 +26,19 @@ public class ClientCacheManager {
     public static final File clientCacheDir = new File(Minecraft.getMinecraft().gameDir, Tags.MODID);
     private static File worldFolder;
     private static final Reference2ObjectMap<IClientCache, ClientCacheInfo> caches = new Reference2ObjectArrayMap<>();
+    private static boolean shouldInit = true;
 
     public static void init(String worldid) {
-        final EntityPlayer player = Minecraft.getMinecraft().player;
-        worldFolder = new File(clientCacheDir, player.getDisplayNameString() + "_" + player.getUniqueID() +
-                File.separator + worldid);
-        worldFolder.mkdirs();
-        // to ensure any cache data that might somehow be lying around gets dealt with
-        clearCaches();
-        loadCaches();
+        if (shouldInit) {
+            final EntityPlayer player = Minecraft.getMinecraft().player;
+            worldFolder = new File(clientCacheDir, player.getDisplayNameString() + "_" + player.getUniqueID() +
+                    File.separator + worldid);
+            worldFolder.mkdirs();
+            // to ensure any cache data that might somehow be lying around gets dealt with
+            clearCaches();
+            loadCaches();
+            shouldInit = false;
+        }
     }
 
     private static void loadCaches() {
@@ -156,6 +160,10 @@ public class ClientCacheManager {
 
     public static File getWorldFolder() {
         return worldFolder;
+    }
+
+    public static void allowReinit() {
+        shouldInit = true;
     }
 
     private static List<File> getDimFiles(File parent, String prefix) {

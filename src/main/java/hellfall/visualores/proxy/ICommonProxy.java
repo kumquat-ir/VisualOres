@@ -5,6 +5,7 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 
 public interface ICommonProxy {
     // load stages
@@ -25,4 +26,5 @@ public interface ICommonProxy {
     default void entityJoinWorld(EntityJoinWorldEvent event) {}
     default void syncConfig(ConfigChangedEvent.OnConfigChangedEvent event) {}
     default void onKeyPress(InputEvent.KeyInputEvent event) {}
+    default void onClientDisconnect(FMLNetworkEvent.ClientDisconnectionFromServerEvent event) {}
 }

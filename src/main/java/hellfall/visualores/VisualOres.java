@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import net.minecraftforge.fml.common.network.NetworkCheckHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.LogManager;
@@ -123,6 +124,13 @@ public class VisualOres {
     public void onKeyPress(InputEvent.KeyInputEvent event) {
         for (ICommonProxy proxy : proxies) {
             proxy.onKeyPress(event);
+        }
+    }
+
+    @SubscribeEvent
+    public void onClientDisconnect(FMLNetworkEvent.ClientDisconnectionFromServerEvent event) {
+        for (ICommonProxy proxy : proxies) {
+            proxy.onClientDisconnect(event);
         }
     }
 
