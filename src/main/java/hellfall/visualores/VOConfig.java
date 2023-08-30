@@ -133,9 +133,13 @@ public class VOConfig {
             public boolean cullEmptyChunks = true;
 
             @Config.Comment({"Whether to cull cache entries in chunks that nothing generated in during retrogen.",
-                    "Will make retrogen take significantly longer!",
-                    "Default: false"})
-            public boolean cullEmptyChunksRetrogen = false;
+                    "Will make retrogen take longer!",
+                    "Default: true"})
+            public boolean cullEmptyChunksRetrogen = true;
+
+            @Config.Comment({"Whether to perform retrogen for the ore vein cache.",
+                    "Default: true"})
+            public boolean doRetrogen = true;
         }
     }
 }

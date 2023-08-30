@@ -1,6 +1,7 @@
 package hellfall.visualores.database.gregtech.ore;
 
 import hellfall.visualores.Tags;
+import hellfall.visualores.VOConfig;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.MapStorage;
@@ -31,7 +32,9 @@ public class ServerCacheSaveData extends WorldSavedData {
             instance = new ServerCacheSaveData();
             storage.setData(DATA_NAME, instance);
 
-            OreCacheRetrogenerator.doRetrogen(world);
+            if (VOConfig.server.gregtech.doRetrogen) {
+                OreCacheRetrogenerator.doRetrogen(world);
+            }
 
             // always save the cache on initial load as a marker to not redo retrogen
             instance.markDirty();
