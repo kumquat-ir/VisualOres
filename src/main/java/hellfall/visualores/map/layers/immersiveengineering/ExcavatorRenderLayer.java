@@ -13,8 +13,6 @@ public class ExcavatorRenderLayer extends RenderLayer {
     private ExcavatorVeinPosition hoveredVein;
     private static ExcavatorVeinPosition waypointVein;
 
-    private static final int midColor = 0x77FFFFFF;
-
     public ExcavatorRenderLayer(String key) {
         super(key);
     }
@@ -22,9 +20,9 @@ public class ExcavatorRenderLayer extends RenderLayer {
     @Override
     public void render(double cameraX, double cameraZ, double scale) {
         for (ExcavatorVeinPosition vein : visibleVeins) {
-            int sideColor = 0xDDFFFFFF;
+            int sideColor = vein.color & 0xDDFFFFFF;
             if (vein == waypointVein) sideColor = 0xFFFFD700;
-            DrawUtils.drawOverlayBox(vein.x, vein.z, sideColor, midColor);
+            DrawUtils.drawOverlayBox(vein.x, vein.z, sideColor, vein.color & 0x77FFFFFF);
         }
     }
 

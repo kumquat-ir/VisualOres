@@ -1,11 +1,14 @@
 package hellfall.visualores.database.immersiveengineering;
 
 import blusunrize.immersiveengineering.common.IEContent;
+import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
 import flaxbeard.immersivepetroleum.common.EventHandler;
+import hellfall.visualores.map.DrawUtils;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fml.common.Loader;
 
 import javax.annotation.Nullable;
@@ -24,6 +27,8 @@ public class ExcavatorVeinPosition {
     public String resType;
     public Integer oil;
 
+    public int color;
+
     private List<String> tooltip;
     private ItemStack cachedStack;
 
@@ -34,6 +39,7 @@ public class ExcavatorVeinPosition {
         }
 
         cachedStack = stack;
+        color = 0xFFFFFFFF;
         int[] coords = nbt.getIntArray("coords");
         x = coords[1];
         z = coords[2];
@@ -50,6 +56,9 @@ public class ExcavatorVeinPosition {
         }
         if (nbt.hasKey("resType")) {
             resType = nbt.getString("resType");
+            if (Loader.isModLoaded("immersivepetroleum")) {
+                color = DrawUtils.getFluidColor(getIPFluid(resType));
+            }
         }
         if (nbt.hasKey("oil")) {
             oil = nbt.getInteger("oil");
@@ -95,5 +104,14 @@ public class ExcavatorVeinPosition {
 
     private void addIPInfo(ItemStack stack, List<String> tooltip) {
         EventHandler.handleItemTooltip(new ItemTooltipEvent(stack, null, tooltip, ITooltipFlag.TooltipFlags.NORMAL));
+    }
+
+    private Fluid getIPFluid(String name) {
+        for(PumpjackHandler.ReservoirType type : PumpjackHandler.reservoirList.keySet()) {
+            if (name.equals(type.name)) {
+                return type.getFluid();
+            }
+        }
+        return null;
     }
 }

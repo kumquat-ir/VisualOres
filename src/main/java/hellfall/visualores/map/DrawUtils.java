@@ -129,6 +129,10 @@ public class DrawUtils {
      * Will also apply a fix for incorrect GregTech fluid colors.
      */
     public static int getFluidColor(Fluid fluid) {
+        if (fluid == null) {
+            return 0xFFFFFFFF;
+        }
+
         int color = fluid.getColor();
         if (colorOverrides.containsKey(fluid.getName())) {
             // make full opacity
