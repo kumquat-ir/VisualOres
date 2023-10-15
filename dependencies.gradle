@@ -28,7 +28,7 @@ dependencies {
     implementation rfg.deobf('maven.modrinth:xaeros-world-map:1.31.0_Forge_1.12')
 
     // mods with layer integrations
-    implementation rfg.deobf('maven.modrinth:gregtech-ce-unofficial:2.7.3-beta')
+    implementation rfg.deobf('maven.modrinth:gregtech-ce-unofficial:2.7.4-beta')
     implementation rfg.deobf('curse.maven:thaumcraft-223628:2629023')
     implementation rfg.deobf('curse.maven:astral-sorcery-241721:3044416')
     implementation rfg.deobf('curse.maven:immersive-engineering-231951:2974106')
