@@ -9,6 +9,7 @@ import hellfall.visualores.map.layers.RenderLayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.ArrayList;
@@ -43,12 +44,18 @@ public class OreRenderLayer extends RenderLayer {
             float[] colors = DrawUtils.floats(vein.veinInfo.color);
             GlStateManager.color(1, 1, 1, 1);
 
-            Minecraft.getMinecraft().getTextureManager().bindTexture(STONE);
-            Gui.drawModalRectWithCustomSizedTexture(-iconSize / 2, -iconSize / 2, 0, 0, iconSize, iconSize, iconSize, iconSize);
+            if (vein.veinInfo.texture != null) {
+                Minecraft.getMinecraft().getTextureManager().bindTexture(STONE);
+                Gui.drawModalRectWithCustomSizedTexture(-iconSize / 2, -iconSize / 2, 0, 0, iconSize, iconSize, iconSize, iconSize);
 
-            Minecraft.getMinecraft().getTextureManager().bindTexture(vein.veinInfo.texture);
-            GlStateManager.color(colors[0], colors[1], colors[2], 1);
-            Gui.drawModalRectWithCustomSizedTexture(-iconSize / 2, -iconSize / 2, 0, 0, iconSize, iconSize, iconSize, iconSize);
+                Minecraft.getMinecraft().getTextureManager().bindTexture(vein.veinInfo.texture);
+                GlStateManager.color(colors[0], colors[1], colors[2], 1);
+                Gui.drawModalRectWithCustomSizedTexture(-iconSize / 2, -iconSize / 2, 0, 0, iconSize, iconSize, iconSize, iconSize);
+            }
+            else if (vein.veinInfo.tas != null) {
+                Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+                GuiDraw.gui.drawTexturedModalRect(-iconSize / 2, -iconSize / 2, vein.veinInfo.tas, iconSize, iconSize);
+            }
 
             GlStateManager.color(1, 1, 1, 1);
             if (vein.depleted) {
