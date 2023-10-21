@@ -1,14 +1,14 @@
 package hellfall.visualores.database.gregtech.ore;
 
 import codechicken.lib.texture.TextureUtils;
-import gregtech.api.GregTechAPI;
 import gregtech.api.unification.OreDictUnifier;
 import gregtech.api.unification.material.Material;
 import gregtech.api.unification.material.info.MaterialIconType;
 import gregtech.api.unification.stack.MaterialStack;
 import gregtech.api.util.FileUtility;
 import gregtech.api.util.GTUtility;
-import gregtech.api.util.LocalizationUtils;
+import gregtech.api.util.GregFakePlayer;
+import gregtech.api.util.world.DummyWorld;
 import gregtech.api.worldgen.config.OreDepositDefinition;
 import gregtech.api.worldgen.filler.BlockFiller;
 import gregtech.api.worldgen.filler.FillerEntry;
@@ -18,8 +18,13 @@ import gregtech.common.blocks.BlockOre;
 import hellfall.visualores.VOConfig;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import java.util.*;
@@ -77,15 +82,15 @@ public class OreVeinInfo {
                 tooltipStrings.add(FileUtility.trimFileName(def.getDepositName()));
             }
             for (FillerEntry filler : getAllFillers(def.getBlockFiller())) {
-                IBlockState blockState = (IBlockState) filler.getPossibleResults().toArray()[0];
-                String matName = getBaseMaterialName(blockState);
-                if (!matName.isEmpty() && blockState.getBlock() instanceof BlockOre) {
-                    // gt ores need special handling again
-                    tooltipStrings.add(VOConfig.client.gregtech.oreNamePrefix + LocalizationUtils.format("item.material.oreprefix.ore",
-                        GregTechAPI.materialManager.getMaterial(matName).getLocalizedName()));
+                IBlockState state = (IBlockState) filler.getPossibleResults().toArray()[0];
+                ItemStack stack = getStackFromState(state);
+                if (!stack.isEmpty()) {
+                    // if we can get a stack from the blockstate, great, that makes it easy (and usually correct)
+                    tooltipStrings.add(VOConfig.client.gregtech.oreNamePrefix + stack.getDisplayName());
                 }
                 else {
-                    tooltipStrings.add(VOConfig.client.gregtech.oreNamePrefix + blockState.getBlock().getLocalizedName());
+                    // otherwise, use this very error-prone method that only sometimes gets an actual translation
+                    tooltipStrings.add(VOConfig.client.gregtech.oreNamePrefix + state.getBlock().getLocalizedName());
                 }
             }
         }
@@ -107,5 +112,37 @@ public class OreVeinInfo {
             };
         }
         return filler.getAllPossibleStates().toArray(new FillerEntry[0]);
+    }
+
+    /**
+     * adapted from {@link gregtech.integration.jei.multiblock.MultiblockInfoRecipeWrapper#gatherStructureBlocks}
+     */
+    @SuppressWarnings("JavadocReference")
+    private static ItemStack getStackFromState(IBlockState state) {
+        // the horrible, horrible way to get an itemstack from a blockstate while minimizing errors
+
+        ItemStack stack = ItemStack.EMPTY;
+        BlockPos pos = new BlockPos(0, 0, 0);
+
+        if (stack.isEmpty()) {
+            // try the itemstack constructor
+            stack = GTUtility.toItem(state);
+        }
+        if (stack.isEmpty()) {
+            // add the first of the block's drops if the others didn't work
+            NonNullList<ItemStack> list = NonNullList.create();
+            state.getBlock().getDrops(list, DummyWorld.INSTANCE, pos, state, 0);
+            if (!list.isEmpty()) {
+                ItemStack is = list.get(0);
+                if (!is.isEmpty()) {
+                    stack = is;
+                }
+            }
+        }
+        if (stack.isEmpty()) {
+            // if everything else doesn't work, try the not great getPickBlock() with some dummy values
+            stack = state.getBlock().getPickBlock(state, new RayTraceResult(Vec3d.ZERO, EnumFacing.UP, pos), DummyWorld.INSTANCE, pos, new GregFakePlayer(DummyWorld.INSTANCE));
+        }
+        return stack;
     }
 }
