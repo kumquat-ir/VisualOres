@@ -1,6 +1,7 @@
 package hellfall.visualores.database.gregtech.ore;
 
 import codechicken.lib.texture.TextureUtils;
+import gregtech.api.GregTechAPI;
 import gregtech.api.unification.OreDictUnifier;
 import gregtech.api.unification.material.Material;
 import gregtech.api.unification.material.info.MaterialIconType;
@@ -8,6 +9,7 @@ import gregtech.api.unification.stack.MaterialStack;
 import gregtech.api.util.FileUtility;
 import gregtech.api.util.GTUtility;
 import gregtech.api.util.GregFakePlayer;
+import gregtech.api.util.LocalizationUtils;
 import gregtech.api.util.world.DummyWorld;
 import gregtech.api.worldgen.config.OreDepositDefinition;
 import gregtech.api.worldgen.filler.BlockFiller;
@@ -83,6 +85,14 @@ public class OreVeinInfo {
             }
             for (FillerEntry filler : getAllFillers(def.getBlockFiller())) {
                 IBlockState state = (IBlockState) filler.getPossibleResults().toArray()[0];
+                String matName = getBaseMaterialName(state);
+                if (!matName.isEmpty() && state.getBlock() instanceof BlockOre) {
+                    // gt ores need special handling due to ore variants
+                    // we dont want "Red Sand Gold Ore" etc popping up in a tooltip
+                    tooltipStrings.add(VOConfig.client.gregtech.oreNamePrefix + LocalizationUtils.format("item.material.oreprefix.ore",
+                        GregTechAPI.materialManager.getMaterial(matName).getLocalizedName()));
+                    continue;
+                }
                 ItemStack stack = getStackFromState(state);
                 if (!stack.isEmpty()) {
                     // if we can get a stack from the blockstate, great, that makes it easy (and usually correct)
