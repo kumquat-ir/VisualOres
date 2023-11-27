@@ -1,6 +1,5 @@
 package hellfall.visualores.database.gregtech.fluid;
 
-import gregtech.api.util.LocalizationUtils;
 import gregtech.api.worldgen.bedrockFluids.ChunkPosDimension;
 import hellfall.visualores.map.DrawUtils;
 import net.minecraft.nbt.NBTTagCompound;
@@ -29,7 +28,7 @@ public class UndergroundFluidPosition {
         this.percent = percent;
 
         Fluid f = FluidRegistry.getFluid(fluid);
-        this.name = LocalizationUtils.format(f.getUnlocalizedName());
+        this.name = f.getLocalizedName(null);
         this.color = DrawUtils.getFluidColor(f);
     }
 

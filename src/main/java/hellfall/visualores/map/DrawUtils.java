@@ -1,7 +1,7 @@
 package hellfall.visualores.map;
 
 import codechicken.lib.gui.GuiDraw;
-import gregtech.api.fluids.MaterialFluid;
+import gregtech.api.fluids.GTFluid;
 import gregtech.api.util.GTUtility;
 import hellfall.visualores.VOConfig;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
@@ -145,7 +145,7 @@ public class DrawUtils {
     }
 
     private static int gtMaterialColor(Fluid fluid) {
-        if (fluid instanceof MaterialFluid materialFluid) {
+        if (fluid instanceof GTFluid.GTMaterialFluid materialFluid) {
             return GTUtility.convertRGBtoOpaqueRGBA_MC(materialFluid.getMaterial().getMaterialRGB());
         }
         return fluid.getColor();
