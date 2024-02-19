@@ -58,6 +58,15 @@ public class OreRenderLayer extends RenderLayer {
             }
 
             GlStateManager.color(1, 1, 1, 1);
+            int borderColor = VOConfig.client.gregtech.getBorderColor(vein.veinInfo.color | 0xFF000000);
+            if ((borderColor & 0xFF000000) != 0) {
+                int thickness = iconSize / 16;
+                GuiDraw.drawRect(-iconSize / 2, -iconSize / 2, iconSize, thickness, borderColor);
+                GuiDraw.drawRect(-iconSize / 2, iconSize / 2 - thickness, iconSize, thickness, borderColor);
+                GuiDraw.drawRect(-iconSize / 2, -iconSize / 2, thickness, iconSize, borderColor);
+                GuiDraw.drawRect(iconSize / 2 - thickness, -iconSize / 2, thickness, iconSize, borderColor);
+            }
+
             if (vein.depleted) {
                 GuiDraw.drawRect(-iconSize / 2, -iconSize / 2, iconSize, iconSize, 0x96000000);
                 Minecraft.getMinecraft().getTextureManager().bindTexture(DEPLETED);
@@ -92,8 +101,8 @@ public class OreRenderLayer extends RenderLayer {
         mouseX = mouseX - mc.displayWidth / 2.0;
         mouseY = mouseY - mc.displayHeight / 2.0;
         for (OreVeinPosition vein : visibleVeins) {
-            double scaledVeinX = (vein.x - 0.5 - cameraX) * scale;
-            double scaledVeinZ = (vein.z - 0.5 - cameraZ) * scale;
+            double scaledVeinX = (vein.x + 0.5 - cameraX) * scale;
+            double scaledVeinZ = (vein.z + 0.5 - cameraZ) * scale;
             if (mouseX > scaledVeinX - iconRadius && mouseX < scaledVeinX + iconRadius &&
                     mouseY > scaledVeinZ - iconRadius && mouseY < scaledVeinZ + iconRadius) {
                 hoveredVeins.add(vein);

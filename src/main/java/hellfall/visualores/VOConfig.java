@@ -108,6 +108,27 @@ public class VOConfig {
 
             @Config.Comment("The string prepending ore names in the ore vein tooltip")
             public String oreNamePrefix = "- ";
+
+            @Config.Comment({"The color to draw a box around the ore icon with.",
+                    "Accepts either an ARGB hex color prefixed with # or the string 'material' to use the ore's material color"})
+            public String borderColor = "#00000000";
+
+            public int getBorderColor(int materialColor) {
+                if (borderColor.equals("material")) {
+                    return materialColor;
+                }
+                // please java may i have an unsigned int
+                try {
+                    long tmp = Long.decode(borderColor);
+                    if (tmp > 0x7FFFFFFF) {
+                        tmp -= 0x100000000L;
+                    }
+                    return (int) tmp;
+                }
+                catch (NumberFormatException e) {
+                    return 0x00000000;
+                }
+            }
         }
     }
 
