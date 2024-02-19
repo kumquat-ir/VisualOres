@@ -50,9 +50,9 @@ public class ServerCache extends WorldCache {
         saveData.clear();
     }
 
-    public void prospectSurfaceRockMaterial(int dim, Material material, BlockPos pos, EntityPlayerMP player) {
-        if (VOConfig.server.gregtech.surfaceRockProspectRange < 0) return;
-        List<OreVeinPosition> nearbyVeins = getNearbyVeins(dim, pos, VOConfig.server.gregtech.surfaceRockProspectRange);
+    public void prospectBySurfaceRockMaterial(int dim, Material material, BlockPos pos, EntityPlayerMP player, int radius) {
+        if (radius < 0) return;
+        List<OreVeinPosition> nearbyVeins = getNearbyVeins(dim, pos, radius);
         List<OreVeinPosition> foundVeins = new ArrayList<>();
         for (OreVeinPosition nearbyVein : nearbyVeins) {
             if (material.equals(nearbyVein.veinInfo.surfaceRockMaterial)) {
@@ -62,12 +62,25 @@ public class ServerCache extends WorldCache {
         GregTechAPI.networkHandler.sendTo(new OreProspectToClientPacket(dim, foundVeins), player);
     }
 
-    public void prospectOreBlock(int dim, String oredictName, BlockPos pos, EntityPlayerMP player) {
-        if (VOConfig.server.gregtech.oreBlockProspectRange < 0) return;
-        List<OreVeinPosition> nearbyVeins = getNearbyVeins(dim, pos, VOConfig.server.gregtech.oreBlockProspectRange);
+    public void prospectByOreMaterial(int dim, Material material, BlockPos origin, EntityPlayerMP player, int radius) {
+        if (radius < 0) return;
+        String materialString = material.getResourceLocation().toString();
+        List<OreVeinPosition> nearbyVeins = getNearbyVeins(dim, origin, radius);
         List<OreVeinPosition> foundVeins = new ArrayList<>();
         for (OreVeinPosition nearbyVein : nearbyVeins) {
-            if (nearbyVein.veinInfo.oreMaterialStrings.contains(oredictName)) {
+            if (nearbyVein.veinInfo.oreMaterialStrings.contains(materialString)) {
+                foundVeins.add(nearbyVein);
+            }
+        }
+        GregTechAPI.networkHandler.sendTo(new OreProspectToClientPacket(dim, foundVeins), player);
+    }
+
+    public void prospectByDepositName(int dim, String depositName, BlockPos origin, EntityPlayerMP player, int radius) {
+        if (radius < 0) return;
+        List<OreVeinPosition> nearbyVeins = getNearbyVeins(dim, origin, radius);
+        List<OreVeinPosition> foundVeins = new ArrayList<>();
+        for (OreVeinPosition nearbyVein : nearbyVeins) {
+            if (nearbyVein.depositname.equals(depositName)) {
                 foundVeins.add(nearbyVein);
             }
         }

@@ -3,24 +3,33 @@ package hellfall.visualores.gtmodule;
 import gregtech.api.GTValues;
 import gregtech.api.GregTechAPI;
 import gregtech.api.modules.GregTechModule;
+import gregtech.api.unification.material.Material;
+import gregtech.api.unification.material.Materials;
 import gregtech.api.worldgen.bedrockFluids.BedrockFluidVeinHandler;
+import gregtech.common.blocks.BlockOre;
+import gregtech.common.blocks.BlockSurfaceRock;
 import gregtech.modules.BaseGregTechModule;
 import hellfall.visualores.Tags;
+import hellfall.visualores.VOConfig;
 import hellfall.visualores.VisualOres;
 import hellfall.visualores.database.ClientCacheManager;
 import hellfall.visualores.database.gregtech.GTClientCache;
+import hellfall.visualores.database.gregtech.ore.OreVeinInfo;
 import hellfall.visualores.database.gregtech.ore.ServerCache;
 import hellfall.visualores.map.layers.Layers;
 import hellfall.visualores.map.layers.gregtech.OreRenderLayer;
 import hellfall.visualores.map.layers.gregtech.UndergroundFluidRenderLayer;
 import hellfall.visualores.network.gregtech.FluidSaveVersionPacket;
 import hellfall.visualores.network.gregtech.OreProspectToClientPacket;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
@@ -82,6 +91,34 @@ public class VisualOresModule extends BaseGregTechModule {
     public static void onEntityJoinWorld(EntityJoinWorldEvent event) {
         if (!event.getWorld().isRemote && event.getEntity() instanceof EntityPlayerMP player) {
             GregTechAPI.networkHandler.sendTo(new FluidSaveVersionPacket(BedrockFluidVeinHandler.saveDataVersion), player);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerRClickBlock(PlayerInteractEvent.RightClickBlock event) {
+        if (event.getSide() == Side.SERVER && event.getEntityPlayer() instanceof EntityPlayerMP player) {
+            IBlockState state = event.getWorld().getBlockState(event.getPos());
+            if (state.getBlock() instanceof BlockOre) {
+                Material oreMaterial = OreVeinInfo.getMaterial(state);
+                if (!oreMaterial.equals(Materials.NULL)) {
+                    ServerCache.instance.prospectByOreMaterial(
+                            event.getWorld().provider.getDimension(),
+                            oreMaterial,
+                            event.getPos(),
+                            player,
+                            VOConfig.server.gregtech.oreBlockProspectRange
+                    );
+                }
+            }
+            else if (state.getBlock() instanceof BlockSurfaceRock block) {
+                ServerCache.instance.prospectBySurfaceRockMaterial(
+                        event.getWorld().provider.getDimension(),
+                        state.getValue(block.getVariantProperty()),
+                        event.getPos(),
+                        player,
+                        VOConfig.server.gregtech.surfaceRockProspectRange
+                );
+            }
         }
     }
 }

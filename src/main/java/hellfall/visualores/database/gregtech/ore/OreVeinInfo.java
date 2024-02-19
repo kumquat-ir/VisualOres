@@ -4,6 +4,7 @@ import codechicken.lib.texture.TextureUtils;
 import gregtech.api.GregTechAPI;
 import gregtech.api.unification.OreDictUnifier;
 import gregtech.api.unification.material.Material;
+import gregtech.api.unification.material.Materials;
 import gregtech.api.unification.material.info.MaterialIconType;
 import gregtech.api.unification.stack.MaterialStack;
 import gregtech.api.util.FileUtility;
@@ -110,6 +111,12 @@ public class OreVeinInfo {
         MaterialStack stack = OreDictUnifier.getMaterial(GTUtility.toItem(state));
         if (stack == null) return "";
         return stack.material.getResourceLocation().toString();
+    }
+
+    public static Material getMaterial(IBlockState state) {
+        MaterialStack stack = OreDictUnifier.getMaterial(GTUtility.toItem(state));
+        if (stack == null) return Materials.NULL;
+        return stack.material;
     }
 
     private static FillerEntry[] getAllFillers(BlockFiller filler) {
