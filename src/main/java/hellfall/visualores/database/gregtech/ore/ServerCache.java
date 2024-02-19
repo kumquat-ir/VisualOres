@@ -2,7 +2,6 @@ package hellfall.visualores.database.gregtech.ore;
 
 import gregtech.api.GregTechAPI;
 import gregtech.api.unification.material.Material;
-import hellfall.visualores.VOConfig;
 import hellfall.visualores.network.gregtech.OreProspectToClientPacket;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;

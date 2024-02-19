@@ -55,9 +55,9 @@ public abstract class MinimapRendererMixin {
     }
 
     @Redirect(method = "renderMinimap",
-            at = @At(value = "INVOKE", target = "Lxaero/common/minimap/element/render/over/MinimapElementOverMapRendererHandler;render(Lnet/minecraft/entity/Entity;Lnet/minecraft/entity/player/EntityPlayer;DDDDDDZFLnet/minecraft/client/shader/Framebuffer;Lxaero/common/IXaeroMinimap;Lxaero/common/minimap/render/MinimapRendererHelper;Lnet/minecraft/client/gui/FontRenderer;Lnet/minecraft/client/gui/ScaledResolution;IIIIZF)D")
+            at = @At(value = "INVOKE", target = "Lxaero/common/minimap/element/render/over/MinimapElementOverMapRendererHandler;render(Lnet/minecraft/entity/Entity;Lnet/minecraft/entity/player/EntityPlayer;DDDDDDDZFLnet/minecraft/client/shader/Framebuffer;Lxaero/common/IXaeroMinimap;Lxaero/common/minimap/render/MinimapRendererHelper;Lnet/minecraft/client/gui/FontRenderer;Lnet/minecraft/client/gui/ScaledResolution;IIIIZF)D")
     )
-    private double visualores$injectRender(MinimapElementOverMapRendererHandler instance, Entity renderEntity, EntityPlayer player, double renderX, double renderY, double renderZ, double ps, double pc, double zoom, boolean cave, float partialTicks, Framebuffer framebuffer, IXaeroMinimap modMain, MinimapRendererHelper helper, FontRenderer font, ScaledResolution scaledRes, int specW, int specH, int halfViewW, int halfViewH, boolean circle, float minimapScale) {
+    private double visualores$injectRender(MinimapElementOverMapRendererHandler instance, Entity renderEntity, EntityPlayer player, double renderX, double renderY, double renderZ, double dimdiv, double ps, double pc, double zoom, boolean cave, float partialTicks, Framebuffer framebuffer, IXaeroMinimap modMain, MinimapRendererHelper helper, FontRenderer font, ScaledResolution scaledRes, int specW, int specH, int halfViewW, int halfViewH, boolean circle, float minimapScale) {
         if (VOConfig.client.enableMinimapRendering) {
             renderer.updateVisibleArea(mc.player.dimension, (int) (renderX - frameSize), (int) (renderZ - frameSize), frameSize * 2, frameSize * 2);
 
@@ -75,7 +75,7 @@ public abstract class MinimapRendererMixin {
             GlStateManager.popMatrix();
         }
 
-        return instance.render(renderEntity, player, renderX, renderY, renderZ, ps, pc, zoom, cave, partialTicks, framebuffer, modMain, helper, font, scaledRes, specW, specH, halfViewW, halfViewH, circle, minimapScale);
+        return instance.render(renderEntity, player, renderX, renderY, renderZ, dimdiv, ps, pc, zoom, cave, partialTicks, framebuffer, modMain, helper, font, scaledRes, specW, specH, halfViewW, halfViewH, circle, minimapScale);
     }
 
     @Redirect(method = "renderMinimap", at = @At(value = "INVOKE", target = "Lxaero/common/minimap/render/MinimapRendererHelper;drawMyTexturedModalRect(FFIIFFF)V"))
