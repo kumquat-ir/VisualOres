@@ -111,12 +111,11 @@ public class VisualOresModule extends BaseGregTechModule {
                 }
             }
             else if (state.getBlock() instanceof BlockSurfaceRock block) {
-                ServerCache.instance.prospectBySurfaceRockMaterial(
+                ServerCache.instance.prospectSurfaceRockMaterial(
                         event.getWorld().provider.getDimension(),
                         state.getValue(block.getVariantProperty()),
                         event.getPos(),
-                        player,
-                        VOConfig.server.gregtech.surfaceRockProspectRange
+                        player
                 );
             }
         }
