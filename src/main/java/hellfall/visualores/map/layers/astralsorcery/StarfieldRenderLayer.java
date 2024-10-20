@@ -5,12 +5,13 @@ import hellfall.visualores.database.astralsorcery.ASClientCache;
 import hellfall.visualores.database.astralsorcery.StarfieldPosition;
 import hellfall.visualores.map.layers.RenderLayer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StarfieldRenderLayer extends RenderLayer {
     private static final int LOW_COLOR = 0x7700063A;
     private static final int HIGH_COLOR = 0xAA0012B7;
-    private List<StarfieldPosition> visibleChunks;
+    private List<StarfieldPosition> visibleChunks = new ArrayList<>();
 
     public StarfieldRenderLayer(String key) {
         super(key);

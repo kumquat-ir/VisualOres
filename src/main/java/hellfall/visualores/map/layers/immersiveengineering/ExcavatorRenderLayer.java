@@ -6,10 +6,11 @@ import hellfall.visualores.map.DrawUtils;
 import hellfall.visualores.map.layers.RenderLayer;
 import net.minecraft.util.math.ChunkPos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ExcavatorRenderLayer extends RenderLayer {
-    private List<ExcavatorVeinPosition> visibleVeins;
+    private List<ExcavatorVeinPosition> visibleVeins = new ArrayList<>();
     private ExcavatorVeinPosition hoveredVein;
     private static ExcavatorVeinPosition waypointVein;
 

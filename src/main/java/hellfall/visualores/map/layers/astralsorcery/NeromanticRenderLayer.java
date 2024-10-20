@@ -6,10 +6,11 @@ import hellfall.visualores.map.DrawUtils;
 import hellfall.visualores.map.layers.RenderLayer;
 import net.minecraft.util.math.ChunkPos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NeromanticRenderLayer extends RenderLayer {
-    private List<NeromanticPosition> visibleChunks;
+    private List<NeromanticPosition> visibleChunks = new ArrayList<>();
     private NeromanticPosition hoveredChunk;
 
     public NeromanticRenderLayer(String key) {
