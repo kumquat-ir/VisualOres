@@ -57,24 +57,28 @@ public class OreVeinInfo {
         }
 
         if (FMLCommonHandler.instance().getSide().isClient()) {
+            Collection<IBlockState> possiblePrimaryStates;
             if (def.getBlockFiller() instanceof LayeredBlockFiller) {
-                Collection<IBlockState> possiblePrimaryStates = ((LayeredBlockFiller) def.getBlockFiller()).getPrimary().getPossibleResults();
-                for (IBlockState state : possiblePrimaryStates) {
-                    if (state.getBlock() instanceof BlockOre) {
-                        // gt ores need special handling due to iconset stuff
-                        Material mat = ((BlockOre) state.getBlock()).material;
-                        ResourceLocation shortenedLocation = MaterialIconType.ore.getBlockTexturePath(mat.getMaterialIconSet());
-                        texture = new ResourceLocation(shortenedLocation.getNamespace(), "textures/" + shortenedLocation.getPath() + ".png");
-                        color = mat.getMaterialRGB();
+                possiblePrimaryStates = ((LayeredBlockFiller) def.getBlockFiller()).getPrimary().getPossibleResults();
+            }
+            else {
+                possiblePrimaryStates = getAllRelevantStates(def.getBlockFiller());
+            }
+            for (IBlockState state : possiblePrimaryStates) {
+                if (state.getBlock() instanceof BlockOre) {
+                    // gt ores need special handling due to iconset stuff
+                    Material mat = ((BlockOre) state.getBlock()).material;
+                    ResourceLocation shortenedLocation = MaterialIconType.ore.getBlockTexturePath(mat.getMaterialIconSet());
+                    texture = new ResourceLocation(shortenedLocation.getNamespace(), "textures/" + shortenedLocation.getPath() + ".png");
+                    color = mat.getMaterialRGB();
+                    break;
+                }
+                else {
+                    tas = TextureUtils.getSideIconsForBlock(state)[EnumFacing.NORTH.ordinal()];
+                    if (tas != TextureUtils.getMissingSprite()) {
                         break;
                     }
-                    else {
-                        tas = TextureUtils.getSideIconsForBlock(state)[EnumFacing.NORTH.ordinal()];
-                        if (tas != TextureUtils.getMissingSprite()) {
-                            break;
-                        }
-                        // if the sprite is missing, see if theres a non-missing sprite to be found
-                    }
+                    // if the sprite is missing, see if theres a non-missing sprite to be found
                 }
             }
 
@@ -85,8 +89,7 @@ public class OreVeinInfo {
             else {
                 tooltipStrings.add(FileUtility.trimFileName(def.getDepositName()));
             }
-            for (FillerEntry filler : getAllFillers(def.getBlockFiller())) {
-                IBlockState state = (IBlockState) filler.getPossibleResults().toArray()[0];
+            for (IBlockState state : getAllRelevantStates(def.getBlockFiller())) {
                 String matName = getBaseMaterialName(state);
                 if (!matName.isEmpty() && state.getBlock() instanceof BlockOre) {
                     // gt ores need special handling due to ore variants
@@ -143,6 +146,31 @@ public class OreVeinInfo {
             };
         }
         return filler.getAllPossibleStates().toArray(new FillerEntry[0]);
+    }
+
+    private static Collection<IBlockState> getAllRelevantStates(BlockFiller filler) {
+        List<IBlockState> states = new ArrayList<>();
+        if (filler instanceof LayeredBlockFiller) {
+            for (FillerEntry entry : getAllFillers(filler)) {
+                states.add((IBlockState) entry.getPossibleResults().toArray()[0]);
+            }
+        }
+        else {
+            FillerEntry entry = filler.getAllPossibleStates().get(0);
+            Set<Material> seenMaterials = new HashSet<>();
+            for (IBlockState state : entry.getPossibleResults()) {
+                if (state.getBlock() instanceof BlockOre blockOre) {
+                    if (!seenMaterials.contains(blockOre.material)) {
+                        seenMaterials.add(blockOre.material);
+                        states.add(state);
+                    }
+                }
+                else {
+                    states.add(state);
+                }
+            }
+        }
+        return states;
     }
 
     /**
