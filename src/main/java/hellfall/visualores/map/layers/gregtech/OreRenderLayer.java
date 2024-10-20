@@ -1,6 +1,7 @@
 package hellfall.visualores.map.layers.gregtech;
 
 import codechicken.lib.gui.GuiDraw;
+import codechicken.lib.texture.TextureUtils;
 import hellfall.visualores.VOConfig;
 import hellfall.visualores.database.gregtech.GTClientCache;
 import hellfall.visualores.database.gregtech.ore.OreVeinPosition;
@@ -55,6 +56,10 @@ public class OreRenderLayer extends RenderLayer {
             else if (vein.veinInfo.tas != null) {
                 Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
                 GuiDraw.gui.drawTexturedModalRect(-iconSize / 2, -iconSize / 2, vein.veinInfo.tas, iconSize, iconSize);
+            }
+            else {
+                Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+                GuiDraw.gui.drawTexturedModalRect(-iconSize / 2, -iconSize / 2, TextureUtils.getMissingSprite(), iconSize, iconSize);
             }
 
             GlStateManager.color(1, 1, 1, 1);

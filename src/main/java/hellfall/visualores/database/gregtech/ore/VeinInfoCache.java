@@ -19,6 +19,9 @@ public class VeinInfoCache {
     }
 
     public static OreVeinInfo getByName(String name) {
+        if (!cache.containsKey(name)) {
+            cache.put(name, OreVeinInfo.missingVein(name));
+        }
         return cache.get(name);
     }
 

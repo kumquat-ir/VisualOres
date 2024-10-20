@@ -21,6 +21,7 @@ import gregtech.common.blocks.BlockOre;
 import hellfall.visualores.VOConfig;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
@@ -105,6 +106,19 @@ public class OreVeinInfo {
                 }
             }
         }
+    }
+
+    private OreVeinInfo(String missingName) {
+        oreMaterialStrings = new HashSet<>();
+        color = 0xFF00FF;
+        if (FMLCommonHandler.instance().getSide().isClient()) {
+            tooltipStrings = new ArrayList<>();
+            tooltipStrings.add(I18n.format("visualores.gregtech.missingvein", missingName));
+        }
+    }
+
+    public static OreVeinInfo missingVein(String name) {
+        return new OreVeinInfo(name);
     }
 
     public static String getBaseMaterialName(IBlockState state) {

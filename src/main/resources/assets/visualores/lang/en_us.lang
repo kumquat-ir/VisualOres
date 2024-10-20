@@ -22,6 +22,7 @@ visualores.share.notification=%s is sharing prospecting data with you!
 
 visualores.gregtech.newveins=Prospected %d new veins!
 visualores.gregtech.depleted= (depleted)
+visualores.gregtech.missingvein=Missing vein: %s
 
 visualores.thaumcraft.aura=Aura: %d
 visualores.thaumcraft.flux=Flux: %d
