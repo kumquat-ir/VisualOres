@@ -57,7 +57,7 @@ public abstract class MinimapRendererMixin {
     @Redirect(method = "renderMinimap",
             at = @At(value = "INVOKE", target = "Lxaero/hud/minimap/element/render/over/MinimapElementOverMapRendererHandler;render(Lnet/minecraft/util/math/Vec3d;FLnet/minecraft/client/shader/Framebuffer;Lnet/minecraft/client/gui/ScaledResolution;DI)D")
     )
-    private double visualores$injectRender(xaero.hud.minimap.element.render.over.MinimapElementOverMapRendererHandler instance, Vec3d renderPos, float partialTick, Framebuffer framebuffer, ScaledResolution scaledResolution, double backgroundCoordinateScale, int mapDimension) {
+    private double visualores$injectRender(MinimapElementOverMapRendererHandler instance, Vec3d renderPos, float partialTick, Framebuffer framebuffer, ScaledResolution scaledResolution, double backgroundCoordinateScale, int mapDimension) {
         if (VOConfig.client.enableMinimapRendering) {
             renderer.updateVisibleArea(mc.player.dimension, (int) (renderPos.x - frameSize), (int) (renderPos.z - frameSize), frameSize * 2, frameSize * 2);
 
