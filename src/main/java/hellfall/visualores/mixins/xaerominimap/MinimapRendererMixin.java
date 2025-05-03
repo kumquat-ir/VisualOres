@@ -3,12 +3,9 @@ package hellfall.visualores.mixins.xaerominimap;
 import hellfall.visualores.VOConfig;
 import hellfall.visualores.map.GenericMapRenderer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.shader.Framebuffer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.Vec3d;
 import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
@@ -25,6 +22,7 @@ import xaero.common.minimap.render.MinimapRendererHelper;
 import xaero.hud.minimap.Minimap;
 import xaero.hud.minimap.compass.render.CompassRenderer;
 import xaero.hud.minimap.waypoint.render.WaypointMapRenderer;
+import xaero.hud.minimap.element.render.over.MinimapElementOverMapRendererHandler;
 
 @Mixin(value = MinimapRenderer.class, remap = false)
 public abstract class MinimapRendererMixin {
