@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.Vec3d;
 import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -23,8 +24,10 @@ import xaero.common.minimap.MinimapInterface;
 import xaero.common.minimap.element.render.over.MinimapElementOverMapRendererHandler;
 import xaero.common.minimap.render.MinimapRenderer;
 import xaero.common.minimap.render.MinimapRendererHelper;
-import xaero.common.minimap.waypoints.render.CompassRenderer;
 import xaero.common.minimap.waypoints.render.WaypointsGuiRenderer;
+import xaero.hud.minimap.Minimap;
+import xaero.hud.minimap.compass.render.CompassRenderer;
+import xaero.hud.minimap.waypoint.render.WaypointMapRenderer;
 
 @Mixin(value = MinimapRenderer.class, remap = false)
 public abstract class MinimapRendererMixin {
@@ -35,7 +38,7 @@ public abstract class MinimapRendererMixin {
     @Unique private float angle;
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void visualores$injectConstruct(IXaeroMinimap modMain, Minecraft mc, WaypointsGuiRenderer waypointsGuiRenderer, MinimapInterface minimapInterface, CompassRenderer compassRenderer, CallbackInfo ci) {
+    private void visualores$injectConstruct(IXaeroMinimap modMain, Minecraft mc, WaypointMapRenderer waypointMapRenderer, Minimap minimap, CompassRenderer compassRenderer, CallbackInfo ci) {
         renderer = new GenericMapRenderer();
     }
 
@@ -55,11 +58,11 @@ public abstract class MinimapRendererMixin {
     }
 
     @Redirect(method = "renderMinimap",
-            at = @At(value = "INVOKE", target = "Lxaero/common/minimap/element/render/over/MinimapElementOverMapRendererHandler;render(Lnet/minecraft/entity/Entity;Lnet/minecraft/entity/player/EntityPlayer;DDDDDDDZFLnet/minecraft/client/shader/Framebuffer;Lxaero/common/IXaeroMinimap;Lxaero/common/minimap/render/MinimapRendererHelper;Lnet/minecraft/client/gui/FontRenderer;Lnet/minecraft/client/gui/ScaledResolution;IIIIZF)D")
+            at = @At(value = "INVOKE", target = "Lxaero/hud/minimap/element/render/over/MinimapElementOverMapRendererHandler;render(Lnet/minecraft/util/math/Vec3d;FLnet/minecraft/client/shader/Framebuffer;Lnet/minecraft/client/gui/ScaledResolution;DI)D")
     )
-    private double visualores$injectRender(MinimapElementOverMapRendererHandler instance, Entity renderEntity, EntityPlayer player, double renderX, double renderY, double renderZ, double dimdiv, double ps, double pc, double zoom, boolean cave, float partialTicks, Framebuffer framebuffer, IXaeroMinimap modMain, MinimapRendererHelper helper, FontRenderer font, ScaledResolution scaledRes, int specW, int specH, int halfViewW, int halfViewH, boolean circle, float minimapScale) {
+    private double visualores$injectRender(xaero.hud.minimap.element.render.over.MinimapElementOverMapRendererHandler instance, Vec3d renderPos, float partialTick, Framebuffer framebuffer, ScaledResolution scaledResolution, double backgroundCoordinateScale, int mapDimension) {
         if (VOConfig.client.enableMinimapRendering) {
-            renderer.updateVisibleArea(mc.player.dimension, (int) (renderX - frameSize), (int) (renderZ - frameSize), frameSize * 2, frameSize * 2);
+            renderer.updateVisibleArea(mc.player.dimension, (int) (renderPos.x - frameSize), (int) (renderPos.z - frameSize), frameSize * 2, frameSize * 2);
 
             GlStateManager.pushMatrix();
             GlStateManager.enableDepth();
@@ -67,15 +70,15 @@ public abstract class MinimapRendererMixin {
             GlStateManager.depthFunc(GL11.GL_GREATER);
             GlStateManager.rotate(angle, 0, 0, 1);
             GlStateManager.scale(this.zoom, this.zoom, 1);
-            GlStateManager.translate(-renderX, -renderZ, 0);
-            renderer.render(renderX, renderZ, zoom);
+            GlStateManager.translate(-renderPos.x, -renderPos.z, 0);
+            renderer.render(renderPos.x, renderPos.z, zoom);
             GlStateManager.depthFunc(GL11.GL_LEQUAL);
             GlStateManager.depthMask(true);
             GlStateManager.disableDepth();
             GlStateManager.popMatrix();
         }
 
-        return instance.render(renderEntity, player, renderX, renderY, renderZ, dimdiv, ps, pc, zoom, cave, partialTicks, framebuffer, modMain, helper, font, scaledRes, specW, specH, halfViewW, halfViewH, circle, minimapScale);
+        return instance.render(renderPos, partialTick, framebuffer, scaledResolution, backgroundCoordinateScale, mapDimension);
     }
 
     @Redirect(method = "renderMinimap", at = @At(value = "INVOKE", target = "Lxaero/common/minimap/render/MinimapRendererHelper;drawMyTexturedModalRect(FFIIFFF)V"))
