@@ -25,6 +25,7 @@ import xaero.common.minimap.render.MinimapRendererHelper;
 import xaero.hud.minimap.Minimap;
 import xaero.hud.minimap.compass.render.CompassRenderer;
 import xaero.hud.minimap.waypoint.render.WaypointMapRenderer;
+import xaero.hud.minimap.element.render.over.MinimapElementOverMapRendererHandler;
 
 @Mixin(value = MinimapRenderer.class, remap = false)
 public abstract class MinimapRendererMixin {
