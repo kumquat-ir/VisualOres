@@ -24,8 +24,8 @@
 dependencies {
     // maps
     implementation rfg.deobf('maven.modrinth:journeymap:1.12.2-5.7.1')
-    implementation rfg.deobf('maven.modrinth:xaeros-minimap:23.9.7_Forge_1.12')
-    implementation rfg.deobf('maven.modrinth:xaeros-world-map:1.37.8_Forge_1.12')
+    implementation rfg.deobf('maven.modrinth:xaeros-minimap:25.2.0_Forge_1.12')
+    implementation rfg.deobf('maven.modrinth:xaeros-world-map:1.39.4_Forge_1.12')
 
     // mods with layer integrations
     implementation('gregtech:gregtech:2.8.7-beta') { transitive = false }
