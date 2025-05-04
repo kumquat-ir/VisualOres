@@ -120,4 +120,19 @@ public class VisualOresModule extends BaseGregTechModule {
             }
         }
     }
+
+    @SubscribeEvent
+    public static void onPlayerLClickBlock(PlayerInteractEvent.LeftClickBlock event) {
+        if (event.getSide() == Side.SERVER && event.getEntityPlayer() instanceof EntityPlayerMP player) {
+            IBlockState state = event.getWorld().getBlockState(event.getPos());
+            if (state.getBlock() instanceof BlockSurfaceRock block) {
+                ServerCache.instance.prospectSurfaceRockMaterial(
+                        event.getWorld().provider.getDimension(),
+                        state.getValue(block.getVariantProperty()),
+                        event.getPos(),
+                        player
+                );
+            }
+        }
+    }
 }
