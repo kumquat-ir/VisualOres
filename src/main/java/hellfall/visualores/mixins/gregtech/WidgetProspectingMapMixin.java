@@ -48,7 +48,7 @@ public abstract class WidgetProspectingMapMixin extends Widget {
         ), locals = LocalCapture.CAPTURE_FAILSOFT, remap = false
     )
     private void visualores$injectReadFluidPacket(int id, PacketBuffer buffer, CallbackInfo ci, PacketProspecting packet) {
-        if (packet.mode == ProspectorMode.FLUID) {
+        if (packet.mode == ProspectorMode.FLUID && packet.map[0][0] != null) {
             int fieldX = BedrockFluidVeinHandler.getVeinCoord(packet.chunkX);
             int fieldZ = BedrockFluidVeinHandler.getVeinCoord(packet.chunkZ);
             GTClientCache.instance.addFluid(gui.entityPlayer.getEntityWorld().provider.getDimension(), fieldX, fieldZ,
