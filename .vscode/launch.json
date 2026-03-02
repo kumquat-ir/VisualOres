@@ -1,0 +1,41 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Debug Client",
+            "request": "attach",
+            "hostName": "localhost",
+            "projectName": "minecraft-gtnh-customizer",
+            "port": "5005",
+            "preLaunchTask": "gradle:runClient:debug"
+        },
+        {
+            "type": "java",
+            "name": "Debug Client (Java 17)",
+            "request": "attach",
+            "hostName": "localhost",
+            "projectName": "minecraft-gtnh-customizer",
+            "port": "5005",
+            "preLaunchTask": "gradle:runClient17:debug"
+        },
+        {
+            "type": "java",
+            "name": "Debug Client (Java 21)",
+            "request": "attach",
+            "hostName": "localhost",
+            "projectName": "minecraft-gtnh-customizer",
+            "port": "5005",
+            "preLaunchTask": "gradle:runClient21:debug"
+        },
+        {
+            "type": "java",
+            "name": "Debug Client (Java 25)",
+            "request": "attach",
+            "hostName": "localhost",
+            "projectName": "minecraft-gtnh-customizer",
+            "port": "5005",
+            "preLaunchTask": "gradle:runClient25:debug"
+        }
+    ]
+}
