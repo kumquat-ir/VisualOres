@@ -4,8 +4,8 @@ import gregtech.api.gui.Widget;
 import gregtech.api.util.Position;
 import gregtech.api.util.Size;
 import gregtech.api.worldgen.bedrockFluids.BedrockFluidVeinHandler;
-import gregtech.common.terminal.app.prospector.ProspectorMode;
-import gregtech.common.terminal.app.prospector.widget.WidgetProspectingMap;
+import gregtech.common.gui.widget.prospector.ProspectorMode;
+import gregtech.common.gui.widget.prospector.widget.WidgetProspectingMap;
 import gregtech.core.network.packets.PacketProspecting;
 import hellfall.visualores.database.gregtech.GTClientCache;
 import hellfall.visualores.database.gregtech.ore.ServerCache;
@@ -44,7 +44,7 @@ public abstract class WidgetProspectingMapMixin extends Widget {
 
     // handle fluids on client side, because we can
     @Inject(method = "readUpdateInfo", at = @At(value = "INVOKE",
-            target = "Lgregtech/common/terminal/app/prospector/widget/WidgetProspectingMap;addPacketToQueue(Lgregtech/core/network/packets/PacketProspecting;)V"
+            target = "Lgregtech/common/gui/widget/prospector/widget/WidgetProspectingMap;addPacketToQueue(Lgregtech/core/network/packets/PacketProspecting;)V"
         ), locals = LocalCapture.CAPTURE_FAILSOFT, remap = false
     )
     private void visualores$injectReadFluidPacket(int id, PacketBuffer buffer, CallbackInfo ci, PacketProspecting packet) {
