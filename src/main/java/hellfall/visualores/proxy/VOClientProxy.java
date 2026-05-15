@@ -133,6 +133,9 @@ public class VOClientProxy extends VOCommonProxy {
             String cacheName = "unknown";
             if (Minecraft.getMinecraft().getCurrentServerData() != null) {
                 cacheName = Minecraft.getMinecraft().getCurrentServerData().serverIP;
+                if (System.getProperty("os.name", "").toLowerCase().contains("win")) {
+                    cacheName = cacheName.replace(':', '~');
+                }
             }
             ClientCacheManager.init("Server-" + cacheName + "-client-only");
         }
