@@ -9,7 +9,8 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.settings.KeyConflictContext;
+import net.minecraft.util.text.ITextComponent;
+
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -19,11 +20,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xaero.lib.client.gui.widget.Tooltip;
 import xaero.map.MapProcessor;
-import xaero.map.gui.CursorBox;
 import xaero.map.gui.GuiMap;
-import xaero.map.gui.ScreenBase;
-import xaero.map.misc.Misc;
+import xaero.lib.client.controls.KeyConflictContext;
+import xaero.lib.client.controls.util.KeyMappingUtils;
+import xaero.lib.client.gui.ScreenBase;
 
 @Mixin(GuiMap.class)
 public abstract class GuiMapMixin extends ScreenBase {
@@ -34,8 +36,8 @@ public abstract class GuiMapMixin extends ScreenBase {
     @Shadow(remap = false) private double cameraZ;
     @Unique private GenericMapRenderer renderer;
 
-    protected GuiMapMixin(GuiScreen parent, GuiScreen escape) {
-        super(parent, escape);
+    protected GuiMapMixin(GuiScreen parent, GuiScreen escape, ITextComponent titleIn) {
+        super(parent, escape, titleIn);
     }
 
     @Inject(method = "initGui", at = @At("TAIL"))
@@ -122,7 +124,7 @@ public abstract class GuiMapMixin extends ScreenBase {
                         ButtonState.toggleButton(button);
                         setWorldAndResolution(mc, width, height);
                     }),
-                    () -> new CursorBox("visualores.button." + button.name)
+                    () -> new Tooltip("visualores.button." + button.name)
             );
 
             addButton(mapButton);
@@ -169,7 +171,7 @@ public abstract class GuiMapMixin extends ScreenBase {
 
     @Inject(method = "onInputPress", at = @At("HEAD"), cancellable = true, remap = false)
     private void visualores$injectKeyPress(boolean mouse, int code, CallbackInfoReturnable<Boolean> cir) {
-        if (Misc.inputMatchesKeyBinding(mouse, code, KeyBindings.action, KeyConflictContext.GUI) && renderer.onActionKey()) {
+        if (KeyMappingUtils.inputMatches(mouse, code, KeyBindings.action, KeyConflictContext.GUI) && renderer.onActionKey()) {
             cir.setReturnValue(true);
         }
     }

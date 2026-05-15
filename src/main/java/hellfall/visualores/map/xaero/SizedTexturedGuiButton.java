@@ -5,7 +5,8 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
-import xaero.map.gui.CursorBox;
+
+import xaero.lib.client.gui.widget.Tooltip;
 import xaero.map.gui.GuiTexturedButton;
 
 import java.util.function.Consumer;
@@ -13,7 +14,7 @@ import java.util.function.Supplier;
 
 public class SizedTexturedGuiButton extends GuiTexturedButton {
 
-    public SizedTexturedGuiButton(int x, int y, int w, int h, int textureX, int textureY, int textureW, int textureH, ResourceLocation texture, Consumer<GuiButton> action, Supplier<CursorBox> tooltip) {
+    public SizedTexturedGuiButton(int x, int y, int w, int h, int textureX, int textureY, int textureW, int textureH, ResourceLocation texture, Consumer<GuiButton> action, Supplier<Tooltip> tooltip) {
         super(x, y, w, h, textureX, textureY, textureW, textureH, texture, action, tooltip);
     }
 

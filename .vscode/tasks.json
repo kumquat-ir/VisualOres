@@ -1,0 +1,881 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "gradle:lint",
+            "detail": "Lint the project using Gradle.",
+            "hide": false,
+            "icon": {
+                "id": "search-fuzzy",
+                "color": "terminal.ansiWhite"
+            },
+            "group": {
+                "isDefault": false
+            },
+            "isBackground": false,
+            "dependsOrder": "sequence",
+            "dependsOn": [],
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "args": ["spotlessCheck"],
+            "windows": {
+                "command": "${workspaceFolder}/gradlew.bat"
+            },
+            "runOptions": {
+                "instanceLimit": 1,
+                "instancePolicy": "silent",
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": ["$gradle"]
+        },
+        {
+            "label": "gradle:lint:fix",
+            "detail": "Lint the project using Gradle and apply any fixes required.",
+            "hide": false,
+            "icon": {
+                "id": "search-save",
+                "color": "terminal.ansiWhite"
+            },
+            "group": {
+                "isDefault": false
+            },
+            "isBackground": false,
+            "dependsOrder": "sequence",
+            "dependsOn": [],
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "args": ["spotlessApply"],
+            "windows": {
+                "command": "${workspaceFolder}/gradlew.bat"
+            },
+            "runOptions": {
+                "instanceLimit": 1,
+                "instancePolicy": "silent",
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": ["$gradle"]
+        },
+        {
+            "label": "gradle:build",
+            "detail": "Build the project using Gradle.",
+            "hide": false,
+            "icon": {
+                "id": "tools",
+                "color": "terminal.ansiWhite"
+            },
+            "group": {
+                "isDefault": true,
+                "kind": "build"
+            },
+            "isBackground": false,
+            "dependsOrder": "sequence",
+            "dependsOn": [],
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "args": ["build"],
+            "windows": {
+                "command": "${workspaceFolder}/gradlew.bat"
+            },
+            "runOptions": {
+                "instanceLimit": 1,
+                "instancePolicy": "silent",
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": ["$gradle"]
+        },
+        {
+            "label": "gradle:clean",
+            "detail": "Clean the project using Gradle.",
+            "hide": false,
+            "icon": {
+                "id": "trashcan",
+                "color": "terminal.ansiWhite"
+            },
+            "group": {
+                "isDefault": false,
+                "kind": "build"
+            },
+            "isBackground": false,
+            "dependsOrder": "sequence",
+            "dependsOn": [],
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "args": ["clean"],
+            "windows": {
+                "command": "${workspaceFolder}/gradlew.bat"
+            },
+            "runOptions": {
+                "instanceLimit": 1,
+                "instancePolicy": "silent",
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": ["$gradle"]
+        },
+        {
+            "label": "gradle:rebuild",
+            "detail": "Rebuild the project using Gradle.",
+            "hide": false,
+            "icon": {
+                "id": "tools",
+                "color": "terminal.ansiWhite"
+            },
+            "group": {
+                "isDefault": false,
+                "kind": "build"
+            },
+            "isBackground": false,
+            "dependsOrder": "sequence",
+            "dependsOn": [],
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "args": ["clean", "build"],
+            "windows": {
+                "command": "${workspaceFolder}/gradlew.bat"
+            },
+            "runOptions": {
+                "instanceLimit": 1,
+                "instancePolicy": "silent",
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": ["$gradle"]
+        },
+        {
+            "label": "gradle:setupDecompWorkspace",
+            "detail": "Setup the decompilation workspace.",
+            "hide": false,
+            "icon": {
+                "id": "symbol-constructor",
+                "color": "terminal.ansiWhite"
+            },
+            "group": {
+                "isDefault": true
+            },
+            "isBackground": false,
+            "dependsOrder": "sequence",
+            "dependsOn": [],
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "args": ["setupDecompWorkspace"],
+            "windows": {
+                "command": "${workspaceFolder}/gradlew.bat"
+            },
+            "runOptions": {
+                "instanceLimit": 1,
+                "instancePolicy": "silent",
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": ["$gradle"]
+        },
+        {
+            "label": "gradle:injectTags",
+            "detail": "Inject/Update the \"Tags.java\" auto-generated file.",
+            "hide": false,
+            "icon": {
+                "id": "symbol-constructor",
+                "color": "terminal.ansiWhite"
+            },
+            "group": {
+                "isDefault": true
+            },
+            "isBackground": false,
+            "dependsOrder": "sequence",
+            "dependsOn": [],
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "args": ["injectTags"],
+            "windows": {
+                "command": "${workspaceFolder}/gradlew.bat"
+            },
+            "runOptions": {
+                "instanceLimit": 1,
+                "instancePolicy": "silent",
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": ["$gradle"]
+        },
+        {
+            "label": "gradle:runClient",
+            "detail": "Run the game client.",
+            "hide": false,
+            "icon": {
+                "id": "run",
+                "color": "terminal.ansiWhite"
+            },
+            "group": {
+                "isDefault": false
+            },
+            "isBackground": true,
+            "dependsOrder": "sequence",
+            "dependsOn": [],
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "args": ["runClient"],
+            "windows": {
+                "command": "${workspaceFolder}/gradlew.bat"
+            },
+            "runOptions": {
+                "instanceLimit": 1,
+                "instancePolicy": "silent",
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": [
+                {
+                    "base": "$gradle",
+                    "background": {
+                        "activeOnStart": true,
+                        "beginsPattern": "Configure project",
+                        "endsPattern": "BUILD (SUCCESSFUL|FAILED)|Listening for transport"
+                    }
+                }
+            ]
+        },
+        {
+            "label": "gradle:runClient:debug",
+            "detail": "Run the game client in debug mode.",
+            "hide": false,
+            "icon": {
+                "id": "debug",
+                "color": "terminal.ansiWhite"
+            },
+            "group": {
+                "isDefault": false
+            },
+            "isBackground": true,
+            "dependsOrder": "sequence",
+            "dependsOn": [],
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "args": ["runClient", "--debug-jvm"],
+            "windows": {
+                "command": "${workspaceFolder}/gradlew.bat"
+            },
+            "runOptions": {
+                "instanceLimit": 1,
+                "instancePolicy": "silent",
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": [
+                {
+                    "base": "$gradle",
+                    "background": {
+                        "activeOnStart": true,
+                        "beginsPattern": "Configure project",
+                        "endsPattern": "BUILD (SUCCESSFUL|FAILED)|Listening for transport"
+                    }
+                }
+            ]
+        },
+        {
+            "label": "gradle:runClient:obfuscated",
+            "detail": "Run the obfuscated game client.",
+            "hide": false,
+            "icon": {
+                "id": "run",
+                "color": "terminal.ansiWhite"
+            },
+            "group": {
+                "isDefault": false
+            },
+            "isBackground": true,
+            "dependsOrder": "sequence",
+            "dependsOn": [],
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "args": ["runObfClient", "-Dmixin.debug=true"],
+            "windows": {
+                "command": "${workspaceFolder}/gradlew.bat"
+            },
+            "runOptions": {
+                "instanceLimit": 1,
+                "instancePolicy": "silent",
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": [
+                {
+                    "base": "$gradle",
+                    "background": {
+                        "activeOnStart": true,
+                        "beginsPattern": "Configure project",
+                        "endsPattern": "BUILD (SUCCESSFUL|FAILED)|Listening for transport"
+                    }
+                }
+            ]
+        },
+        {
+            "label": "gradle:runClient:obfuscated:debug",
+            "detail": "Run the obfuscated game client in debug mode.",
+            "hide": false,
+            "icon": {
+                "id": "debug",
+                "color": "terminal.ansiWhite"
+            },
+            "group": {
+                "isDefault": false
+            },
+            "isBackground": true,
+            "dependsOrder": "sequence",
+            "dependsOn": [],
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "args": ["runObfClient", "--debug-jvm", "-Dmixin.debug=true"],
+            "windows": {
+                "command": "${workspaceFolder}/gradlew.bat"
+            },
+            "runOptions": {
+                "instanceLimit": 1,
+                "instancePolicy": "silent",
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": [
+                {
+                    "base": "$gradle",
+                    "background": {
+                        "activeOnStart": true,
+                        "beginsPattern": "Configure project",
+                        "endsPattern": "BUILD (SUCCESSFUL|FAILED)|Listening for transport"
+                    }
+                }
+            ]
+        },
+        {
+            "label": "gradle:runClient17",
+            "detail": "Run the game client.",
+            "hide": false,
+            "icon": {
+                "id": "run",
+                "color": "terminal.ansiWhite"
+            },
+            "group": {
+                "isDefault": false
+            },
+            "isBackground": true,
+            "dependsOrder": "sequence",
+            "dependsOn": [],
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "args": ["runClient17"],
+            "windows": {
+                "command": "${workspaceFolder}/gradlew.bat"
+            },
+            "runOptions": {
+                "instanceLimit": 1,
+                "instancePolicy": "silent",
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": [
+                {
+                    "base": "$gradle",
+                    "background": {
+                        "activeOnStart": true,
+                        "beginsPattern": "Configure project",
+                        "endsPattern": "BUILD (SUCCESSFUL|FAILED)|Listening for transport"
+                    }
+                }
+            ]
+        },
+        {
+            "label": "gradle:runClient17:debug",
+            "detail": "Run the game client in debug mode.",
+            "hide": false,
+            "icon": {
+                "id": "debug",
+                "color": "terminal.ansiWhite"
+            },
+            "group": {
+                "isDefault": false
+            },
+            "isBackground": true,
+            "dependsOrder": "sequence",
+            "dependsOn": [],
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "args": ["runClient17", "--debug-jvm"],
+            "windows": {
+                "command": "${workspaceFolder}/gradlew.bat"
+            },
+            "runOptions": {
+                "instanceLimit": 1,
+                "instancePolicy": "silent",
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": {
+                "base": "$gradle",
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "Configure project",
+                    "endsPattern": "BUILD (SUCCESSFUL|FAILED)|Listening for transport"
+                }
+            }
+        },
+        {
+            "label": "gradle:runClient21",
+            "detail": "Run the game client.",
+            "hide": false,
+            "icon": {
+                "id": "run",
+                "color": "terminal.ansiWhite"
+            },
+            "group": {
+                "isDefault": false
+            },
+            "isBackground": true,
+            "dependsOrder": "sequence",
+            "dependsOn": [],
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "args": ["runClient21"],
+            "windows": {
+                "command": "${workspaceFolder}/gradlew.bat"
+            },
+            "runOptions": {
+                "instanceLimit": 1,
+                "instancePolicy": "silent",
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": [
+                {
+                    "base": "$gradle",
+                    "background": {
+                        "activeOnStart": true,
+                        "beginsPattern": "Configure project",
+                        "endsPattern": "BUILD (SUCCESSFUL|FAILED)|Listening for transport"
+                    }
+                }
+            ]
+        },
+        {
+            "label": "gradle:runClient21:debug",
+            "detail": "Run the game client in debug mode.",
+            "hide": false,
+            "icon": {
+                "id": "debug",
+                "color": "terminal.ansiWhite"
+            },
+            "group": {
+                "isDefault": false
+            },
+            "isBackground": true,
+            "dependsOrder": "sequence",
+            "dependsOn": [],
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "args": ["runClient21", "--debug-jvm"],
+            "windows": {
+                "command": "${workspaceFolder}/gradlew.bat"
+            },
+            "runOptions": {
+                "instanceLimit": 1,
+                "instancePolicy": "silent",
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": {
+                "base": "$gradle",
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "Configure project",
+                    "endsPattern": "BUILD (SUCCESSFUL|FAILED)|Listening for transport"
+                }
+            }
+        },
+        {
+            "label": "gradle:runClient25",
+            "detail": "Run the game client.",
+            "hide": false,
+            "icon": {
+                "id": "run",
+                "color": "terminal.ansiWhite"
+            },
+            "group": {
+                "isDefault": false
+            },
+            "isBackground": true,
+            "dependsOrder": "sequence",
+            "dependsOn": [],
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "args": ["runClient25"],
+            "windows": {
+                "command": "${workspaceFolder}/gradlew.bat"
+            },
+            "runOptions": {
+                "instanceLimit": 1,
+                "instancePolicy": "silent",
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": [
+                {
+                    "base": "$gradle",
+                    "background": {
+                        "activeOnStart": true,
+                        "beginsPattern": "Configure project",
+                        "endsPattern": "BUILD (SUCCESSFUL|FAILED)|Listening for transport"
+                    }
+                }
+            ]
+        },
+        {
+            "label": "gradle:runClient25:debug",
+            "detail": "Run the game client in debug mode.",
+            "hide": false,
+            "icon": {
+                "id": "debug",
+                "color": "terminal.ansiWhite"
+            },
+            "group": {
+                "isDefault": false
+            },
+            "isBackground": true,
+            "dependsOrder": "sequence",
+            "dependsOn": [],
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "args": ["runClient25", "--debug-jvm"],
+            "windows": {
+                "command": "${workspaceFolder}/gradlew.bat"
+            },
+            "runOptions": {
+                "instanceLimit": 1,
+                "instancePolicy": "silent",
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": {
+                "base": "$gradle",
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "Configure project",
+                    "endsPattern": "BUILD (SUCCESSFUL|FAILED)|Listening for transport"
+                }
+            }
+        },
+        {
+            "label": "gradle:eclipse",
+            "detail": "Generate the Eclipse files for the project.",
+            "hide": false,
+            "icon": {
+                "id": "symbol-class",
+                "color": "terminal.ansiWhite"
+            },
+            "group": {
+                "isDefault": false
+            },
+            "isBackground": false,
+            "dependsOrder": "sequence",
+            "dependsOn": [],
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "args": ["eclipse"],
+            "windows": {
+                "command": "${workspaceFolder}/gradlew.bat"
+            },
+            "runOptions": {
+                "instanceLimit": 1,
+                "instancePolicy": "silent",
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": ["$gradle"]
+        },
+        {
+            "label": "gradle:cleanEclipse",
+            "detail": "Clean the Eclipse files for the project.",
+            "hide": false,
+            "icon": {
+                "id": "trashcan",
+                "color": "terminal.ansiWhite"
+            },
+            "group": {
+                "isDefault": false
+            },
+            "isBackground": false,
+            "dependsOrder": "sequence",
+            "dependsOn": [],
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "args": ["eclipse"],
+            "windows": {
+                "command": "${workspaceFolder}/gradlew.bat"
+            },
+            "runOptions": {
+                "instanceLimit": 1,
+                "instancePolicy": "silent",
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": ["$gradle"]
+        },
+        {
+            "label": "rebuildEclipse",
+            "detail": "Rebuild the Eclipse files for the project.",
+            "hide": false,
+            "icon": {
+                "id": "symbol-class",
+                "color": "terminal.ansiWhite"
+            },
+            "group": {
+                "isDefault": false
+            },
+            "isBackground": false,
+            "dependsOrder": "sequence",
+            "dependsOn": [],
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "args": ["cleanEclipse", "eclipse"],
+            "windows": {
+                "command": "${workspaceFolder}/gradlew.bat"
+            },
+            "runOptions": {
+                "instanceLimit": 1,
+                "instancePolicy": "silent",
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": ["$gradle"]
+        },
+        {
+            "label": "gradle:prepareWorkspace",
+            "detail": "Prepare the project workspace.",
+            "hide": false,
+            "icon": {
+                "id": "tools",
+                "color": "terminal.ansiWhite"
+            },
+            "group": {
+                "isDefault": false
+            },
+            "isBackground": false,
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "gradle:prepareWorkspace:cleanAndBuild",
+                "gradle:eclipse"
+            ],
+            "runOptions": {
+                "instanceLimit": 1,
+                "instancePolicy": "silent",
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": ["$gradle"]
+        },
+        {
+            "label": "gradle:prepareWorkspace:cleanAndBuild",
+            "detail": "Prepare the project workspace by cleaning and building it.",
+            "hide": false,
+            "icon": {
+                "id": "tools",
+                "color": "terminal.ansiWhite"
+            },
+            "group": {
+                "isDefault": true
+            },
+            "isBackground": false,
+            "dependsOrder": "sequence",
+            "dependsOn": [],
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "args": ["clean", "cleanEclipse", "setupDecompWorkspace", "build"],
+            "windows": {
+                "command": "${workspaceFolder}/gradlew.bat"
+            },
+            "runOptions": {
+                "instanceLimit": 1,
+                "instancePolicy": "silent",
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": ["$gradle"]
+        }
+    ]
+}
