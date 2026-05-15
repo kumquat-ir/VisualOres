@@ -27,12 +27,21 @@ public class ClientCacheManager {
     private static File worldFolder;
     private static final Reference2ObjectMap<IClientCache, ClientCacheInfo> caches = new Reference2ObjectArrayMap<>();
     private static boolean shouldInit = true;
+    // ascii control characters (00-1F, 7F) + other common illegal filename characters
+    private static final String illegalCharacters = "[\\p{Cntrl}\"*/:<>?\\\\|]";
 
     public static void init(String worldid) {
         if (shouldInit) {
             final EntityPlayer player = Minecraft.getMinecraft().player;
-            worldFolder = new File(clientCacheDir, player.getDisplayNameString() + "_" + player.getUniqueID() +
+            File oldWorldFolder = new File(clientCacheDir, player.getDisplayNameString() + "_" + player.getUniqueID() +
                     File.separator + worldid);
+            if (oldWorldFolder.exists()) {
+                worldFolder = oldWorldFolder;
+            }
+            else {
+                worldFolder = new File(clientCacheDir, player.getUniqueID() + File.separator +
+                        worldid.replaceAll(illegalCharacters, "-"));
+            }
             worldFolder.mkdirs();
             // to ensure any cache data that might somehow be lying around gets dealt with
             clearCaches();
