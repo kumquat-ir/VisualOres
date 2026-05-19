@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xaero.common.IXaeroMinimap;
+import xaero.common.HudMod;
 import xaero.common.minimap.render.MinimapRenderer;
 import xaero.common.minimap.render.MinimapRendererHelper;
 import xaero.hud.minimap.Minimap;
@@ -33,7 +33,7 @@ public abstract class MinimapRendererMixin {
     @Unique private float angle;
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void visualores$injectConstruct(IXaeroMinimap modMain, Minecraft mc, WaypointMapRenderer waypointMapRenderer, Minimap minimap, CompassRenderer compassRenderer, CallbackInfo ci) {
+    private void visualores$injectConstruct(HudMod modMain, Minecraft mc, WaypointMapRenderer waypointMapRenderer, Minimap minimap, CompassRenderer compassRenderer, CallbackInfo ci) {
         renderer = new GenericMapRenderer();
     }
 
